@@ -22,10 +22,9 @@ class BookTickerBloc extends Bloc<BookTickerEvent, BookTickerState> {
     BookTickerEvent event,
   ) async* {
     if (event is GetBookTickerEvent) {
+      yield Loading();
       await _subscription?.cancel();
-      _subscription = getBookTicker().listen((event) {
-        return add(_BookTickerTick(event));
-      });
+      _subscription = getBookTicker().listen((event) => add(_BookTickerTick(event)));
     }
     if (event is _BookTickerTick) {
       yield Loaded(bookTicker: event.tick);

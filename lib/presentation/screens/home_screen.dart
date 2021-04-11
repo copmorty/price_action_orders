@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         title: Text('Price Action Orders'),
       ),
       body: Container(
-        padding: EdgeInsets.all(5),
+        // padding: EdgeInsets.all(5),
         child: bodyBuilder(context),
       ),
     );
@@ -25,12 +25,13 @@ class HomeScreen extends StatelessWidget {
       create: (_) => sl<BookTickerBloc>(),
       child: Row(
         children: [
-          Expanded(
+          Container(
+            width: MediaQuery.of(context).size.width / 2,
             child: Column(
               children: [
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(10),
                     height: double.infinity,
                     width: double.infinity,
                     child: BlocBuilder<BookTickerBloc, BookTickerState>(
@@ -57,11 +58,11 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              child: BookTickerControls(),
-            ),
+          Container(
+            color: Colors.black12,
+            width: MediaQuery.of(context).size.width / 2,
+            padding: const EdgeInsets.all(10),
+            child: BookTickerControls(),
           ),
         ],
       ),
@@ -85,11 +86,19 @@ class _BookTIckerControlsState extends State<BookTickerControls> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: ElevatedButton(
-        onPressed: () => dispatchWS(),
-        child: Text('Start'),
-      ),
+    return Column(
+      children: [
+        //Input
+        Placeholder(fallbackHeight: 50),
+        SizedBox(height: 10),
+        Placeholder(fallbackHeight: 100),
+        Container(
+          child: ElevatedButton(
+            onPressed: () => dispatchWS(),
+            child: Text('Start'),
+          ),
+        ),
+      ],
     );
   }
 }
