@@ -24,7 +24,13 @@ class BookTickerBloc extends Bloc<BookTickerEvent, BookTickerState> {
     if (event is GetBookTickerEvent) {
       yield Loading();
       await _subscription?.cancel();
-      _subscription = getBookTicker().listen((event) => add(_BookTickerTick(event)));
+      final failureOrStream = getBookTicker(Params(event.symbol));
+      failureOrStream.fold(
+        (failure) => Error(message: 'idk'),
+        (stream) {
+          _subscription = stream.listen((event) => add(_BookTickerTick(event)));
+        },
+      );
     }
     if (event is _BookTickerTick) {
       yield Loaded(bookTicker: event.tick);

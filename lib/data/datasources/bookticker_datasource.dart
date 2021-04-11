@@ -8,17 +8,16 @@ import 'package:web_socket_channel/io.dart';
 
 abstract class BookTickerDataSource {
   /// Websocket stream
-  Stream<BookTicker> getBookTicker();
+  Stream<BookTicker> getBookTicker(String symbol);
 }
 
 class BookTickerDataSourceImpl implements BookTickerDataSource {
   IOWebSocketChannel channel;
 
   @override
-  Stream<BookTicker> getBookTicker() {
-    String pair = 'BTC/USDT';
-    String parameterPair = pair.toLowerCase().replaceAll(RegExp(r'/'), '');
-    String socket = 'wss://stream.binance.com:9443/ws/$parameterPair@bookTicker';
+  Stream<BookTicker> getBookTicker(String symbol) {
+    String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');
+    String socket = 'wss://stream.binance.com:9443/ws/$pair@bookTicker';
     channel?.sink?.close();
     channel = IOWebSocketChannel.connect(socket);
 

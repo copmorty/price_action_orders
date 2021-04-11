@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/data/datasources/bookticker_datasource.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/repositories/bookticker_respository.dart';
@@ -9,7 +11,12 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
   BookTickerRepositoryImpl({@required this.dataSource});
 
   @override
-  Stream<BookTicker> getBookTicker() {
-    return dataSource.getBookTicker();
+  Either<Failure, Stream<BookTicker>> getBookTicker(String symbol) {
+    try {
+      return Right(dataSource.getBookTicker(symbol));
+    } catch (e) {
+      return Left(ServerFailure());
+    }
+    // return dataSource.getBookTicker();
   }
 }

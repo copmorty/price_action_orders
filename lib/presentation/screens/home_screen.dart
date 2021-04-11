@@ -41,8 +41,7 @@ class HomeScreen extends StatelessWidget {
                         } else if (state is Loading) {
                           return LoadingWidget();
                         } else if (state is Loaded) {
-                          return BookTickerDisplay(
-                              bookTicker: state.bookTicker);
+                          return BookTickerDisplay(bookTicker: state.bookTicker);
                         }
                         return Container();
                       },
@@ -70,35 +69,62 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class BookTickerControls extends StatefulWidget {
-  const BookTickerControls({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _BookTIckerControlsState createState() => _BookTIckerControlsState();
-}
-
-class _BookTIckerControlsState extends State<BookTickerControls> {
-  void dispatchWS() {
-    BlocProvider.of<BookTickerBloc>(context).add(GetBookTickerEvent());
-  }
-
+class BookTickerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        //Input
-        Placeholder(fallbackHeight: 50),
-        SizedBox(height: 10),
-        Placeholder(fallbackHeight: 100),
-        Container(
-          child: ElevatedButton(
-            onPressed: () => dispatchWS(),
-            child: Text('Start'),
-          ),
-        ),
+        InputSymbol(),
       ],
     );
+  }
+}
+
+class InputSymbol extends StatefulWidget {
+  @override
+  _InputSymbolState createState() => _InputSymbolState();
+}
+
+class _InputSymbolState extends State<InputSymbol> {
+  TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _controller,
+      cursorColor: Colors.white,
+      textCapitalization: TextCapitalization.characters,
+      decoration: InputDecoration(
+        hintText: 'Put a symbol',
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(color: Colors.white),
+        ),
+        suffixIcon: IconButton(
+          color: Colors.white70,
+          icon: Icon(Icons.send),
+          onPressed: dispatchSymbol,
+        ),
+      ),
+      onSubmitted: (_) => dispatchSymbol(),
+      onChanged: (value) {
+        _controller.text = value.toUpperCase();
+        _controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
+      },
+    );
+  }
+
+  void dispatchSymbol() {
+    String symbol = _controller.text;
+    if (symbol != '') {
+      _controller.clear();
+      FocusScope.of(context).unfocus();
+      BlocProvider.of<BookTickerBloc>(context).add(GetBookTickerEvent(symbol));
+    }
   }
 }
