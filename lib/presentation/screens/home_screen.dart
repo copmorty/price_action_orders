@@ -13,7 +13,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Price Action Orders'),
       ),
-      body: bodyBuilder(context),
+      body: Container(
+        padding: EdgeInsets.all(5),
+        child: bodyBuilder(context),
+      ),
     );
   }
 
@@ -27,6 +30,7 @@ class HomeScreen extends StatelessWidget {
               children: [
                 Expanded(
                   child: Container(
+                    padding: const EdgeInsets.all(5),
                     height: double.infinity,
                     width: double.infinity,
                     child: BlocBuilder<BookTickerBloc, BookTickerState>(
@@ -54,7 +58,10 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: BookTickerControls(),
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              child: BookTickerControls(),
+            ),
           ),
         ],
       ),

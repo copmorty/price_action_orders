@@ -17,8 +17,6 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
   @override
   Stream<BookTicker> getBookTicker() {
     return channel.stream.map((snap) {
-      // print('snap');
-      // print(snap);
       return BookTickerModel.fromStringifiedMap(snap);
     });
   }

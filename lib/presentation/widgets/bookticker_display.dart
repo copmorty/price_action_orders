@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
+import 'package:price_action_orders/domain/entities/rational.dart';
 
 class BookTickerDisplay extends StatelessWidget {
   final BookTicker bookTicker;
@@ -26,36 +27,86 @@ class BookTickerDisplay extends StatelessWidget {
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(bookTicker.symbol),
-            SizedBox(
-              height: 10,
+            Text(
+              bookTicker.symbol,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
-            Container(
-              // color: Colors.red,
-              padding: EdgeInsets.all(10),
-              child: Text(
-                bookTicker.askPrice.toString(),
-                style: TextStyle(
-                  color: Colors.red,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
-                ),
+            SizedBox(height: 10),
+            TableBookTicker(bookTicker: bookTicker),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class TableBookTicker extends StatelessWidget {
+  final BookTicker bookTicker;
+
+  const TableBookTicker({Key key, @required this.bookTicker}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    return Table(
+      children: [
+        TableRow(
+          children: [
+            Text(
+              'Price',
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.3),
               ),
             ),
-            Container(
-              // width: double.infinity,
-              // color: Colors.green,
-              padding: EdgeInsets.all(10),
+            Align(
+              alignment: Alignment.centerRight,
               child: Text(
-                bookTicker.bidPrice.toString(),
+                'Amount',
                 style: TextStyle(
-                  color: Colors.green,
-                  fontSize: 30,
-                  fontWeight: FontWeight.w600,
+                  color: Colors.white.withOpacity(0.3),
                 ),
               ),
             ),
           ],
+        ),
+        buildBookRow(
+            rowColor: Colors.red,
+            price: bookTicker.askPrice,
+            qty: bookTicker.askQty),
+        buildBookRow(
+            rowColor: Colors.green,
+            price: bookTicker.bidPrice,
+            qty: bookTicker.bidQty),
+      ],
+    );
+  }
+
+  TableRow buildBookRow(
+      {@required Color rowColor,
+      @required Rational price,
+      @required Rational qty}) {
+    return TableRow(
+      children: [
+        Container(
+          child: Text(
+            price.toString(),
+            style: TextStyle(
+              color: rowColor,
+              fontSize: 30,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Container(
+            child: Text(
+              qty.toString(),
+              style: TextStyle(
+                color: Colors.white.withOpacity(0.5),
+                fontSize: 30,
+                // fontWeight: FontWeight.w600,
+              ),
+            ),
+          ),
         ),
       ],
     );
