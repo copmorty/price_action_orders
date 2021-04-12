@@ -7,10 +7,10 @@ abstract class BookTickerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class GetBookTickerEvent extends BookTickerEvent {
+class StreamBookTickerEvent extends BookTickerEvent {
   final String symbol;
 
-  GetBookTickerEvent(this.symbol);
+  StreamBookTickerEvent(this.symbol);
 
   @override
   List<Object> get props => [symbol];

@@ -166,8 +166,7 @@ class _InputSymbolState extends State<InputSymbol> {
     if (symbol != '') {
       _controller.clear();
       FocusScope.of(context).unfocus();
-      BlocProvider.of<BookTickerBloc>(context).add(GetBookTickerEvent(symbol));
-      // BlocProvider.of<UserDataBloc>(context).add(GetUserDataEvent());
+      BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(symbol));
     }
   }
 }
