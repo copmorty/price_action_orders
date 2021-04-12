@@ -5,6 +5,8 @@ import 'package:web_socket_channel/io.dart';
 // String pair = 'BTC/USDT';
 // String parameterPair = pair.toLowerCase().replaceAll(RegExp(r'/'), '');
 // String socket = 'wss://stream.binance.com:9443/ws/$parameterPair@bookTicker';
+final String socketBase = 'wss://stream.binance.com:9443/ws/';
+final String socketBaseTest = 'wss://testnet.binance.vision/ws/';
 
 abstract class BookTickerDataSource {
   /// Websocket stream
@@ -17,7 +19,7 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
   @override
   Stream<BookTicker> getBookTicker(String symbol) {
     String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');
-    String socket = 'wss://stream.binance.com:9443/ws/$pair@bookTicker';
+    String socket = socketBase + '$pair@bookTicker';
     channel?.sink?.close();
     channel = IOWebSocketChannel.connect(socket);
 

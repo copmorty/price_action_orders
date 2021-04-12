@@ -15,25 +15,25 @@ class BookTickerBloc extends Bloc<BookTickerEvent, BookTickerState> {
 
   BookTickerBloc({
     @required this.getBookTicker,
-  }) : super(Empty());
+  }) : super(EmptyBookTicker());
 
   @override
   Stream<BookTickerState> mapEventToState(
     BookTickerEvent event,
   ) async* {
     if (event is GetBookTickerEvent) {
-      yield Loading();
+      yield LoadingBookTicker();
       await _subscription?.cancel();
       final failureOrStream = getBookTicker(Params(event.symbol));
       failureOrStream.fold(
-        (failure) => Error(message: 'idk'),
+        (failure) => ErrorBookTicker(message: 'idk'),
         (stream) {
           _subscription = stream.listen((event) => add(_BookTickerTick(event)));
         },
       );
     }
     if (event is _BookTickerTick) {
-      yield Loaded(bookTicker: event.tick);
+      yield LoadedBookTicker(bookTicker: event.tick);
     }
   }
 

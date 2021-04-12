@@ -7,23 +7,23 @@ abstract class BookTickerState extends Equatable {
   List<Object> get props => [];
 }
 
-class Empty extends BookTickerState {}
+class EmptyBookTicker extends BookTickerState {}
 
-class Loading extends BookTickerState {}
+class LoadingBookTicker extends BookTickerState {}
 
-class Loaded extends BookTickerState {
+class LoadedBookTicker extends BookTickerState {
   final BookTicker bookTicker;
 
-  Loaded({@required this.bookTicker});
+  LoadedBookTicker({@required this.bookTicker});
 
   @override
   List<Object> get props => [bookTicker];
 }
 
-class Error extends BookTickerState {
+class ErrorBookTicker extends BookTickerState {
   final String message;
 
-  Error({@required this.message});
+  ErrorBookTicker({@required this.message});
   
   @override
   List<Object> get props => [message];

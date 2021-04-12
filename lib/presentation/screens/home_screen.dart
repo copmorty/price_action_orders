@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:price_action_orders/presentation/bloc/bloc/bookticker_bloc.dart';
+import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
+import 'package:price_action_orders/presentation/bloc/userdata_bloc.dart';
 import 'package:price_action_orders/presentation/widgets/bookticker_display.dart';
 import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 
@@ -20,9 +21,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  BlocProvider<BookTickerBloc> bodyBuilder(context) {
-    return BlocProvider(
-      create: (_) => sl<BookTickerBloc>(),
+  MultiBlocProvider bodyBuilder(context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<BookTickerBloc>()),
+        BlocProvider(create: (context) => sl<UserDataBloc>()..add(GetUserDataEvent())),
+      ],
       child: Row(
         children: [
           Container(
@@ -36,11 +40,11 @@ class HomeScreen extends StatelessWidget {
                     width: double.infinity,
                     child: BlocBuilder<BookTickerBloc, BookTickerState>(
                       builder: (context, state) {
-                        if (state is Empty) {
+                        if (state is EmptyBookTicker) {
                           return Text('Empty');
-                        } else if (state is Loading) {
+                        } else if (state is LoadingBookTicker) {
                           return LoadingWidget();
-                        } else if (state is Loaded) {
+                        } else if (state is LoadedBookTicker) {
                           return BookTickerDisplay(bookTicker: state.bookTicker);
                         }
                         return Container();
@@ -75,7 +79,45 @@ class BookTickerControls extends StatelessWidget {
     return Column(
       children: [
         InputSymbol(),
+        SizedBox(height: 15),
+        SpotBalances(),
       ],
+    );
+  }
+}
+
+class SpotBalances extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<UserDataBloc, UserDataState>(
+      builder: (context, state) {
+        if (state is LoadedUserData) {
+          return Container(
+            height: 100,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.userData.balances.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  margin: const EdgeInsets.all(8.0),
+                  // decoration: BoxDecoration(
+                  //   border: Border.all(color: Colors.white),
+                  //   borderRadius: BorderRadius.all(Radius.circular(5)),
+                  // ),
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Text(state.userData.balances[index].asset),
+                      Text(state.userData.balances[index].free.toShortString()),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        }
+        return SizedBox();
+      },
     );
   }
 }
@@ -125,6 +167,7 @@ class _InputSymbolState extends State<InputSymbol> {
       _controller.clear();
       FocusScope.of(context).unfocus();
       BlocProvider.of<BookTickerBloc>(context).add(GetBookTickerEvent(symbol));
+      // BlocProvider.of<UserDataBloc>(context).add(GetUserDataEvent());
     }
   }
 }

@@ -19,8 +19,7 @@ class Rational extends Equatable {
 
     final dotIndex = strNumber.indexOf('.');
     final intPart = int.parse(strNumber.substring(0, dotIndex));
-    final decPart =
-        int.parse(strNumber.substring(dotIndex + 1, strNumber.length));
+    final decPart = int.parse(strNumber.substring(dotIndex + 1, strNumber.length));
 
     return Rational(intPart, decPart);
   }
@@ -30,5 +29,12 @@ class Rational extends Equatable {
     String decPart = decimalPart.toString();
     decPart = decPart == '0' ? '00000000' : decPart;
     return intPart + '.' + decPart;
+  }
+
+  String toShortString() {
+    String intPart = integerPart.toString();
+    String decPart = decimalPart.toString();
+    decPart = decPart == '0' ? '' : '.' + decPart;
+    return intPart + decPart;
   }
 }
