@@ -9,7 +9,7 @@ class SpotBalances extends StatelessWidget {
       builder: (context, state) {
         if (state is LoadedUserData) {
           return Container(
-            height: 100,
+            height: 80,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: state.userData.balances.length,

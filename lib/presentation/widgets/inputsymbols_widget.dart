@@ -8,43 +8,74 @@ class InputSymbol extends StatefulWidget {
 }
 
 class _InputSymbolState extends State<InputSymbol> {
-  TextEditingController _controller = TextEditingController();
+  TextEditingController _baseAssetController = TextEditingController();
+  TextEditingController _quoteAssetcontroller = TextEditingController();
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _baseAssetController.dispose();
+    _quoteAssetcontroller.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      cursorColor: Colors.white,
-      textCapitalization: TextCapitalization.characters,
-      decoration: InputDecoration(
-        hintText: 'Put a symbol',
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+    return Row(
+      children: [
+        Expanded(
+          child: TextField(
+            controller: _baseAssetController,
+            cursorColor: Colors.white,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+              hintText: 'Base asset',
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+            ),
+            onSubmitted: (_) => dispatchSymbol(),
+            onChanged: (value) {
+              _baseAssetController.text = value.toUpperCase();
+              _baseAssetController.selection = TextSelection.fromPosition(TextPosition(offset: _baseAssetController.text.length));
+            },
+          ),
         ),
-        suffixIcon: IconButton(
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+          child: Text('/'),
+        ),
+        Expanded(
+          child: TextField(
+            controller: _quoteAssetcontroller,
+            cursorColor: Colors.white,
+            textCapitalization: TextCapitalization.characters,
+            decoration: InputDecoration(
+              hintText: 'Quote asset',
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.white),
+              ),
+            ),
+            onSubmitted: (_) => dispatchSymbol(),
+            onChanged: (value) {
+              _quoteAssetcontroller.text = value.toUpperCase();
+              _quoteAssetcontroller.selection = TextSelection.fromPosition(TextPosition(offset: _quoteAssetcontroller.text.length));
+            },
+          ),
+        ),
+        IconButton(
           color: Colors.white70,
           icon: Icon(Icons.send),
           onPressed: dispatchSymbol,
-        ),
-      ),
-      onSubmitted: (_) => dispatchSymbol(),
-      onChanged: (value) {
-        _controller.text = value.toUpperCase();
-        _controller.selection = TextSelection.fromPosition(TextPosition(offset: _controller.text.length));
-      },
+        )
+      ],
     );
   }
 
   void dispatchSymbol() {
-    String symbol = _controller.text;
+    String symbol = _baseAssetController.text + _quoteAssetcontroller.text;
     if (symbol != '') {
-      _controller.clear();
+      _baseAssetController.clear();
+      _quoteAssetcontroller.clear();
       FocusScope.of(context).unfocus();
       BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(symbol));
     }
