@@ -31,7 +31,6 @@ dependencies:
   web_socket_channel: ^2.0.0
   flutter_bloc: ^7.0.0
   equatable: ^2.0.0
-  fl_chart: ^0.35.0
 
 
   # The following adds the Cupertino Icons font to your application.
