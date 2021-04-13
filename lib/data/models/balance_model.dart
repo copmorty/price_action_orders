@@ -1,11 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
-import 'package:price_action_orders/domain/entities/rational.dart';
 
 class BalanceModel extends Balance {
   final String asset;
-  final Rational free;
-  final Rational locked;
+  final Decimal free;
+  final Decimal locked;
 
   BalanceModel({
     @required this.asset,
@@ -19,8 +19,8 @@ class BalanceModel extends Balance {
   factory BalanceModel.fromJson(Map<String, dynamic> parsedJson) {
     return BalanceModel(
       asset: parsedJson['asset'],
-      free: Rational.parse(parsedJson['free']),
-      locked: Rational.parse(parsedJson['locked']),
+      free: Decimal.parse(parsedJson['free']),
+      locked: Decimal.parse(parsedJson['locked']),
     );
   }
 }

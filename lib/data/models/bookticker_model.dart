@@ -1,15 +1,15 @@
 import 'dart:convert';
+import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
-import 'package:price_action_orders/domain/entities/rational.dart';
 
 class BookTickerModel extends BookTicker {
   final int updatedId;
   final String symbol;
-  final Rational bidPrice; // best bid price
-  final Rational bidQty; // best bid qty
-  final Rational askPrice; // best ask price
-  final Rational askQty; // best ask qty
+  final Decimal bidPrice; // best bid price
+  final Decimal bidQty; // best bid qty
+  final Decimal askPrice; // best ask price
+  final Decimal askQty; // best ask qty
 
   BookTickerModel({
     @required this.updatedId,
@@ -30,10 +30,10 @@ class BookTickerModel extends BookTicker {
     return BookTickerModel(
       updatedId: data['u'],
       symbol: data['s'],
-      bidPrice: Rational.parse(data['b']),
-      bidQty: Rational.parse(data['B']),
-      askPrice: Rational.parse(data['a']),
-      askQty: Rational.parse(data['A']),
+      bidPrice: Decimal.parse(data['b']),
+      bidQty: Decimal.parse(data['B']),
+      askPrice: Decimal.parse(data['a']),
+      askQty: Decimal.parse(data['A']),
     );
   }
 }

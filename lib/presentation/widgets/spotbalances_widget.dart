@@ -24,7 +24,7 @@ class SpotBalances extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(state.userData.balances[index].asset),
-                      Text(state.userData.balances[index].free.toShortString()),
+                      Text(state.userData.balances[index].free.toString()),
                     ],
                   ),
                 );

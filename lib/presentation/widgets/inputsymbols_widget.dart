@@ -72,12 +72,19 @@ class _InputSymbolState extends State<InputSymbol> {
   }
 
   void dispatchSymbol() {
-    String symbol = _baseAssetController.text + _quoteAssetcontroller.text;
-    if (symbol != '') {
-      _baseAssetController.clear();
-      _quoteAssetcontroller.clear();
-      FocusScope.of(context).unfocus();
-      BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(symbol));
-    }
+    final baseAsset = _baseAssetController.text;
+    final quoteAsset = _quoteAssetcontroller.text;
+    print('baseAsset');
+    print(baseAsset);
+    print('quoteAsset');
+    print(quoteAsset);
+    if (baseAsset == '' || quoteAsset == '') return;
+    String symbol = baseAsset + quoteAsset;
+    // if (symbol != '') {
+    _baseAssetController.clear();
+    _quoteAssetcontroller.clear();
+    FocusScope.of(context).unfocus();
+    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(symbol));
+    // }
   }
 }

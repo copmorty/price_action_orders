@@ -1,11 +1,11 @@
+import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'rational.dart';
 
 class Balance extends Equatable {
   final String asset;
-  final Rational free;
-  final Rational locked;
+  final Decimal free;
+  final Decimal locked;
 
   Balance({
     @required this.asset,

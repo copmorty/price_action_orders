@@ -1,6 +1,6 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
-import 'package:price_action_orders/domain/entities/rational.dart';
 
 class BookTickerDisplay extends StatelessWidget {
   final BookTicker bookTicker;
@@ -67,27 +67,22 @@ class TableBookTicker extends StatelessWidget {
             ),
           ],
         ),
-        buildBookRow(
-            rowColor: Colors.red,
-            price: bookTicker.askPrice,
-            qty: bookTicker.askQty),
-        buildBookRow(
-            rowColor: Colors.green,
-            price: bookTicker.bidPrice,
-            qty: bookTicker.bidQty),
+        buildBookRow(rowColor: Colors.red, price: bookTicker.askPrice, qty: bookTicker.askQty),
+        buildBookRow(rowColor: Colors.green, price: bookTicker.bidPrice, qty: bookTicker.bidQty),
       ],
     );
   }
 
-  TableRow buildBookRow(
-      {@required Color rowColor,
-      @required Rational price,
-      @required Rational qty}) {
+  TableRow buildBookRow({
+    @required Color rowColor,
+    @required Decimal price,
+    @required Decimal qty,
+  }) {
     return TableRow(
       children: [
         Container(
           child: Text(
-            price.toString(),
+            price.toStringAsFixed(8),
             style: TextStyle(
               color: rowColor,
               fontSize: 30,
@@ -99,7 +94,7 @@ class TableBookTicker extends StatelessWidget {
           alignment: Alignment.centerRight,
           child: Container(
             child: Text(
-              qty.toString(),
+              qty.toStringAsFixed(8),
               style: TextStyle(
                 color: Colors.white.withOpacity(0.5),
                 fontSize: 30,
