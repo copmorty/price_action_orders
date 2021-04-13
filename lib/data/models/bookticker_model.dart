@@ -6,6 +6,8 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 class BookTickerModel extends BookTicker {
   final int updatedId;
   final String symbol;
+  final String baseAsset;
+  final String quoteAsset;
   final Decimal bidPrice; // best bid price
   final Decimal bidQty; // best bid qty
   final Decimal askPrice; // best ask price
@@ -14,6 +16,8 @@ class BookTickerModel extends BookTicker {
   BookTickerModel({
     @required this.updatedId,
     @required this.symbol,
+    @required this.baseAsset,
+    @required this.quoteAsset,
     @required this.bidPrice,
     @required this.bidQty,
     @required this.askPrice,
@@ -24,12 +28,14 @@ class BookTickerModel extends BookTicker {
   @override
   List<Object> get props => [updatedId];
 
-  factory BookTickerModel.fromStringifiedMap(String strMap) {
+  factory BookTickerModel.fromStringifiedMap({@required String strMap, @required baseAsset, @required quoteAsset}) {
     final data = jsonDecode(strMap);
 
     return BookTickerModel(
       updatedId: data['u'],
       symbol: data['s'],
+      baseAsset: baseAsset,
+      quoteAsset: quoteAsset,
       bidPrice: Decimal.parse(data['b']),
       bidQty: Decimal.parse(data['B']),
       askPrice: Decimal.parse(data['a']),

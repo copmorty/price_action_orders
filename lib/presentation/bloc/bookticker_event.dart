@@ -8,12 +8,13 @@ abstract class BookTickerEvent extends Equatable {
 }
 
 class StreamBookTickerEvent extends BookTickerEvent {
-  final String symbol;
+  final String baseAsset;
+  final String quoteAsset;
 
-  StreamBookTickerEvent(this.symbol);
+  StreamBookTickerEvent({@required this.baseAsset, @required this.quoteAsset});
 
   @override
-  List<Object> get props => [symbol];
+  List<Object> get props => [baseAsset, quoteAsset];
 }
 
 class _BookTickerTick extends BookTickerEvent {

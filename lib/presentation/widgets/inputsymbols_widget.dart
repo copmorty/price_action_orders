@@ -77,10 +77,9 @@ class _InputSymbolState extends State<InputSymbol> {
     
     if (baseAsset == '' || quoteAsset == '') return;
 
-    String symbol = baseAsset + quoteAsset;
     _baseAssetController.clear();
     _quoteAssetcontroller.clear();
     FocusScope.of(context).unfocus();
-    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(symbol));
+    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(baseAsset: baseAsset, quoteAsset: quoteAsset));
   }
 }

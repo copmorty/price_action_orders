@@ -28,7 +28,7 @@ class BookTickerDisplay extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              bookTicker.symbol,
+              bookTicker.baseAsset+'/'+bookTicker.quoteAsset,
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 10),

@@ -1,7 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
+import 'package:meta/meta.dart';
 
 abstract class BookTickerRepository {
-  Either<Failure, Stream<BookTicker>> streamBookTicker(String symbol);
+  Either<Failure, Stream<BookTicker>> streamBookTicker({@required baseAsset, @required quoteAsset});
 }

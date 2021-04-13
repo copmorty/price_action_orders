@@ -11,9 +11,9 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
   BookTickerRepositoryImpl({@required this.dataSource});
 
   @override
-  Either<Failure, Stream<BookTicker>> streamBookTicker(String symbol) {
+  Either<Failure, Stream<BookTicker>> streamBookTicker({@required baseAsset, @required quoteAsset}) {
     try {
-      return Right(dataSource.streamBookTicker(symbol));
+      return Right(dataSource.streamBookTicker(baseAsset: baseAsset, quoteAsset: quoteAsset));
     } catch (e) {
       return Left(ServerFailure());
     }
