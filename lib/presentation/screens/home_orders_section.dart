@@ -1,29 +1,47 @@
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/core/util/formatters.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
+import 'package:price_action_orders/presentation/widgets/buyheader_widget.dart';
+import 'package:price_action_orders/presentation/widgets/marketbuy_form.dart';
+import 'package:price_action_orders/presentation/widgets/marketsell_form.dart';
 import 'package:price_action_orders/presentation/widgets/orderbtn_widget.dart';
+import 'package:price_action_orders/presentation/widgets/sellheader_widget.dart';
 
 class OrdersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: [
-          Row(
+    return BlocBuilder<OrderConfigBloc, OrderConfigState>(builder: (context, state) {
+      // print('state');
+      // print(state);
+      if (state is LoadedOrderConfig) {
+        return Container(
+          child: Column(
             children: [
-              OrderTypeBtn(orderType: 'Limit'),
-              OrderTypeBtn(orderType: 'Market'),
-              OrderTypeBtn(orderType: 'Stop-limit'),
+              Row(
+                children: [
+                  OrderTypeBtn(orderType: 'Limit'),
+                  OrderTypeBtn(orderType: 'Market'),
+                  OrderTypeBtn(orderType: 'Stop-limit'),
+                ],
+              ),
+              Divider(),
+              SizedBox(height: 10),
+              OrderSection(baseAsset: state.baseAsset, quoteAsset: state.quoteAsset),
             ],
           ),
-          Divider(),
-          OrderSection(),
-        ],
-      ),
-    );
+        );
+      }
+      return SizedBox();
+    });
   }
 }
 
 class OrderSection extends StatelessWidget {
+  final String baseAsset;
+  final String quoteAsset;
+
+  const OrderSection({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,9 +49,9 @@ class OrderSection extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              BuyHeader(),
+              BuyHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
               SizedBox(height: 10),
-              MarketBuyForm(),
+              MarketBuyForm(asset: quoteAsset),
             ],
           ),
         ),
@@ -41,9 +59,9 @@ class OrderSection extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              SellHeader(),
+              SellHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
               SizedBox(height: 10),
-              MarketSellForm(),
+              MarketSellForm(asset: baseAsset),
             ],
           ),
         ),
@@ -52,136 +70,7 @@ class OrderSection extends StatelessWidget {
   }
 }
 
-class BuyHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Buy',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        Icon(Icons.account_balance_wallet_outlined, color: Colors.white60),
-        SizedBox(width: 5),
-        Text('222.11', style: TextStyle(color: Colors.white60)),
-      ],
-    );
-  }
-}
 
-class SellHeader extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Text(
-            'Sell',
-            style: TextStyle(fontSize: 18),
-          ),
-        ),
-        Icon(Icons.account_balance_wallet_outlined, color: Colors.white60),
-        SizedBox(width: 5),
-        Text('0.11', style: TextStyle(color: Colors.white60)),
-      ],
-    );
-  }
-}
 
-class MarketBuyForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Price',
-                    style: TextStyle(fontSize: 16, color: Colors.white60),
-                  ),
-                ),
-                Text(
-                  'Market',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: TextFormField(
-              cursorColor: Colors.white,
-              inputFormatters: [
-                ValidatorInputFormatter(
-                  editingValidator: CommaCurrencyEditingRegexValidator(),
-                )
-              ],
-              decoration: InputDecoration(
-                hintText: 'Total',
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
-class MarketSellForm extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      child: Column(
-        children: [
-          Container(
-            height: 48,
-            padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    'Price',
-                    style: TextStyle(fontSize: 16, color: Colors.white60),
-                  ),
-                ),
-                Text(
-                  'Market',
-                  style: TextStyle(fontSize: 16),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: TextFormField(
-              cursorColor: Colors.white,
-              inputFormatters: [
-                ValidatorInputFormatter(
-                  editingValidator: CommaCurrencyEditingRegexValidator(),
-                )
-              ],
-              decoration: InputDecoration(
-                hintText: 'Amount',
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
+

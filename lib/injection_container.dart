@@ -8,6 +8,7 @@ import 'package:price_action_orders/domain/repositories/userdata_repository.dart
 import 'package:price_action_orders/domain/usecases/stream_bookticker.dart';
 import 'package:price_action_orders/domain/usecases/get_userdata.dart';
 import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
+import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/userdata_bloc.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart' show rootBundle;
@@ -19,7 +20,8 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   // Bloc
-  sl.registerFactory(() => BookTickerBloc(streamBookTicker: sl()));
+  sl.registerFactory(() => BookTickerBloc(streamBookTicker: sl(), orderConfigBloc: sl()));
+  sl.registerLazySingleton(() => OrderConfigBloc());
   sl.registerFactory(() => UserDataBloc(getUserData: sl()));
 
   // Use cases
