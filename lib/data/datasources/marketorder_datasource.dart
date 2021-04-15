@@ -42,10 +42,18 @@ class MarketOrderDataSourceImpl implements MarketOrderDataSource {
       },
     );
 
+    // print('response.statusCode');
+    // print(response.statusCode.runtimeType);
+    // print(response.statusCode);
+
+    // print('response.body');
+    // print(response.body.runtimeType);
+    // print(response.body);
+
     if (response.statusCode == 200) {
       return OrderResponseFullModel.fromStringifiedMap(response.body);
     } else {
-      throw ServerException();
+      throw ServerException.fromStringifiedMap(response.body);
     }
   }
 }

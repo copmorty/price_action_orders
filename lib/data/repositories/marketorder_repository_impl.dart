@@ -13,12 +13,12 @@ class MarketOrderRepositoryImpl implements MarketOrderRepository {
   MarketOrderRepositoryImpl({@required this.dataSource});
 
   @override
-  Future<Either<Failure, OrderResponseFull>> postMarketOrder(MarketOrder marketOrder) async {
+  Future<Either<ServerFailure, OrderResponseFull>> postMarketOrder(MarketOrder marketOrder) async {
     try {
       final response = await dataSource.postMarketOrder(marketOrder);
       return Right(response);
-    } on ServerException {
-      return Left(ServerFailure());
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
     }
   }
 }

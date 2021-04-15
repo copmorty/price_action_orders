@@ -19,10 +19,11 @@ class LoadedMarketOrder extends OrderState {
 }
 
 class ErrorOrder extends OrderState {
+  final int orderTimestamp;
   final String message;
 
-  ErrorOrder({@required this.message});
+  ErrorOrder({@required this.orderTimestamp, @required this.message});
 
   @override
-  List<Object> get props => [message];
+  List<Object> get props => [orderTimestamp, message];
 }

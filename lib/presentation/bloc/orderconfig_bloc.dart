@@ -15,7 +15,6 @@ class OrderConfigBloc extends Bloc<OrderConfigEvent, OrderConfigState> {
     OrderConfigEvent event,
   ) async* {
     if (event is SetOrderConfigEvent) {
-      print('event is SetOrderConfigEvent');
       yield LoadedOrderConfig(baseAsset: event.baseAsset, quoteAsset: event.quoteAsset);
     }
   }

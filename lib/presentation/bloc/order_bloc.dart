@@ -22,10 +22,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     if (event is MarketOrderEvent) {
       final failureOrOrderResponse = await postMarketOrder(Params(marketOrder: event.marketOrder));
       yield failureOrOrderResponse.fold(
-        (failure) => ErrorOrder(message: 'Something went wrong'),
+        (failure) => ErrorOrder(orderTimestamp: event.marketOrder.timestamp, message: failure.message),
         (orderResponse) => LoadedMarketOrder(orderResponse),
       );
-      // yield LoadedMarketOrder();
     }
   }
 }

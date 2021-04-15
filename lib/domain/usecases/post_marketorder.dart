@@ -13,7 +13,7 @@ class PostMarketOrder implements UseCase<MarketOrder, Params> {
   PostMarketOrder(this.repository);
 
   @override
-  Future<Either<Failure, OrderResponseFull>> call(Params params) async {
+  Future<Either<ServerFailure, OrderResponseFull>> call(Params params) async {
     return await repository.postMarketOrder(params.marketOrder);
   }
 }
