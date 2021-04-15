@@ -4,5 +4,5 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:meta/meta.dart';
 
 abstract class BookTickerRepository {
-  Either<Failure, Stream<BookTicker>> streamBookTicker({@required baseAsset, @required quoteAsset});
+  Either<Failure, Stream<BookTicker>> streamBookTicker({@required String baseAsset, @required String quoteAsset});
 }

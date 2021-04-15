@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/util/formatters.dart';
 
 class MarketBuyForm extends StatelessWidget {
-  final String asset;
+  final String baseAsset;
+  final String quoteAsset;
 
-  const MarketBuyForm({Key key, @required this.asset}) : super(key: key);
+  const MarketBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class MarketBuyForm extends StatelessWidget {
                 ),
                 SizedBox(width: 10),
                 Text(
-                  asset,
+                  quoteAsset,
                   style: TextStyle(fontSize: 16, color: Colors.white60),
                 ),
               ],
@@ -47,10 +48,20 @@ class MarketBuyForm extends StatelessWidget {
               ],
               decoration: InputDecoration(
                 hintText: 'Total',
-                suffixText: asset,
+                suffixText: quoteAsset,
                 enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
                 focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
               ),
+            ),
+          ),
+          SizedBox(height: 10),
+          SizedBox(
+            width: double.infinity,
+            height: 40,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text('Buy $baseAsset'),
+              style: ElevatedButton.styleFrom(primary: Colors.green),
             ),
           ),
         ],

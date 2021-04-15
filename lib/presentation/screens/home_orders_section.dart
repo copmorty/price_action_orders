@@ -11,8 +11,6 @@ class OrdersSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderConfigBloc, OrderConfigState>(builder: (context, state) {
-      // print('state');
-      // print(state);
       if (state is LoadedOrderConfig) {
         return Container(
           child: Column(
@@ -51,7 +49,7 @@ class OrderSection extends StatelessWidget {
             children: [
               BuyHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
               SizedBox(height: 10),
-              MarketBuyForm(asset: quoteAsset),
+              MarketBuyForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),
@@ -61,7 +59,7 @@ class OrderSection extends StatelessWidget {
             children: [
               SellHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
               SizedBox(height: 10),
-              MarketSellForm(asset: baseAsset),
+              MarketSellForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),
