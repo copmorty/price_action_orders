@@ -8,14 +8,10 @@ abstract class OrderEvent extends Equatable {
 }
 
 class MarketOrderEvent extends OrderEvent {
-  final String baseAsset;
-  final String quoteAsset;
-  final BinanceOrderSide side;
-  final Decimal quantity;
-  final Decimal quoteOrderQty;
+  final MarketOrder marketOrder;
 
-  MarketOrderEvent(this.baseAsset, this.quoteAsset, this.side, this.quantity, this.quoteOrderQty);
+  MarketOrderEvent(this.marketOrder);
 
   @override
-  List<Object> get props => [baseAsset, quoteAsset, side, quantity, quoteOrderQty];
+  List<Object> get props => [marketOrder];
 }

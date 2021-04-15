@@ -10,11 +10,11 @@ class MarketOrder extends Order {
   MarketOrder({
     @required symbol,
     @required side,
-    @required timestamp,
+    timestamp,
     @required this.quantity,
     @required this.quoteOrderQty,
   })  : assert(quantity == null || quoteOrderQty == null),
-        super(symbol: symbol, side: side, type: BinanceOrderType.MARKET, timestamp: timestamp);
+        super(symbol: symbol, side: side, type: BinanceOrderType.MARKET, timestamp: timestamp ?? DateTime.now().millisecondsSinceEpoch);
 
   @override
   List<Object> get props => [symbol, side, type, timestamp, quantity, quoteOrderQty];

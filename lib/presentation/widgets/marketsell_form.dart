@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/util/formatters.dart';
+import 'package:price_action_orders/domain/entities/order_market.dart';
 import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
 
 class MarketSellForm extends StatefulWidget {
@@ -90,9 +91,12 @@ class _MarketSellFormState extends State<MarketSellForm> {
 
   _marketSell() {
     if (_controller.text == '') return;
-    
+
+    final symbol = widget.baseAsset + widget.quoteAsset;
     final quantity = Decimal.parse(_controller.text);
     final quoteOrderQty = null;
-    BlocProvider.of<OrderBloc>(context).add(MarketOrderEvent(widget.baseAsset, widget.quoteAsset, BinanceOrderSide.SELL, quantity, quoteOrderQty));
+    final marketOrder = MarketOrder(symbol: symbol, side: BinanceOrderSide.SELL, quantity: quantity, quoteOrderQty: quoteOrderQty);
+
+    BlocProvider.of<OrderBloc>(context).add(MarketOrderEvent(marketOrder));
   }
 }
