@@ -4,6 +4,7 @@ import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
 import 'package:price_action_orders/presentation/screens/home_orders_section.dart';
 import 'package:price_action_orders/presentation/widgets/inputsymbols_widget.dart';
 import 'package:price_action_orders/presentation/widgets/spotbalances_widget.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
 
 class ControlsSection extends StatelessWidget {
   @override
@@ -35,21 +36,55 @@ class SnackbarManager extends StatelessWidget {
       listener: (context, state) {
         if (state is LoadedMarketOrder) {
           showDialog(
-              barrierDismissible: false, //Mandatory for automatically closing the dialog
+              barrierDismissible: true, //Mandatory for automatically closing the dialog
               context: context,
               builder: (context) {
-                Future.delayed(Duration(seconds: 3), () {
-                  Navigator.of(context).pop(true);
-                });
+                final bool orderCompleted = state.orderResponse.status == BinanceOrderStatus.FILLED;
+                if (orderCompleted) {
+                  Future.delayed(Duration(seconds: 3), () {
+                    Navigator.of(context).pop(true);
+                  });
+                }
                 return AlertDialog(
-                  title: Icon(
-                    Icons.check_circle_outline_rounded,
-                    color: Colors.green,
-                    size: 50,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)),
                   ),
-                  content: Text(
-                    'Market Order completed',
-                    textAlign: TextAlign.center,
+                  contentPadding: const EdgeInsets.all(0),
+                  content: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      border: Border.all(
+                        width: 2,
+                        color: orderCompleted
+                            ? state.orderResponse.side == BinanceOrderSide.BUY
+                                ? Colors.green
+                                : Colors.red
+                            : Colors.transparent,
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(state.orderResponse.symbol, textAlign: TextAlign.center, style: TextStyle(fontSize: 25)),
+                        SizedBox(height: 20),
+                        RichText(
+                          text: TextSpan(
+                            style: TextStyle(fontSize: 25),
+                            children: [
+                              TextSpan(text: state.orderResponse.type.toShortString()),
+                              TextSpan(text: ' '),
+                              TextSpan(
+                                text: state.orderResponse.side.toShortString(),
+                                style: TextStyle(color: state.orderResponse.side == BinanceOrderSide.BUY ? Colors.green : Colors.red),
+                              ),
+                            ],
+                          ),
+                        ),
+                        // Text('price: ' + state.orderResponse.price),
+                        Text('status: ' + state.orderResponse.status.toShortString()),
+                      ],
+                    ),
                   ),
                 );
               });
@@ -59,3 +94,8 @@ class SnackbarManager extends StatelessWidget {
     );
   }
 }
+
+// Icon(
+//   Icons.check_circle_outline_rounded,
+//   size: 50,
+// ),

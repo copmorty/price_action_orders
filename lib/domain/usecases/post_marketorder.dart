@@ -4,6 +4,7 @@ import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order_market.dart';
+import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/repositories/marketorder_repository.dart';
 
 class PostMarketOrder implements UseCase<MarketOrder, Params> {
@@ -12,7 +13,7 @@ class PostMarketOrder implements UseCase<MarketOrder, Params> {
   PostMarketOrder(this.repository);
 
   @override
-  Future<Either<Failure, dynamic>> call(Params params) async {
+  Future<Either<Failure, OrderResponseFull>> call(Params params) async {
     return await repository.postMarketOrder(params.marketOrder);
   }
 }

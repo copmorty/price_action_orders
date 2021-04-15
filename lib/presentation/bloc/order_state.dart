@@ -10,8 +10,19 @@ abstract class OrderState extends Equatable {
 class EmptyOrder extends OrderState {}
 
 class LoadedMarketOrder extends OrderState {
-  final orderId = Random().nextInt(10000);
+  final OrderResponseFull orderResponse;
+
+  LoadedMarketOrder(this.orderResponse);
 
   @override
-  List<Object> get props => [orderId];
+  List<Object> get props => [orderResponse];
+}
+
+class ErrorOrder extends OrderState {
+  final String message;
+
+  ErrorOrder({@required this.message});
+
+  @override
+  List<Object> get props => [message];
 }

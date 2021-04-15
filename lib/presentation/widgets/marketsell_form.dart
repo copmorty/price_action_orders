@@ -97,6 +97,8 @@ class _MarketSellFormState extends State<MarketSellForm> {
     final quoteOrderQty = null;
     final marketOrder = MarketOrder(symbol: symbol, side: BinanceOrderSide.SELL, quantity: quantity, quoteOrderQty: quoteOrderQty);
 
+    _controller.clear();
+    FocusScope.of(context).unfocus();
     BlocProvider.of<OrderBloc>(context).add(MarketOrderEvent(marketOrder));
   }
 }
