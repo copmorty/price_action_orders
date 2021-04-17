@@ -23,4 +23,12 @@ class BalanceModel extends Balance {
       locked: Decimal.parse(parsedJson['locked']),
     );
   }
+
+  factory BalanceModel.fromJsonStream(Map<String, dynamic> parsedJson) {
+    return BalanceModel(
+      asset: parsedJson['a'],
+      free: Decimal.parse(parsedJson['f']),
+      locked: Decimal.parse(parsedJson['l']),
+    );
+  }
 }

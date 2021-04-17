@@ -14,12 +14,12 @@ abstract class MarketOrderDataSource {
 
 class MarketOrderDataSourceImpl implements MarketOrderDataSource {
   final Client client;
-  final String path = '/api/v3/order';
 
   MarketOrderDataSourceImpl({@required this.client});
 
   @override
   Future<OrderResponseFull> postMarketOrder(MarketOrder marketOrder) async {
+    const path = '/api/v3/order';
     Map<String, dynamic> params = {
       'timestamp': marketOrder.timestamp.toString(),
       'symbol': marketOrder.symbol,
@@ -41,14 +41,6 @@ class MarketOrderDataSourceImpl implements MarketOrderDataSource {
         'X-MBX-APIKEY': apiKey,
       },
     );
-
-    // print('response.statusCode');
-    // print(response.statusCode.runtimeType);
-    // print(response.statusCode);
-
-    // print('response.body');
-    // print(response.body.runtimeType);
-    // print(response.body);
 
     if (response.statusCode == 200) {
       return OrderResponseFullModel.fromStringifiedMap(response.body);

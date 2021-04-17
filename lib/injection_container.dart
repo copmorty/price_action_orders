@@ -10,6 +10,7 @@ import 'package:price_action_orders/domain/repositories/userdata_repository.dart
 import 'package:price_action_orders/domain/usecases/post_marketorder.dart';
 import 'package:price_action_orders/domain/usecases/stream_bookticker.dart';
 import 'package:price_action_orders/domain/usecases/get_userdata.dart';
+import 'package:price_action_orders/domain/usecases/stream_userdata.dart';
 import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
@@ -26,7 +27,7 @@ final sl = GetIt.instance;
 Future<void> init() async {
   // Bloc
   sl.registerFactory(() => BookTickerBloc(streamBookTicker: sl(), orderConfigBloc: sl()));
-  sl.registerFactory(() => UserDataBloc(getUserData: sl()));
+  sl.registerFactory(() => UserDataBloc(getUserData: sl(), streamUserData: sl()));
   sl.registerFactory(() => OrderBloc(postMarketOrder: sl()));
 
   sl.registerLazySingleton(() => OrderConfigBloc());
@@ -34,6 +35,7 @@ Future<void> init() async {
   // Use cases
   sl.registerLazySingleton(() => StreamBookTicker(sl()));
   sl.registerLazySingleton(() => GetUserData(sl()));
+  sl.registerLazySingleton(() => StreamUserData(sl()));
   sl.registerLazySingleton(() => PostMarketOrder(sl()));
 
   // Repository

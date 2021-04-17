@@ -49,29 +49,11 @@ class _PopupManagerState extends State<PopupManager> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(
-                  Icons.error,
-                  size: 100,
-                ),
+                Icon(Icons.error, size: 100),
                 SizedBox(height: 20),
                 Text('ERROR', textAlign: TextAlign.center, style: TextStyle(fontSize: 25)),
                 SizedBox(height: 20),
                 Text(message, textAlign: TextAlign.center, style: TextStyle(fontSize: 25)),
-                // RichText(
-                //   text: TextSpan(
-                //     style: TextStyle(fontSize: 25),
-                //     children: [
-                //       TextSpan(text: orderResponse.type.toShortString()),
-                //       TextSpan(text: ' '),
-                //       TextSpan(
-                //         text: orderResponse.side.toShortString(),
-                //         style: TextStyle(color: orderResponse.side == BinanceOrderSide.BUY ? Colors.green : Colors.red),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // // Text('price: ' + orderResponse.price),
-                // Text('status: ' + orderResponse.status.toShortString()),
               ],
             ),
           ),

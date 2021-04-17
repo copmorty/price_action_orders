@@ -8,3 +8,14 @@ abstract class UserDataEvent extends Equatable {
 }
 
 class GetUserDataEvent extends UserDataEvent {}
+
+class StreamUserDataEvent extends UserDataEvent {}
+
+class _ChangedBalancesUserDataEvent extends UserDataEvent {
+  final List<Balance> changedBalances;
+
+  _ChangedBalancesUserDataEvent(this.changedBalances);
+
+  @override
+  List<Object> get props => [changedBalances];
+}
