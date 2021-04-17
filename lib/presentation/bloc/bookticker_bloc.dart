@@ -27,7 +27,7 @@ class BookTickerBloc extends Bloc<BookTickerEvent, BookTickerState> {
     if (event is StreamBookTickerEvent) {
       yield LoadingBookTicker();
       await _subscription?.cancel();
-      final failureOrStream = streamBookTicker(Params(baseAsset: event.baseAsset, quoteAsset: event.quoteAsset));
+      final failureOrStream = await streamBookTicker(Params(baseAsset: event.baseAsset, quoteAsset: event.quoteAsset));
       failureOrStream.fold(
         (failure) => ErrorBookTicker(message: 'idk'),
         (stream) {

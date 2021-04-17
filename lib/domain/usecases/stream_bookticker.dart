@@ -12,8 +12,8 @@ class StreamBookTicker implements UseCase<BookTicker, Params> {
   StreamBookTicker(this.repository);
 
   @override
-  Either<Failure, Stream<BookTicker>> call(Params params) {
-    return repository.streamBookTicker(baseAsset: params.baseAsset, quoteAsset: params.quoteAsset);
+  Future<Either<Failure, Stream<BookTicker>>> call(Params params) async {
+    return await repository.streamBookTicker(baseAsset: params.baseAsset, quoteAsset: params.quoteAsset);
   }
 }
 

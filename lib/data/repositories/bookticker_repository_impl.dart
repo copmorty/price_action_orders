@@ -11,10 +11,15 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
   BookTickerRepositoryImpl({@required this.dataSource});
 
   @override
-  Either<Failure, Stream<BookTicker>> streamBookTicker({@required baseAsset, @required quoteAsset}) {
+  Future<Either<Failure, Stream<BookTicker>>> streamBookTicker({@required baseAsset, @required quoteAsset}) async{
     try {
-      return Right(dataSource.streamBookTicker(baseAsset: baseAsset, quoteAsset: quoteAsset));
+      final response = await dataSource.streamBookTicker(baseAsset: baseAsset, quoteAsset: quoteAsset);
+      print('response');
+      print(response);
+      return Right(response);
     } catch (e) {
+      print('catchE');
+      print(e);
       return Left(ServerFailure());
     }
   }
