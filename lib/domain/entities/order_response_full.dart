@@ -1,4 +1,5 @@
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response.dart';
 import 'package:meta/meta.dart';
 
@@ -11,7 +12,7 @@ class OrderResponseFull extends OrderResponse {
   final BinanceOrderTimeInForce timeInForce;
   final BinanceOrderType type;
   final BinanceOrderSide side;
-  // final List<Fill> fills;
+  final List<OrderFill> fills;
 
   OrderResponseFull({
     @required String symbol,
@@ -27,23 +28,9 @@ class OrderResponseFull extends OrderResponse {
     @required this.timeInForce,
     @required this.type,
     @required this.side,
+    @required this.fills,
   }) : super(symbol: symbol, orderId: orderId, orderListId: orderListId, clientOrderId: clientOrderId, transactTime: transactTime);
 
   @override
   List<Object> get props => [orderId];
 }
-
-  // "fills": [
-  //   {
-  //     "price": "4000.00000000",
-  //     "qty": "1.00000000",
-  //     "commission": "4.00000000",
-  //     "commissionAsset": "USDT"
-  //   },
-  //   {
-  //     "price": "3999.00000000",
-  //     "qty": "5.00000000",
-  //     "commission": "19.99500000",
-  //     "commissionAsset": "USDT"
-  //   },
-  // ]

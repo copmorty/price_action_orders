@@ -18,7 +18,8 @@ abstract class UserDataDataSource {
 
 class UserDataDataSourceImpl implements UserDataDataSource {
   final Client client;
-  final StreamController<UserDataPayloadAccountUpdate> _streamController = StreamController<UserDataPayloadAccountUpdate>();
+  WebSocket _webSocket;
+  StreamController<UserDataPayloadAccountUpdate> _streamController;
   Timer _timer;
 
   UserDataDataSourceImpl({@required this.client});
@@ -77,49 +78,78 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       final int statusCode = await _extendListenKeyValidity(listenKey);
       if (statusCode != 200) {
         print('SOMETHING WENT WRONG');
-        throw ServerException();//NEEDS IMPLEMENTATION
+        throw ServerException(); //NEEDS IMPLEMENTATION
       }
     });
 
-    WebSocket.connect(binanceTestWebSocketUrl + pathWS + listenKey).then(
-      (WebSocket ws) {
-        if (ws?.readyState == WebSocket.open) {
-          ws.listen(
-            (data) => _onData(data),
-            onDone: _onDone,
-            onError: (err) => _onError(err),
-            cancelOnError: true,
-          );
-        } else {
-          print('[!]Connection Denied');
-        }
-      },
-    ).catchError((err) {
+    _webSocket?.close();
+    _streamController?.close();
+    _streamController = StreamController<UserDataPayloadAccountUpdate>();
+
+    try {
+      _webSocket = await WebSocket.connect(binanceTestWebSocketUrl + pathWS + listenKey);
+      if (_webSocket.readyState == WebSocket.open) {
+        _webSocket.listen(
+          (data) {
+            final Map jsonData = jsonDecode(data);
+            if (jsonData['e'] == 'outboundAccountPosition') {
+              final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
+              _streamController.add(userDataPayloadAccountUpdate);
+            }
+          },
+          onDone: () => print('[+]Done :)'),
+          onError: (err) => print('[!]Error -- ${err.toString()}'),
+          cancelOnError: true,
+        );
+      } else {
+        print('[!]Connection Denied');
+      }
+    } catch (err) {
       print(err);
       _streamController.close();
       if (_timer.isActive) _timer.cancel();
       throw ServerException();
-    });
+    }
+
+    // WebSocket.connect(binanceTestWebSocketUrl + pathWS + listenKey).then(
+    //   (WebSocket ws) {
+    //     if (ws?.readyState == WebSocket.open) {
+    //       ws.listen(
+    //         (data) => _onData(data),
+    //         onDone: _onDone,
+    //         onError: (err) => _onError(err),
+    //         cancelOnError: true,
+    //       );
+    //     } else {
+    //       print('[!]Connection Denied');
+    //     }
+    //   },
+    // ).catchError((err) {
+    //   print(err);
+    //   _streamController.close();
+    //   if (_timer.isActive) _timer.cancel();
+    //   throw ServerException();
+    // });
 
     return _streamController.stream;
   }
 
-  _onData(data) {
-    // print(data);
-    final Map jsonData = jsonDecode(data);
-    if (jsonData['e'] == 'outboundAccountPosition') {
-      final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
-      _streamController.add(userDataPayloadAccountUpdate);
-    }
-  }
+  // _onData(data) {
+  //   // print(data);
+  //   final Map jsonData = jsonDecode(data);
+  //   if (jsonData['e'] == 'outboundAccountPosition') {
+  //     final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
+  //     _streamController.add(userDataPayloadAccountUpdate);
+  //   }
+  // }
 
-  _onDone() {
-    print('[+]Done :)');
-  }
+  // _onDone() {
+  //   print('[+]Done :)');
+  // }
 
-  _onError(err) {
-    print('[!]Error -- ${err.toString()}');
-  }
+  // _onError(err) {
+  //   print('[!]Error -- ${err.toString()}');
+  // }
 
   _extendListenKeyValidity(String listenKey) async {
     const pathListenKey = '/api/v3/userDataStream';

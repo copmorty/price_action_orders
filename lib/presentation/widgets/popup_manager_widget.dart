@@ -118,7 +118,7 @@ class _PopupManagerState extends State<PopupManager> {
       },
     ).then(
       (_) {
-        if (_timer.isActive) {
+        if (_timer?.isActive ?? false) {
           _timer.cancel();
         }
       },

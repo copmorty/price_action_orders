@@ -2,11 +2,11 @@ import 'dart:convert';
 
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:meta/meta.dart';
+import 'package:price_action_orders/data/models/order_fill_model.dart';
+import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 
 class OrderResponseFullModel extends OrderResponseFull {
-  // final List<Fill> fills;
-
   OrderResponseFullModel({
     @required String symbol,
     @required int orderId,
@@ -21,6 +21,7 @@ class OrderResponseFullModel extends OrderResponseFull {
     @required BinanceOrderTimeInForce timeInForce,
     @required BinanceOrderType type,
     @required BinanceOrderSide side,
+    @required List<OrderFill> fills,
   }) : super(
           symbol: symbol,
           orderId: orderId,
@@ -35,6 +36,7 @@ class OrderResponseFullModel extends OrderResponseFull {
           timeInForce: timeInForce,
           type: type,
           side: side,
+          fills: fills,
         );
 
   @override
@@ -42,6 +44,9 @@ class OrderResponseFullModel extends OrderResponseFull {
 
   factory OrderResponseFullModel.fromStringifiedMap(String strMap) {
     final Map data = jsonDecode(strMap);
+
+    var fList = data['fills'] as List;
+    List<OrderFill> fillsList = fList.map((item) => OrderFillModel.fromJsonStream(item)).toList();
 
     return OrderResponseFullModel(
       symbol: data['symbol'],
@@ -57,6 +62,26 @@ class OrderResponseFullModel extends OrderResponseFull {
       timeInForce: BinanceOrderTimeInForce.values.firstWhere((enumElement) => enumElement.toShortString() == data['timeInForce'], orElse: () => null),
       type: BinanceOrderType.values.firstWhere((enumElement) => enumElement.toShortString() == data['type'], orElse: () => null),
       side: BinanceOrderSide.values.firstWhere((enumElement) => enumElement.toShortString() == data['side'], orElse: () => null),
+      fills: fillsList,
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'symbol': symbol,
+      'orderId': orderId,
+      'orderListId': orderListId,
+      'clientOrderId': clientOrderId,
+      'transactTime': transactTime,
+      'price': price,
+      'origQty': origQty,
+      'executedQty': executedQty,
+      'cummulativeQuoteQty': cummulativeQuoteQty,
+      'status': status,
+      'timeInForce': timeInForce,
+      'type': type,
+      'side': side,
+      'fills': fills,
+    };
   }
 }

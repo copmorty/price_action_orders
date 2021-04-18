@@ -14,12 +14,10 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
   Future<Either<Failure, Stream<BookTicker>>> streamBookTicker({@required baseAsset, @required quoteAsset}) async{
     try {
       final response = await dataSource.streamBookTicker(baseAsset: baseAsset, quoteAsset: quoteAsset);
-      print('response');
-      print(response);
       return Right(response);
     } catch (e) {
       print('catchE');
-      print(e);
+      print(e);//Needs implementation on ui
       return Left(ServerFailure());
     }
   }

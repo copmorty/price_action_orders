@@ -27,7 +27,7 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
     _streamController = StreamController<BookTicker>();
     
     try {
-      _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
+      _webSocket = await WebSocket.connect(binanceTestWebSocketUrl + pathWS + '$pair@bookTicker');
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
@@ -46,31 +46,6 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
       _streamController.close();
       throw ServerException();
     }
-
-    // WebSocket.connect(binanceWebSocketUrl + pathWS + '$pair@bookTicker').then(
-    //   (WebSocket ws) {
-    //     if (ws?.readyState == WebSocket.open) {
-    //       ws.listen(
-    //         (data) {
-    //           print(data);
-    //           final bookTickerModel = BookTickerModel.fromStringifiedMap(strMap: data, baseAsset: baseAsset, quoteAsset: quoteAsset);
-    //           _streamController.add(bookTickerModel);
-    //         },
-    //         onDone: () => print('[+]Done :)'),
-    //         onError: (err) => print('[!]Error -- ${err.toString()}'),
-    //         cancelOnError: true,
-    //       );
-    //     } else {
-    //       print('[!]Connection Denied');
-    //     }
-    //   },
-    // ).catchError(
-    //   (err) {
-    //     print(err);
-    //     _streamController.close();
-    //     throw ServerException();
-    //   },
-    // );
 
     return _streamController.stream;
   }

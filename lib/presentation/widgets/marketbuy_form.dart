@@ -87,8 +87,11 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
     if (_controller.text == '') return;
 
     final symbol = widget.baseAsset + widget.quoteAsset;
-    final quantity = Decimal.parse(_controller.text);
-    final quoteOrderQty = null;
+    final quantity = null;
+    final quoteOrderQtyText = _controller.text.replaceAll(',', '.');
+    final quoteOrderQty = Decimal.parse(quoteOrderQtyText);
+    print(quoteOrderQty);
+    // return;
     final marketOrder = MarketOrder(symbol: symbol, side: BinanceOrderSide.BUY, quantity: quantity, quoteOrderQty: quoteOrderQty);
     
     _controller.clear();
