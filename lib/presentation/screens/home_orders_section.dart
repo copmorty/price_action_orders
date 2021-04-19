@@ -24,7 +24,7 @@ class OrdersSection extends StatelessWidget {
               ),
               Divider(),
               SizedBox(height: 10),
-              OrderSection(baseAsset: state.baseAsset, quoteAsset: state.quoteAsset),
+              OrderSection(baseAsset: state.ticker.baseAsset, quoteAsset: state.ticker.quoteAsset),
             ],
           ),
         );

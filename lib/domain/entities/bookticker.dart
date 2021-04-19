@@ -1,12 +1,12 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class BookTicker extends Equatable {
   final int updatedId;
   final String symbol;
-  final String baseAsset;
-  final String quoteAsset;
+  final Ticker ticker;
   final Decimal bidPrice; // best bid price
   final Decimal bidQty; // best bid qty
   final Decimal askPrice; // best ask price
@@ -15,8 +15,7 @@ class BookTicker extends Equatable {
   BookTicker({
     @required this.updatedId,
     @required this.symbol,
-    @required this.baseAsset,
-    @required this.quoteAsset,
+    @required this.ticker,
     @required this.bidPrice,
     @required this.bidQty,
     @required this.askPrice,

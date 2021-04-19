@@ -8,14 +8,10 @@ abstract class OrderConfigEvent extends Equatable {
 }
 
 class SetOrderConfigEvent extends OrderConfigEvent {
-  final String baseAsset;
-  final String quoteAsset;
+  final Ticker ticker;
 
-  SetOrderConfigEvent({
-    this.baseAsset,
-    this.quoteAsset,
-  });
+  SetOrderConfigEvent(this.ticker);
 
   @override
-  List<Object> get props => [baseAsset, quoteAsset];
+  List<Object> get props => [ticker];
 }

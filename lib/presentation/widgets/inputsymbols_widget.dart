@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
 
 class InputSymbol extends StatefulWidget {
@@ -74,12 +75,12 @@ class _InputSymbolState extends State<InputSymbol> {
   void dispatchSymbol() {
     final baseAsset = _baseAssetController.text;
     final quoteAsset = _quoteAssetcontroller.text;
-    
+
     if (baseAsset == '' || quoteAsset == '') return;
 
     _baseAssetController.clear();
     _quoteAssetcontroller.clear();
     FocusScope.of(context).unfocus();
-    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(baseAsset: baseAsset, quoteAsset: quoteAsset));
+    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset)));
   }
 }

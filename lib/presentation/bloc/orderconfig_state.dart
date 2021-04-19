@@ -10,14 +10,10 @@ abstract class OrderConfigState extends Equatable {
 class EmptyOrderConfig extends OrderConfigState {}
 
 class LoadedOrderConfig extends OrderConfigState {
-  final String baseAsset;
-  final String quoteAsset;
+  final Ticker ticker;
 
-  LoadedOrderConfig({
-    @required this.baseAsset,
-    @required this.quoteAsset,
-  });
+  LoadedOrderConfig(this.ticker);
 
   @override
-  List<Object> get props => [baseAsset, quoteAsset];
+  List<Object> get props => [ticker];
 }

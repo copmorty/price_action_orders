@@ -7,14 +7,15 @@ abstract class BookTickerEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class StreamBookTickerEvent extends BookTickerEvent {
-  final String baseAsset;
-  final String quoteAsset;
+class StartBookTickerEvent extends BookTickerEvent {}
 
-  StreamBookTickerEvent({@required this.baseAsset, @required this.quoteAsset});
+class StreamBookTickerEvent extends BookTickerEvent {
+  final Ticker ticker;
+
+  StreamBookTickerEvent(this.ticker);
 
   @override
-  List<Object> get props => [baseAsset, quoteAsset];
+  List<Object> get props => [ticker];
 }
 
 class _BookTickerTick extends BookTickerEvent {

@@ -1,7 +1,6 @@
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
-import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/util/datasource_util.dart';
 import 'package:price_action_orders/data/models/order_market_model.dart';
@@ -21,16 +20,6 @@ class MarketOrderDataSourceImpl implements MarketOrderDataSource {
   @override
   Future<OrderResponseFull> postMarketOrder(MarketOrder marketOrder) async {
     const path = '/api/v3/order';
-    // Map<String, dynamic> params = {
-    //   'timestamp': marketOrder.timestamp.toString(),
-    //   'symbol': marketOrder.symbol,
-    //   'side': marketOrder.side.toShortString(),
-    //   'type': marketOrder.type.toShortString(),
-    //   ...(marketOrder.quoteOrderQty == null
-    //       ? {'quantity': marketOrder.quantity.toString()}
-    //       : {'quoteOrderQty': marketOrder.quoteOrderQty.toString()}),
-    // };
-    
     final params = MarketOrderModel.fromMarketOrder(marketOrder).toJson();
     print('params');
     print(params);

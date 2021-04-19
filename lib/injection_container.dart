@@ -7,6 +7,7 @@ import 'package:price_action_orders/data/repositories/bookticker_repository_impl
 import 'package:price_action_orders/domain/repositories/bookticker_respository.dart';
 import 'package:price_action_orders/domain/repositories/marketorder_repository.dart';
 import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
+import 'package:price_action_orders/domain/usecases/get_lastticker.dart';
 import 'package:price_action_orders/domain/usecases/post_marketorder.dart';
 import 'package:price_action_orders/domain/usecases/stream_bookticker.dart';
 import 'package:price_action_orders/domain/usecases/get_userdata.dart';
@@ -17,6 +18,7 @@ import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/userdata_bloc.dart';
 import 'package:http/http.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/datasources/userdata_datasource.dart';
 import 'data/repositories/marketorder_repository_impl.dart';
@@ -26,13 +28,14 @@ final sl = GetIt.instance;
 
 Future<void> init() async {
   // Bloc
-  sl.registerFactory(() => BookTickerBloc(streamBookTicker: sl(), orderConfigBloc: sl()));
+  sl.registerFactory(() => BookTickerBloc(getLastTicker: sl(), streamBookTicker: sl(), orderConfigBloc: sl()));
   sl.registerFactory(() => UserDataBloc(getUserData: sl(), streamUserData: sl()));
   sl.registerFactory(() => OrderBloc(postMarketOrder: sl()));
 
   sl.registerLazySingleton(() => OrderConfigBloc());
 
   // Use cases
+  sl.registerLazySingleton(() => GetLastTicker(sl()));
   sl.registerLazySingleton(() => StreamBookTicker(sl()));
   sl.registerLazySingleton(() => GetUserData(sl()));
   sl.registerLazySingleton(() => StreamUserData(sl()));
@@ -49,10 +52,9 @@ Future<void> init() async {
     () => MarketOrderRepositoryImpl(dataSource: sl()),
   );
 
-
   // Data sources
   sl.registerLazySingleton<BookTickerDataSource>(
-    () => BookTickerDataSourceImpl(),
+    () => BookTickerDataSourceImpl(sl()),
   );
   sl.registerLazySingleton<UserDataDataSource>(
     () => UserDataDataSourceImpl(client: sl()),
@@ -64,6 +66,8 @@ Future<void> init() async {
   await loadKeys();
 
   //! External
+  final sharedPreferences = await SharedPreferences.getInstance();
+  sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton<Client>(() => Client());
 }
 

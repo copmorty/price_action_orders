@@ -1,0 +1,1 @@
+const String LAST_TICKER = 'LAST_TICKER';

@@ -1,37 +1,45 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io' show WebSocket;
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
+import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/data/models/bookticker_model.dart';
+import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
-// import 'package:web_socket_channel/io.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BookTickerDataSource {
   /// Websocket stream
-  Future<Stream<BookTicker>> streamBookTicker({@required baseAsset, @required quoteAsset});
+  Future<Stream<BookTicker>> streamBookTicker(Ticker ticker);
+  Future<void> cacheLastTicker(Ticker ticker);
+  Future<Ticker> getLastTicker();
 }
 
 class BookTickerDataSourceImpl implements BookTickerDataSource {
+  final SharedPreferences sharedPreferences;
   WebSocket _webSocket;
   StreamController<BookTicker> _streamController;
 
+  BookTickerDataSourceImpl(this.sharedPreferences);
+
   @override
-  Future<Stream<BookTicker>> streamBookTicker({baseAsset, quoteAsset}) async {
+  Future<Stream<BookTicker>> streamBookTicker(ticker) async {
     const pathWS = '/ws/';
-    final String symbol = baseAsset + quoteAsset;
+    final String symbol = ticker.baseAsset + ticker.quoteAsset;
     String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');
 
     _webSocket?.close();
     _streamController?.close();
     _streamController = StreamController<BookTicker>();
-    
+
     try {
       _webSocket = await WebSocket.connect(binanceTestWebSocketUrl + pathWS + '$pair@bookTicker');
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
-            final bookTickerModel = BookTickerModel.fromStringifiedMap(strMap: data, baseAsset: baseAsset, quoteAsset: quoteAsset);
+            final bookTickerModel = BookTickerModel.fromStringifiedMap(strMap: data, ticker: ticker);
             _streamController.add(bookTickerModel);
           },
           onDone: () => print('[+]Done :)'),
@@ -49,28 +57,23 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
 
     return _streamController.stream;
   }
+
+  @override
+  Future<void> cacheLastTicker(Ticker ticker) {
+    final tickerModel = TickerModel.fromTicker(ticker);
+    return sharedPreferences.setString(
+      LAST_TICKER,
+      jsonEncode(tickerModel.toJson()),
+    );
+  }
+
+  @override
+  Future<Ticker> getLastTicker() {
+    final jsonString = sharedPreferences.getString(LAST_TICKER);
+    if (jsonString != null) {
+      return Future.value(TickerModel.fromJson(json.decode(jsonString)));
+    } else {
+      throw CacheException();
+    }
+  }
 }
-
-
-// abstract class BookTickerDataSource {
-//   /// Websocket stream
-//   Stream<BookTicker> streamBookTicker({@required baseAsset, @required quoteAsset});
-// }
-
-// class BookTickerDataSourceImpl implements BookTickerDataSource {
-//   IOWebSocketChannel channel;
-
-//   @override
-//   Stream<BookTicker> streamBookTicker({@required baseAsset, @required quoteAsset}) {
-//     const path = '/ws/';
-//     final String symbol = baseAsset + quoteAsset;
-//     String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');
-//     String socket = binanceWebSocketUrl + path + '$pair@bookTicker';
-//     channel?.sink?.close();
-//     channel = IOWebSocketChannel.connect(socket);
-
-//     return channel.stream.map((snap) {
-//       return BookTickerModel.fromStringifiedMap(strMap: snap, baseAsset: baseAsset, quoteAsset: quoteAsset);
-//     });
-//   }
-// }

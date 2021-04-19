@@ -72,13 +72,13 @@ class _PopupManagerState extends State<PopupManager> {
     }
 
     showDialog(
-      barrierDismissible: orderCompleted ? false : true,
+      // barrierDismissible: orderCompleted ? false : true,
       context: context,
       builder: (context) {
         if (orderCompleted) {
-          _timer = Timer(Duration(seconds: 4), () {
-            Navigator.of(context).pop();
-          });
+          // _timer = Timer(Duration(seconds: 4), () {
+          //   Navigator.of(context).pop();
+          // });
         }
         return AlertDialog(
           shape: RoundedRectangleBorder(
@@ -86,6 +86,7 @@ class _PopupManagerState extends State<PopupManager> {
           ),
           contentPadding: const EdgeInsets.all(0),
           content: Container(
+            width: MediaQuery.of(context).size.width/4,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -117,8 +118,8 @@ class _PopupManagerState extends State<PopupManager> {
                   ),
                 ),
                 if (weightedAveragePrice != null) ...[
-                  Text('Executed Quantity: ' + orderResponse.executedQty.toString()),
-                  Text('Weighted Average Price: ' + weightedAveragePrice.toString()),
+                  SelectableText('Executed Quantity: ' + orderResponse.executedQty.toString()),
+                  SelectableText('Weighted Average Price: ' + weightedAveragePrice.toString()),
                 ],
                 Text('status: ' + orderResponse.status.toShortString()),
               ],

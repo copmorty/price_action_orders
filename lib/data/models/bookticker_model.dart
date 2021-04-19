@@ -2,40 +2,37 @@ import 'dart:convert';
 import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class BookTickerModel extends BookTicker {
-  final int updatedId;
-  final String symbol;
-  final String baseAsset;
-  final String quoteAsset;
-  final Decimal bidPrice; // best bid price
-  final Decimal bidQty; // best bid qty
-  final Decimal askPrice; // best ask price
-  final Decimal askQty; // best ask qty
-
   BookTickerModel({
-    @required this.updatedId,
-    @required this.symbol,
-    @required this.baseAsset,
-    @required this.quoteAsset,
-    @required this.bidPrice,
-    @required this.bidQty,
-    @required this.askPrice,
-    @required this.askQty,
-  });
+    @required int updatedId,
+    @required String symbol,
+    @required Ticker ticker,
+    @required Decimal bidPrice,
+    @required Decimal bidQty,
+    @required Decimal askPrice,
+    @required Decimal askQty,
+  }) : super(
+          updatedId: updatedId,
+          symbol: symbol,
+          ticker: ticker,
+          bidPrice: bidPrice,
+          bidQty: bidQty,
+          askPrice: askPrice,
+          askQty: askQty,
+        );
 
-  
   @override
   List<Object> get props => [updatedId];
 
-  factory BookTickerModel.fromStringifiedMap({@required String strMap, @required baseAsset, @required quoteAsset}) {
+  factory BookTickerModel.fromStringifiedMap({@required String strMap, @required Ticker ticker}) {
     final data = jsonDecode(strMap);
 
     return BookTickerModel(
       updatedId: data['u'],
       symbol: data['s'],
-      baseAsset: baseAsset,
-      quoteAsset: quoteAsset,
+      ticker: ticker,
       bidPrice: Decimal.parse(data['b']),
       bidQty: Decimal.parse(data['B']),
       askPrice: Decimal.parse(data['a']),

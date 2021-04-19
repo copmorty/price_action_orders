@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<BookTickerBloc>()),
+        BlocProvider(create: (context) => sl<BookTickerBloc>()..add(StartBookTickerEvent())),
         BlocProvider(create: (context) => sl<OrderBloc>()),
         BlocProvider(create: (context) => sl<OrderConfigBloc>()),
         BlocProvider(create: (context) => sl<UserDataBloc>()..add(GetUserDataEvent())..add(StreamUserDataEvent())),
