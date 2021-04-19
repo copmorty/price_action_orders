@@ -6,9 +6,11 @@ import 'package:meta/meta.dart';
 import 'package:price_action_orders/data/models/order_fill_model.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class OrderResponseFullModel extends OrderResponseFull {
   OrderResponseFullModel({
+    @required Ticker ticker,
     @required String symbol,
     @required int orderId,
     @required int orderListId,
@@ -24,6 +26,7 @@ class OrderResponseFullModel extends OrderResponseFull {
     @required BinanceOrderSide side,
     @required List<OrderFill> fills,
   }) : super(
+          ticker: ticker,
           symbol: symbol,
           orderId: orderId,
           orderListId: orderListId,
@@ -43,13 +46,14 @@ class OrderResponseFullModel extends OrderResponseFull {
   @override
   List<Object> get props => [orderId];
 
-  factory OrderResponseFullModel.fromStringifiedMap(String strMap) {
+  factory OrderResponseFullModel.fromStringifiedMap(String strMap, Ticker ticker) {
     final Map data = jsonDecode(strMap);
 
     var fList = data['fills'] as List;
     List<OrderFill> fillsList = fList.map((item) => OrderFillModel.fromJsonStream(item)).toList();
 
     return OrderResponseFullModel(
+      ticker: ticker,
       symbol: data['symbol'],
       orderId: data['orderId'],
       orderListId: data['orderListId'],

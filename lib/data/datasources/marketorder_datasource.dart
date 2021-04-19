@@ -37,7 +37,7 @@ class MarketOrderDataSourceImpl implements MarketOrderDataSource {
     );
 
     if (response.statusCode == 200) {
-      final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body);
+      final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, marketOrder.ticker);
       print(orderResponseFullModel.toJson().toString());
       return orderResponseFullModel;
     } else {

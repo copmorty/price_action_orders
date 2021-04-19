@@ -86,7 +86,7 @@ class _PopupManagerState extends State<PopupManager> {
           ),
           contentPadding: const EdgeInsets.all(0),
           content: Container(
-            width: MediaQuery.of(context).size.width/4,
+            width: MediaQuery.of(context).size.width / 3,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -117,11 +117,17 @@ class _PopupManagerState extends State<PopupManager> {
                     ],
                   ),
                 ),
-                if (weightedAveragePrice != null) ...[
-                  SelectableText('Executed Quantity: ' + orderResponse.executedQty.toString()),
-                  SelectableText('Weighted Average Price: ' + weightedAveragePrice.toString()),
+                RowDivision('STATUS:', orderResponse.status.toShortString()),
+                if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.BUY) ...[
+                  RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+                  RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+                  RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
                 ],
-                Text('status: ' + orderResponse.status.toShortString()),
+                if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.SELL) ...[
+                  RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+                  RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+                  RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+                ],
               ],
             ),
           ),
@@ -133,6 +139,24 @@ class _PopupManagerState extends State<PopupManager> {
           _timer.cancel();
         }
       },
+    );
+  }
+}
+
+class RowDivision extends StatelessWidget {
+  final String leftText;
+  final String rightText;
+
+  const RowDivision(this.leftText, this.rightText, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: Text(leftText, textAlign: TextAlign.right)),
+        SizedBox(width: 5),
+        Expanded(child: SelectableText(rightText, textAlign: TextAlign.left)),
+      ],
     );
   }
 }

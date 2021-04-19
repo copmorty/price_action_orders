@@ -2,17 +2,20 @@ import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_market.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class MarketOrderModel extends MarketOrder {
   MarketOrderModel({
-    @required String symbol,
+    @required Ticker ticker,
+    // @required String symbol,
     @required BinanceOrderSide side,
     @required Decimal quantity,
     @required Decimal quoteOrderQty,
     int timestamp,
   })  : assert(quantity == null || quoteOrderQty == null),
         super(
-          symbol: symbol,
+          ticker: ticker,
+          // symbol: symbol,
           side: side,
           quantity: quantity,
           quoteOrderQty: quoteOrderQty,
@@ -24,7 +27,7 @@ class MarketOrderModel extends MarketOrder {
 
   factory MarketOrderModel.fromMarketOrder(MarketOrder marketOrder) {
     return MarketOrderModel(
-      symbol: marketOrder.symbol,
+      ticker: marketOrder.ticker,
       side: marketOrder.side,
       quantity: marketOrder.quantity,
       quoteOrderQty: marketOrder.quoteOrderQty,

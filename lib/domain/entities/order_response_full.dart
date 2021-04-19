@@ -3,6 +3,7 @@ import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class OrderResponseFull extends OrderResponse {
   final Decimal price;
@@ -16,6 +17,7 @@ class OrderResponseFull extends OrderResponse {
   final List<OrderFill> fills;
 
   OrderResponseFull({
+    @required Ticker ticker,
     @required String symbol,
     @required int orderId,
     @required int orderListId,
@@ -30,7 +32,14 @@ class OrderResponseFull extends OrderResponse {
     @required this.type,
     @required this.side,
     @required this.fills,
-  }) : super(symbol: symbol, orderId: orderId, orderListId: orderListId, clientOrderId: clientOrderId, transactTime: transactTime);
+  }) : super(
+          ticker: ticker,
+          symbol: symbol,
+          orderId: orderId,
+          orderListId: orderListId,
+          clientOrderId: clientOrderId,
+          transactTime: transactTime,
+        );
 
   @override
   List<Object> get props => [orderId];

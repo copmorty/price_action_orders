@@ -2,8 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:meta/meta.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class Order extends Equatable {
+  final Ticker ticker;
   final String symbol;
   final BinanceOrderSide side;
   final BinanceOrderType type;
@@ -19,7 +21,8 @@ class Order extends Equatable {
   final int timestamp;
 
   Order({
-    @required this.symbol,
+    @required this.ticker,
+    // @required this.symbol,
     @required this.side,
     @required this.type,
     this.timeInForce,
@@ -32,7 +35,7 @@ class Order extends Equatable {
     this.newOrderRespType,
     this.recvWindow,
     @required this.timestamp,
-  });
+  }) : this.symbol = ticker.baseAsset + ticker.quoteAsset;
 
   @override
   List<Object> get props => [symbol, side, type, timestamp];
