@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/data/models/order_fill_model.dart';
@@ -13,10 +14,10 @@ class OrderResponseFullModel extends OrderResponseFull {
     @required int orderListId,
     @required String clientOrderId,
     @required int transactTime,
-    @required String price,
-    @required String origQty,
-    @required String executedQty,
-    @required String cummulativeQuoteQty,
+    @required Decimal price,
+    @required Decimal origQty,
+    @required Decimal executedQty,
+    @required Decimal cummulativeQuoteQty,
     @required BinanceOrderStatus status,
     @required BinanceOrderTimeInForce timeInForce,
     @required BinanceOrderType type,
@@ -54,10 +55,10 @@ class OrderResponseFullModel extends OrderResponseFull {
       orderListId: data['orderListId'],
       clientOrderId: data['clientOrderId'],
       transactTime: data['transactTime'],
-      price: data['price'],
-      origQty: data['origQty'],
-      executedQty: data['executedQty'],
-      cummulativeQuoteQty: data['cummulativeQuoteQty'],
+      price: Decimal.parse(data['price']),
+      origQty: Decimal.parse(data['origQty']),
+      executedQty: Decimal.parse(data['executedQty']),
+      cummulativeQuoteQty: Decimal.parse(data['cummulativeQuoteQty']),
       status: BinanceOrderStatus.values.firstWhere((enumElement) => enumElement.toShortString() == data['status'], orElse: () => null),
       timeInForce: BinanceOrderTimeInForce.values.firstWhere((enumElement) => enumElement.toShortString() == data['timeInForce'], orElse: () => null),
       type: BinanceOrderType.values.firstWhere((enumElement) => enumElement.toShortString() == data['type'], orElse: () => null),

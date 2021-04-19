@@ -18,6 +18,7 @@ class MarketSellForm extends StatefulWidget {
 
 class _MarketSellFormState extends State<MarketSellForm> {
   final TextEditingController _controller = TextEditingController();
+  BinanceOrderTimeInForce _timeInForce = BinanceOrderTimeInForce.GTC;
 
   @override
   void dispose() {
@@ -25,11 +26,43 @@ class _MarketSellFormState extends State<MarketSellForm> {
     _controller.dispose();
   }
 
+  _selectTimeInForce(BinanceOrderTimeInForce val) {
+    setState(() {
+      _timeInForce = val;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
       child: Column(
         children: [
+          // //timeInForce
+          // Row(
+          //   children: [
+          //     DropdownButton(
+          //       value: _timeInForce,
+          //       onChanged: (val) => _selectTimeInForce(val),
+          //       items: [
+          //         DropdownMenuItem(
+          //           child: Text('GTC'),
+          //           value: BinanceOrderTimeInForce.GTC,
+          //           onTap: () {},
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text('IOC'),
+          //           value: BinanceOrderTimeInForce.IOC,
+          //           onTap: () {},
+          //         ),
+          //         DropdownMenuItem(
+          //           child: Text('FOK'),
+          //           value: BinanceOrderTimeInForce.FOK,
+          //           onTap: () {},
+          //         ),
+          //       ],
+          //     ),
+          //   ],
+          // ),
           Container(
             height: 48,
             padding: const EdgeInsets.symmetric(horizontal: 12),

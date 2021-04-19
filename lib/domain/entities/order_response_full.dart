@@ -1,13 +1,14 @@
+import 'package:decimal/decimal.dart';
+import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response.dart';
-import 'package:meta/meta.dart';
 
 class OrderResponseFull extends OrderResponse {
-  final String price;
-  final String origQty;
-  final String executedQty;
-  final String cummulativeQuoteQty;
+  final Decimal price;
+  final Decimal origQty;
+  final Decimal executedQty;
+  final Decimal cummulativeQuoteQty;
   final BinanceOrderStatus status;
   final BinanceOrderTimeInForce timeInForce;
   final BinanceOrderType type;

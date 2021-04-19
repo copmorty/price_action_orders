@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -64,12 +65,18 @@ class _PopupManagerState extends State<PopupManager> {
 
   void showOrderLoadedDialog(OrderResponseFull orderResponse) {
     final bool orderCompleted = orderResponse.status == BinanceOrderStatus.FILLED;
+    Decimal weightedAveragePrice;
+    if (orderResponse.executedQty > Decimal.zero) {
+      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
+      weightedAveragePrice = sum / orderResponse.executedQty;
+    }
+
     showDialog(
       barrierDismissible: orderCompleted ? false : true,
       context: context,
       builder: (context) {
         if (orderCompleted) {
-          _timer = Timer(Duration(seconds: 3), () {
+          _timer = Timer(Duration(seconds: 4), () {
             Navigator.of(context).pop();
           });
         }
@@ -109,7 +116,10 @@ class _PopupManagerState extends State<PopupManager> {
                     ],
                   ),
                 ),
-                // Text('price: ' + orderResponse.price),
+                if (weightedAveragePrice != null) ...[
+                  Text('Executed Quantity: ' + orderResponse.executedQty.toString()),
+                  Text('Weighted Average Price: ' + weightedAveragePrice.toString()),
+                ],
                 Text('status: ' + orderResponse.status.toShortString()),
               ],
             ),

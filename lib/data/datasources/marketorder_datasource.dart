@@ -30,8 +30,8 @@ class MarketOrderDataSourceImpl implements MarketOrderDataSource {
     //       ? {'quantity': marketOrder.quantity.toString()}
     //       : {'quoteOrderQty': marketOrder.quoteOrderQty.toString()}),
     // };
-    MarketOrderModel marketOrderModel = MarketOrderModel.fromMarketOrder(marketOrder);
-    final params = marketOrderModel.toJson();
+    
+    final params = MarketOrderModel.fromMarketOrder(marketOrder).toJson();
     print('params');
     print(params);
 
