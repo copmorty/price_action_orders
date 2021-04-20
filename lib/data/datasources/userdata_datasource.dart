@@ -46,6 +46,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     );
 
     if (response.statusCode == 200) {
+      print(response.body);
       return UserDataModel.fromStringifiedMap(response.body);
     } else {
       throw ServerException();
@@ -54,11 +55,10 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
   @override
   Future<Stream<UserDataPayloadAccountUpdate>> streamUserData() async {
-    // print('datasources: streamUserData()');
     const pathListenKey = '/api/v3/userDataStream';
     const pathWS = '/ws/';
 
-    final uri = Uri.parse(binanceTestUrl + pathListenKey);
+    final uri = Uri.parse(binanceUrl + pathListenKey);
 
     final response = await client.post(
       uri,
@@ -74,7 +74,6 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     final listenKey = keyData['listenKey'];
 
     _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
-      // print(DateTime.now());
       final int statusCode = await _extendListenKeyValidity(listenKey);
       if (statusCode != 200) {
         print('SOMETHING WENT WRONG');
@@ -87,7 +86,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     _streamController = StreamController<UserDataPayloadAccountUpdate>();
 
     try {
-      _webSocket = await WebSocket.connect(binanceTestWebSocketUrl + pathWS + listenKey);
+      _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + listenKey);
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
@@ -111,50 +110,13 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       throw ServerException();
     }
 
-    // WebSocket.connect(binanceTestWebSocketUrl + pathWS + listenKey).then(
-    //   (WebSocket ws) {
-    //     if (ws?.readyState == WebSocket.open) {
-    //       ws.listen(
-    //         (data) => _onData(data),
-    //         onDone: _onDone,
-    //         onError: (err) => _onError(err),
-    //         cancelOnError: true,
-    //       );
-    //     } else {
-    //       print('[!]Connection Denied');
-    //     }
-    //   },
-    // ).catchError((err) {
-    //   print(err);
-    //   _streamController.close();
-    //   if (_timer.isActive) _timer.cancel();
-    //   throw ServerException();
-    // });
-
     return _streamController.stream;
   }
-
-  // _onData(data) {
-  //   // print(data);
-  //   final Map jsonData = jsonDecode(data);
-  //   if (jsonData['e'] == 'outboundAccountPosition') {
-  //     final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
-  //     _streamController.add(userDataPayloadAccountUpdate);
-  //   }
-  // }
-
-  // _onDone() {
-  //   print('[+]Done :)');
-  // }
-
-  // _onError(err) {
-  //   print('[!]Error -- ${err.toString()}');
-  // }
 
   _extendListenKeyValidity(String listenKey) async {
     const pathListenKey = '/api/v3/userDataStream';
     final queryParams = 'listenKey=' + listenKey;
-    final uri = Uri.parse(binanceTestUrl + pathListenKey + '?' + queryParams);
+    final uri = Uri.parse(binanceUrl + pathListenKey + '?' + queryParams);
 
     final response = await client.put(
       uri,

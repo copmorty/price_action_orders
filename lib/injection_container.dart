@@ -27,7 +27,8 @@ import 'data/repositories/userdata_repository_impl.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // Bloc
+  //! Features
+  // Blocs
   sl.registerFactory(() => BookTickerBloc(getLastTicker: sl(), streamBookTicker: sl(), orderConfigBloc: sl()));
   sl.registerFactory(() => UserDataBloc(getUserData: sl(), streamUserData: sl()));
   sl.registerFactory(() => OrderBloc(postMarketOrder: sl()));
@@ -41,7 +42,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => StreamUserData(sl()));
   sl.registerLazySingleton(() => PostMarketOrder(sl()));
 
-  // Repository
+  // Repositories
   sl.registerLazySingleton<BookTickerRepository>(
     () => BookTickerRepositoryImpl(dataSource: sl()),
   );
@@ -63,6 +64,7 @@ Future<void> init() async {
     () => MarketOrderDataSourceImpl(client: sl()),
   );
 
+  //! Core
   await loadKeys();
 
   //! External

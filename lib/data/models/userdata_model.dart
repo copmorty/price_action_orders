@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/data/models/balance_model.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
@@ -38,7 +39,8 @@ class UserDataModel extends UserData {
     final Map data = jsonDecode(strMap);
 
     var bList = data['balances'] as List;
-    List<Balance> balancesList = bList.map((item) => BalanceModel.fromJson(item)).toList();
+    List<Balance> balancesList =
+        bList.map((item) => BalanceModel.fromJson(item)).where((balance) => balance.free != Decimal.zero || balance.locked != Decimal.zero).toList();
     List<String> permissionsList = List<String>.from(data['permissions']);
 
     return UserDataModel(

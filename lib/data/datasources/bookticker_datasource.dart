@@ -35,7 +35,7 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
     _streamController = StreamController<BookTicker>();
 
     try {
-      _webSocket = await WebSocket.connect(binanceTestWebSocketUrl + pathWS + '$pair@bookTicker');
+      _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {

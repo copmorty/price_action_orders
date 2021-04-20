@@ -5,11 +5,8 @@ import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
 
 String generatetUrl({@required String path, @required Map<String, dynamic> params}) {
-  String baseUrl = binanceTestUrl + path;
+  String baseUrl = binanceUrl + path;
   String queryParams = generateQueryParams(params);
-  // int timeStamp = DateTime.now().millisecondsSinceEpoch;
-  // String queryParams = 'recvWindow=5000' + '&timestamp=' + timeStamp.toString();
-  // queryParams = 'timestamp=' + timeStamp.toString() + queryParams;
   String secret = apiSecret;
 
   List<int> messageBytes = utf8.encode(queryParams);
