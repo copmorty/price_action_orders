@@ -96,7 +96,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
               cursorColor: Colors.white,
               inputFormatters: [
                 ValidatorInputFormatter(
-                  editingValidator: CommaCurrencyEditingRegexValidator(),
+                  editingValidator: DotCurrencyEditingRegexValidator(),
                 )
               ],
               decoration: InputDecoration(

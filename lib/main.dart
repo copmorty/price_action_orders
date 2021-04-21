@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
         title: 'Price Action Orders',
         theme: ThemeData.dark(),
         home: HomeScreen(),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
