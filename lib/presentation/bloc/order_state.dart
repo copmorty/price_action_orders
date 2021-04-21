@@ -18,6 +18,15 @@ class LoadedMarketOrder extends OrderState {
   List<Object> get props => [orderResponse];
 }
 
+class LoadedLimitOrder extends OrderState {
+  final OrderResponseFull orderResponse;
+
+  LoadedLimitOrder(this.orderResponse);
+
+  @override
+  List<Object> get props => [orderResponse];
+}
+
 class ErrorOrder extends OrderState {
   final int orderTimestamp;
   final String message;

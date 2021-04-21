@@ -1,7 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/order_limit.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
+import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
 import 'package:price_action_orders/presentation/widgets/limitbuy_form_field_amount.dart';
 import 'package:price_action_orders/presentation/widgets/limitbuy_form_field_price.dart';
 import 'package:price_action_orders/presentation/widgets/limitbuy_form_field_total.dart';
@@ -36,6 +40,24 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
   _onFormSubmitted() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
+
+      final price = Decimal.parse(_priceController.text);
+      final quantity = Decimal.parse(_amountController.text);
+
+      final limitOrder = LimitOrder(
+        ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+        side: BinanceOrderSide.BUY,
+        timeInForce: BinanceOrderTimeInForce.GTC,
+        quantity: quantity,
+        price: price,
+      );
+
+      // _priceController.clear();
+      // _amountController.clear();
+      // _totalController.clear();
+      FocusScope.of(context).unfocus();
+      BlocProvider.of<OrderBloc>(context).add(LimitOrderEvent(limitOrder));
+
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;

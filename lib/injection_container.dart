@@ -33,7 +33,7 @@ Future<void> init() async {
   // Blocs
   sl.registerFactory(() => BookTickerBloc(getLastTicker: sl(), streamBookTicker: sl(), orderConfigBloc: sl()));
   sl.registerFactory(() => UserDataBloc(getUserData: sl(), streamUserData: sl()));
-  sl.registerFactory(() => OrderBloc(postMarketOrder: sl()));
+  sl.registerFactory(() => OrderBloc(postLimitOrder: sl(),postMarketOrder: sl()));
 
   sl.registerLazySingleton(() => OrderConfigBloc());
 

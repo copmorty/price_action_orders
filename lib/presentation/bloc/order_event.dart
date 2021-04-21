@@ -15,3 +15,12 @@ class MarketOrderEvent extends OrderEvent {
   @override
   List<Object> get props => [marketOrder];
 }
+
+class LimitOrderEvent extends OrderEvent {
+  final LimitOrder limitOrder;
+
+  LimitOrderEvent(this.limitOrder);
+
+  @override
+  List<Object> get props => [limitOrder];
+}
