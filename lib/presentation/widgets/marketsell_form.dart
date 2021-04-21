@@ -19,18 +19,11 @@ class MarketSellForm extends StatefulWidget {
 
 class _MarketSellFormState extends State<MarketSellForm> {
   final TextEditingController _controller = TextEditingController();
-  BinanceOrderTimeInForce _timeInForce = BinanceOrderTimeInForce.GTC;
 
   @override
   void dispose() {
     super.dispose();
     _controller.dispose();
-  }
-
-  _selectTimeInForce(BinanceOrderTimeInForce val) {
-    setState(() {
-      _timeInForce = val;
-    });
   }
 
   @override
@@ -96,7 +89,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
               cursorColor: Colors.white,
               inputFormatters: [
                 ValidatorInputFormatter(
-                  editingValidator: CommaCurrencyEditingRegexValidator(),
+                  editingValidator: DotCurrencyEditingRegexValidator(),
                 )
               ],
               decoration: InputDecoration(

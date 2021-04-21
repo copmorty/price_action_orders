@@ -5,10 +5,16 @@ enum BinanceOrderStatus { NEW, PARTIALLY_FILLED, FILLED, CANCELED, PENDING_CANCE
 enum BinanceOrderTimeInForce { GTC, IOC, FOK }
 enum BinanceOrderResponseType { ACK, RESULT, FULL }
 
-extension BinanceOrderSideExtension on BinanceOrderSide {
+extension AppModeExtension on AppMode {
   String toShortString() {
     return this.toString().substring(this.toString().indexOf('.') + 1);
     // return this.toString().split('.').last;
+  }
+}
+
+extension BinanceOrderSideExtension on BinanceOrderSide {
+  String toShortString() {
+    return this.toString().substring(this.toString().indexOf('.') + 1);
   }
 }
 

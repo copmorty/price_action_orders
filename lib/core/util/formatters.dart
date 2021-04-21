@@ -45,9 +45,9 @@ class RegexValidator implements StringValidator {
 
 class DotCurrencyEditingRegexValidator extends RegexValidator {
   DotCurrencyEditingRegexValidator()
-      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,}))(\\.[0-9]{0,})?\$");
+      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\.[0-9]{0,20})?\$");
 }
 class CommaCurrencyEditingRegexValidator extends RegexValidator {
   CommaCurrencyEditingRegexValidator()
-      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,}))(\\,[0-9]{0,})?\$");
+      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\,[0-9]{0,20})?\$");
 }
