@@ -2,12 +2,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
 import 'package:price_action_orders/presentation/widgets/buyheader_widget.dart';
-import 'package:price_action_orders/presentation/widgets/marketbuy_form.dart';
-import 'package:price_action_orders/presentation/widgets/marketsell_form.dart';
+import 'package:price_action_orders/presentation/widgets/limit_section_widget.dart';
+import 'package:price_action_orders/presentation/widgets/limitbuy_form.dart';
+import 'package:price_action_orders/presentation/widgets/market_section_widget.dart';
 import 'package:price_action_orders/presentation/widgets/orderbtn_widget.dart';
 import 'package:price_action_orders/presentation/widgets/sellheader_widget.dart';
 
-class OrdersSection extends StatelessWidget {
+class OrdersSection extends StatefulWidget {
+  @override
+  _OrdersSectionState createState() => _OrdersSectionState();
+}
+
+class _OrdersSectionState extends State<OrdersSection> {
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
+
+  void _onTabTapped(int index) {
+    print('_onTabTapped $index');
+    setState(() {
+      _currentPage = index;
+      _pageController.animateToPage(
+        index,
+        duration: Duration(milliseconds: 500),
+        curve: Curves.ease,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderConfigBloc, OrderConfigState>(builder: (context, state) {
@@ -17,14 +38,25 @@ class OrdersSection extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  OrderTypeBtn(orderType: 'Limit'),
-                  OrderTypeBtn(orderType: 'Market'),
-                  OrderTypeBtn(orderType: 'Stop-limit'),
+                  OrderTypeBtn(index: 0, selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
+                  OrderTypeBtn(index: 1, selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
+                  OrderTypeBtn(index: 2, selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                 ],
               ),
               Divider(),
               SizedBox(height: 10),
-              OrderSection(baseAsset: state.ticker.baseAsset, quoteAsset: state.ticker.quoteAsset),
+              Container(
+                height: 391,
+                child: PageView(
+                  physics: NeverScrollableScrollPhysics(),
+                  controller: _pageController,
+                  children: [
+                    LimitOrderSection(baseAsset: state.ticker.baseAsset, quoteAsset: state.ticker.quoteAsset),
+                    MarketOrderSection(baseAsset: state.ticker.baseAsset, quoteAsset: state.ticker.quoteAsset),
+                    Container(),
+                  ],
+                ),
+              ),
             ],
           ),
         );
@@ -33,42 +65,3 @@ class OrdersSection extends StatelessWidget {
     });
   }
 }
-
-class OrderSection extends StatelessWidget {
-  final String baseAsset;
-  final String quoteAsset;
-
-  const OrderSection({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: Column(
-            children: [
-              BuyHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
-              SizedBox(height: 10),
-              MarketBuyForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
-            ],
-          ),
-        ),
-        SizedBox(width: 20),
-        Expanded(
-          child: Column(
-            children: [
-              SellHeader(baseAsset: baseAsset, quoteAsset: quoteAsset),
-              SizedBox(height: 10),
-              MarketSellForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-
-
-
-
