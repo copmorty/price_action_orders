@@ -1,11 +1,10 @@
-const String binanceRealUrl = 'https://api.binance.com';
-const String binanceTestUrl = 'https://testnet.binance.vision';
-const String binanceRealWebSocketUrl = 'wss://stream.binance.com:9443';
-const String binanceTestWebSocketUrl = 'wss://testnet.binance.vision';
+import 'package:price_action_orders/core/globals/constants.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
 
-const String binanceUrl = binanceRealUrl;
-const String binanceWebSocketUrl = binanceRealWebSocketUrl;
+AppMode appMode = AppMode.TEST;
 
+String binanceUrl = appMode == AppMode.PRODUCTION ? BINANCE_REAL_URL : BINANCE_TEST_URL;
+String binanceWebSocketUrl = appMode == AppMode.PRODUCTION ? BINANCE_REAL_WEBSOCKET_URL : BINANCE_TEST_WEBSOCKET_URL;
 
 String apiKey = 'YOUR-API-KEY-HERE';
 String apiSecret = 'YOUR-API-SECRET-HERE';

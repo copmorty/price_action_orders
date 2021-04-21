@@ -46,7 +46,6 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
       return UserDataModel.fromStringifiedMap(response.body);
     } else {
       throw ServerException();

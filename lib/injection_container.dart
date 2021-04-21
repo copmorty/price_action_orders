@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:get_it/get_it.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/data/datasources/bookticker_datasource.dart';
 import 'package:price_action_orders/data/datasources/marketorder_datasource.dart';
@@ -74,7 +75,8 @@ Future<void> init() async {
 }
 
 Future<void> loadKeys() async {
-  final jsonStr = await rootBundle.loadString('assets/config.json');
+  final location = appMode == AppMode.PRODUCTION ? 'assets/config-prod.json' : 'assets/config-test.json';
+  final jsonStr = await rootBundle.loadString(location);
   final data = jsonDecode(jsonStr);
   apiKey = data['api_key'];
   apiSecret = data['api_secret'];
