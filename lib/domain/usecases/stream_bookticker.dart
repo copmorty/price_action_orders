@@ -6,7 +6,7 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/bookticker_respository.dart';
 
-class StreamBookTicker implements UseCase<BookTicker, Params> {
+class StreamBookTicker implements UseCase<Stream<BookTicker>, Params> {
   final BookTickerRepository repository;
 
   StreamBookTicker(this.repository);

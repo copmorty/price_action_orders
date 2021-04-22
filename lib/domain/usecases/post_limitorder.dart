@@ -6,7 +6,7 @@ import 'package:price_action_orders/domain/entities/order_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/repositories/order_repository.dart';
 
-class PostLimitOrder implements UseCase<LimitOrder, Params> {
+class PostLimitOrder implements UseCase<OrderResponseFull, Params> {
   OrderRepository repository;
 
   PostLimitOrder(this.repository);

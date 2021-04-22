@@ -7,7 +7,7 @@ import 'package:price_action_orders/domain/entities/order_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/repositories/order_repository.dart';
 
-class PostMarketOrder implements UseCase<MarketOrder, Params> {
+class PostMarketOrder implements UseCase<OrderResponseFull, Params> {
   OrderRepository repository;
 
   PostMarketOrder(this.repository);
