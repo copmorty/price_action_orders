@@ -39,7 +39,7 @@ class _OrdersSectionState extends State<OrdersSection> {
                   OrderTypeBtn(index: 2, selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                 ],
               ),
-              Divider(),
+              Divider(height: 1),
               SizedBox(height: 10),
               Container(
                 height: 370,

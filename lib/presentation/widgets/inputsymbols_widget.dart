@@ -66,6 +66,7 @@ class _InputSymbolState extends State<InputSymbol> {
         IconButton(
           color: Colors.white70,
           icon: Icon(Icons.send),
+          splashRadius: 25,
           onPressed: dispatchSymbol,
         )
       ],

@@ -19,7 +19,7 @@ class BookTickerSection extends StatelessWidget {
               child: BlocBuilder<BookTickerBloc, BookTickerState>(
                 builder: (context, state) {
                   if (state is EmptyBookTicker) {
-                    return Text('Empty');
+                    return SizedBox();
                   } else if (state is LoadingBookTicker) {
                     return LoadingWidget();
                   } else if (state is LoadedBookTicker) {
