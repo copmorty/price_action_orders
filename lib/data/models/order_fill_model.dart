@@ -8,7 +8,14 @@ class OrderFillModel extends OrderFill {
     @required quantity,
     @required commission,
     @required commissionAsset,
-  }) : super(price: price, quantity: quantity, commission: commission, commissionAsset: commissionAsset);
+    @required tradeId,
+  }) : super(
+          price: price,
+          quantity: quantity,
+          commission: commission,
+          commissionAsset: commissionAsset,
+          tradeId: tradeId,
+        );
 
   factory OrderFillModel.fromJsonStream(Map<String, dynamic> parsedJson) {
     return OrderFillModel(
@@ -16,6 +23,7 @@ class OrderFillModel extends OrderFill {
       quantity: Decimal.parse(parsedJson['qty']),
       commission: Decimal.parse(parsedJson['commission']),
       commissionAsset: parsedJson['commissionAsset'],
+      tradeId: parsedJson['tradeId'],
     );
   }
 }

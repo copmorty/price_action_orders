@@ -10,17 +10,17 @@ import 'package:price_action_orders/presentation/widgets/limit_form_field_amount
 import 'package:price_action_orders/presentation/widgets/limit_form_field_price.dart';
 import 'package:price_action_orders/presentation/widgets/limit_form_field_total.dart';
 
-class LimitBuyForm extends StatefulWidget {
+class LimitSellForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const LimitBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const LimitSellForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
 
   @override
-  _LimitBuyFormState createState() => _LimitBuyFormState();
+  _LimitSellFormState createState() => _LimitSellFormState();
 }
 
-class _LimitBuyFormState extends State<LimitBuyForm> {
+class _LimitSellFormState extends State<LimitSellForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -46,7 +46,7 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
 
       final limitOrder = LimitOrder(
         ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-        side: BinanceOrderSide.BUY,
+        side: BinanceOrderSide.SELL,
         timeInForce: BinanceOrderTimeInForce.GTC,
         quantity: quantity,
         price: price,
@@ -106,8 +106,8 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
             height: 40,
             child: ElevatedButton(
               onPressed: _onFormSubmitted,
-              child: Text('Buy ${widget.baseAsset}'),
-              style: ElevatedButton.styleFrom(primary: Colors.green),
+              child: Text('Sell ${widget.baseAsset}'),
+              style: ElevatedButton.styleFrom(primary: Colors.red),
             ),
           ),
         ],

@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/presentation/bloc/orderconfig_bloc.dart';
-import 'package:price_action_orders/presentation/widgets/buyheader_widget.dart';
 import 'package:price_action_orders/presentation/widgets/limit_section_widget.dart';
-import 'package:price_action_orders/presentation/widgets/limitbuy_form.dart';
 import 'package:price_action_orders/presentation/widgets/market_section_widget.dart';
 import 'package:price_action_orders/presentation/widgets/orderbtn_widget.dart';
-import 'package:price_action_orders/presentation/widgets/sellheader_widget.dart';
 
 class OrdersSection extends StatefulWidget {
   @override
@@ -18,7 +15,6 @@ class _OrdersSectionState extends State<OrdersSection> {
   int _currentPage = 0;
 
   void _onTabTapped(int index) {
-    print('_onTabTapped $index');
     setState(() {
       _currentPage = index;
       _pageController.animateToPage(
@@ -46,7 +42,7 @@ class _OrdersSectionState extends State<OrdersSection> {
               Divider(),
               SizedBox(height: 10),
               Container(
-                height: 391,
+                height: 370,
                 child: PageView(
                   physics: NeverScrollableScrollPhysics(),
                   controller: _pageController,
