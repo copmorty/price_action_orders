@@ -13,7 +13,6 @@ class PostLimitOrder implements UseCase<OrderResponseFull, Params> {
 
   @override
   Future<Either<ServerFailure, OrderResponseFull>> call(Params params) async {
-    print(params);
     return await repository.postLimitOrder(params.limitOrder);
   }
 }
