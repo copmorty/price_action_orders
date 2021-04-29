@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io' show WebSocket;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:price_action_orders/core/util/datasource_util.dart';
+import 'package:price_action_orders/core/utils/datasource_util.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';

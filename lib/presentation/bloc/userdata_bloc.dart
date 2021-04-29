@@ -18,7 +18,10 @@ class UserDataBloc extends Bloc<UserDataEvent, UserDataState> {
   StreamSubscription _subscription;
   UserData currentUserData;
 
-  UserDataBloc({@required this.streamUserData, @required this.getUserData}) : super(UserdataInitial());
+  UserDataBloc({@required this.streamUserData, @required this.getUserData}) : super(UserdataInitial()) {
+    add(GetUserDataEvent());
+    add(StreamUserDataEvent());
+  }
 
   @override
   Stream<UserDataState> mapEventToState(

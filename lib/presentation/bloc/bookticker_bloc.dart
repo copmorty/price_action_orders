@@ -23,7 +23,9 @@ class BookTickerBloc extends Bloc<BookTickerEvent, BookTickerState> {
     @required this.getLastTicker,
     @required this.streamBookTicker,
     @required this.orderConfigBloc,
-  }) : super(EmptyBookTicker());
+  }) : super(EmptyBookTicker()) {
+    add(StartBookTickerEvent());
+  }
 
   @override
   Stream<BookTickerState> mapEventToState(

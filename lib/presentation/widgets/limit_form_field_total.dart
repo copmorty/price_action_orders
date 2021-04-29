@@ -20,7 +20,7 @@ class TotalFormField extends StatelessWidget {
     @required this.submitForm,
   }) : super(key: key);
 
-  _onChanged(strTotal) {
+  void _onChanged(strTotal) {
     if (priceController.text.isEmpty) setCurrentPrice();
     if (strTotal.isEmpty) {
       amountController.text = '';
@@ -34,7 +34,7 @@ class TotalFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultFormField(
-      hintText: 'Amount',
+      hintText: 'Total',
       suffixText: quoteAsset,
       controller: totalController,
       onChanged: _onChanged,

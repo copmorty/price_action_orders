@@ -20,7 +20,7 @@ class PriceFormField extends StatelessWidget {
     @required this.submitForm,
   }) : super(key: key);
 
-  _onChanged(String strPrice) {
+  void _onChanged(String strPrice) {
     if (strPrice.isEmpty) {
       totalController.text = '';
     } else if (amountController.text.isNotEmpty) {
@@ -30,7 +30,7 @@ class PriceFormField extends StatelessWidget {
     }
   }
 
-  void _onSubmitted(String strPrice) {
+  void _onFieldSubmitted(String strPrice) {
     if (amountController.text.isEmpty || totalController.text.isEmpty)
       focusNext();
     else
@@ -44,7 +44,7 @@ class PriceFormField extends StatelessWidget {
       suffixText: quoteAsset,
       controller: priceController,
       onChanged: _onChanged,
-      onFieldSubmitted: _onSubmitted,
+      onFieldSubmitted: _onFieldSubmitted,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/core/util/formatters.dart';
+import 'package:price_action_orders/core/utils/formatters.dart';
 
-class DefaultFormField extends StatelessWidget {
+class DefaultFormField extends StatefulWidget {
   final String hintText;
   final String suffixText;
   final TextEditingController controller;
@@ -22,27 +22,53 @@ class DefaultFormField extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _DefaultFormFieldState createState() => _DefaultFormFieldState();
+}
+
+class _DefaultFormFieldState extends State<DefaultFormField> {
+  bool _textFieldHasFocus = false;
+
+  @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-      child: TextFormField(
-        focusNode: focusNode,
-        controller: controller,
-        cursorColor: Colors.white,
-        inputFormatters: [
-          ValidatorInputFormatter(
-            editingValidator: DotCurrencyEditingRegexValidator(),
-          )
+      padding: const EdgeInsets.symmetric(horizontal: 12),
+      decoration: BoxDecoration(
+        color: Colors.white10,
+        border: Border.all(color: _textFieldHasFocus ? Colors.white : Colors.transparent),
+        borderRadius: BorderRadius.all(Radius.circular(4)),
+      ),
+      child: Row(
+        children: [
+          Text(
+            widget.hintText,
+            style: TextStyle(fontSize: 16, color: Colors.white60),
+          ),
+          Expanded(
+            child: FocusScope(
+              onFocusChange: (isFocused) => setState(() => _textFieldHasFocus = isFocused),
+              child: TextFormField(
+                focusNode: widget.focusNode,
+                controller: widget.controller,
+                textAlign: TextAlign.end,
+                cursorColor: Colors.white,
+                inputFormatters: [
+                  ValidatorInputFormatter(
+                    editingValidator: DotCurrencyEditingRegexValidator(),
+                  )
+                ],
+                decoration: InputDecoration(border: InputBorder.none),
+                onChanged: widget.onChanged,
+                onFieldSubmitted: widget.onFieldSubmitted,
+                validator: widget.validator,
+              ),
+            ),
+          ),
+          SizedBox(width: 10),
+          Text(
+            widget.suffixText,
+            style: TextStyle(fontSize: 16, color: Colors.white60),
+          ),
         ],
-        decoration: InputDecoration(
-          hintText: hintText,
-          suffixText: suffixText,
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-        ),
-        onChanged: onChanged == null ? null : (strPrice) => onChanged(strPrice),
-        onFieldSubmitted: onFieldSubmitted == null ? null : (strPrice) => onFieldSubmitted(strPrice),
-        validator: validator == null ? null : (strPrice) => validator(strPrice),
       ),
     );
   }

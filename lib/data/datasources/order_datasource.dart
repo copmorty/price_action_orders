@@ -2,7 +2,7 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:price_action_orders/core/util/datasource_util.dart';
+import 'package:price_action_orders/core/utils/datasource_util.dart';
 import 'package:price_action_orders/data/models/order_limit_model.dart';
 import 'package:price_action_orders/data/models/order_market_model.dart';
 import 'package:price_action_orders/data/models/order_response_full_model.dart';

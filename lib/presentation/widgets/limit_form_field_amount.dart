@@ -22,7 +22,7 @@ class AmountFormField extends StatelessWidget {
     @required this.submitForm,
   }) : super(key: key);
 
-  _onChanged(strAmount) {
+  void _onChanged(strAmount) {
     if (priceController.text.isEmpty) setCurrentPrice();
     if (strAmount.isEmpty) {
       totalController.text = '';

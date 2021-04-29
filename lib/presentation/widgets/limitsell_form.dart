@@ -28,6 +28,15 @@ class _LimitSellFormState extends State<LimitSellForm> {
   final FocusNode _amountFocus = FocusNode();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
 
+  @override
+  void dispose() {
+    super.dispose();
+    _priceController.dispose();
+    _amountController.dispose();
+    _totalController.dispose();
+    _amountFocus.dispose();
+  }
+
   _setCurrentPrice() {
     final bookTickerState = BlocProvider.of<BookTickerBloc>(context).state;
     if (bookTickerState is LoadedBookTicker) {
