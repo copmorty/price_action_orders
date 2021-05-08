@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order_market.dart';
@@ -21,7 +20,7 @@ class PostMarketOrder implements UseCase<OrderResponseFull, Params> {
 class Params extends Equatable {
   final MarketOrder marketOrder;
 
-  Params({@required this.marketOrder});
+  Params(this.marketOrder);
 
   @override
   List<Object> get props => [marketOrder];

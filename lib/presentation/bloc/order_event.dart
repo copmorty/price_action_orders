@@ -1,26 +1,26 @@
-part of 'order_bloc.dart';
+// part of 'order_bloc.dart';
 
-abstract class OrderEvent extends Equatable {
-  const OrderEvent();
+// abstract class OrderEvent extends Equatable {
+//   const OrderEvent();
 
-  @override
-  List<Object> get props => [];
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-class MarketOrderEvent extends OrderEvent {
-  final MarketOrder marketOrder;
+// class MarketOrderEvent extends OrderEvent {
+//   final MarketOrder marketOrder;
 
-  MarketOrderEvent(this.marketOrder);
+//   MarketOrderEvent(this.marketOrder);
 
-  @override
-  List<Object> get props => [marketOrder];
-}
+//   @override
+//   List<Object> get props => [marketOrder];
+// }
 
-class LimitOrderEvent extends OrderEvent {
-  final LimitOrder limitOrder;
+// class LimitOrderEvent extends OrderEvent {
+//   final LimitOrder limitOrder;
 
-  LimitOrderEvent(this.limitOrder);
+//   LimitOrderEvent(this.limitOrder);
 
-  @override
-  List<Object> get props => [limitOrder];
-}
+//   @override
+//   List<Object> get props => [limitOrder];
+// }

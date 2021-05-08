@@ -1,19 +1,19 @@
-part of 'orderconfig_bloc.dart';
+// part of 'orderconfig_bloc.dart';
 
-abstract class OrderConfigState extends Equatable {
-  const OrderConfigState();
+// abstract class OrderConfigState extends Equatable {
+//   const OrderConfigState();
 
-  @override
-  List<Object> get props => [];
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-class EmptyOrderConfig extends OrderConfigState {}
+// class EmptyOrderConfig extends OrderConfigState {}
 
-class LoadedOrderConfig extends OrderConfigState {
-  final Ticker ticker;
+// class LoadedOrderConfig extends OrderConfigState {
+//   final Ticker ticker;
 
-  LoadedOrderConfig(this.ticker);
+//   LoadedOrderConfig(this.ticker);
 
-  @override
-  List<Object> get props => [ticker];
-}
+//   @override
+//   List<Object> get props => [ticker];
+// }
