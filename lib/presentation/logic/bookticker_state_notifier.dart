@@ -19,9 +19,9 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
   StreamSubscription _subscription;
 
   BookTickerNotifier({
-    @required getLastTicker,
-    @required streamBookTicker,
-    @required orderConfigNotifier,
+    @required GetLastTicker getLastTicker,
+    @required StreamBookTicker streamBookTicker,
+    @required OrderConfigNotifier orderConfigNotifier,
     bool start = true,
   })  : _getLastTicker = getLastTicker,
         _streamBookTicker = streamBookTicker,

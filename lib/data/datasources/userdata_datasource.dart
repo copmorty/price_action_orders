@@ -7,8 +7,7 @@ import 'package:price_action_orders/core/utils/datasource_util.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
-import 'package:http/http.dart';
-import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
 
 abstract class UserDataDataSource {
@@ -17,12 +16,12 @@ abstract class UserDataDataSource {
 }
 
 class UserDataDataSourceImpl implements UserDataDataSource {
-  final Client client;
+  final http.Client client;
   WebSocket _webSocket;
   StreamController<UserDataPayloadAccountUpdate> _streamController;
   Timer _timer;
 
-  UserDataDataSourceImpl({@required this.client});
+  UserDataDataSourceImpl(this.client);
 
   @override
   Future<UserData> getUserData() async {

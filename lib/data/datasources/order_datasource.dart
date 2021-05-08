@@ -1,5 +1,4 @@
-import 'package:http/http.dart';
-import 'package:meta/meta.dart';
+import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_util.dart';
@@ -17,9 +16,9 @@ abstract class OrderDataSource {
 
 class OrderDataSourceImpl implements OrderDataSource {
   static const path = '/api/v3/order';
-  final Client client;
+  final http.Client client;
 
-  OrderDataSourceImpl({@required this.client});
+  OrderDataSourceImpl(this.client);
 
   @override
   Future<OrderResponseFull> postMarketOrder(MarketOrder marketOrder) async {

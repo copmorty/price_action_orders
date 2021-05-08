@@ -14,11 +14,19 @@ class OrderNotifier extends StateNotifier<OrderState> {
   final pmo.PostMarketOrder _postMarketOrder;
 
   OrderNotifier({
-    @required postLimitOrder,
-    @required postMarketOrder,
+    @required plo.PostLimitOrder postLimitOrder,
+    @required pmo.PostMarketOrder postMarketOrder,
   })  : _postLimitOrder = postLimitOrder,
         _postMarketOrder = postMarketOrder,
         super(OrderInitial());
+
+  Future<void> postLimitOrder(LimitOrder limitOrder) async {
+    final failureOrOrderResponse = await _postLimitOrder(plo.Params(limitOrder));
+    failureOrOrderResponse.fold(
+      (failure) => OrderError(orderTimestamp: limitOrder.timestamp, message: failure.message),
+      (orderResponse) => LimitOrderLoaded(orderResponse),
+    );
+  }
 
   Future<void> postMarketOrder(MarketOrder marketOrder) async {
     final failureOrOrderResponse = await _postMarketOrder(pmo.Params(marketOrder));
@@ -28,11 +36,5 @@ class OrderNotifier extends StateNotifier<OrderState> {
     );
   }
 
-  Future<void> postLimitOrder(LimitOrder limitOrder) async {
-    final failureOrOrderResponse = await _postLimitOrder(plo.Params(limitOrder));
-    failureOrOrderResponse.fold(
-      (failure) => OrderError(orderTimestamp: limitOrder.timestamp, message: failure.message),
-      (orderResponse) => LimitOrderLoaded(orderResponse),
-    );
-  }
+
 }

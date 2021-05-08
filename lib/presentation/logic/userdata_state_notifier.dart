@@ -17,15 +17,15 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
   StreamSubscription _subscription;
 
   UserDataNotifier({
-    @required getUserData,
-    @required streamUserData,
+    @required GetUserData getUserData,
+    @required StreamUserData streamUserData,
     bool start = true,
   })  : _getUserData = getUserData,
         _streamUserData = streamUserData,
         super(UserDataInitial()) {
     if (start) {
-      getUserData();
-      streamUserData();
+      this.getUserData();
+      this.streamUserData();
     }
   }
 

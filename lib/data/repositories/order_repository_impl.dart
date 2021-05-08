@@ -6,12 +6,11 @@ import 'package:price_action_orders/domain/entities/order_limit.dart';
 import 'package:price_action_orders/domain/entities/order_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/repositories/order_repository.dart';
-import 'package:meta/meta.dart';
 
 class OrderRepositoryImpl implements OrderRepository {
   final OrderDataSource dataSource;
 
-  OrderRepositoryImpl({@required this.dataSource});
+  OrderRepositoryImpl(this.dataSource);
 
   @override
   Future<Either<ServerFailure, OrderResponseFull>> postMarketOrder(MarketOrder marketOrder) async {
