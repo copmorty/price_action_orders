@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
+import 'package:price_action_orders/presentation/logic/order_state_notifier.dart';
+import 'package:price_action_orders/providers.dart';
 
 /// This is basically an empty UI widget that only
 /// manages popup messages
@@ -18,20 +21,36 @@ class _PopupManagerState extends State<PopupManager> {
 
   @override
   Widget build(BuildContext buildContext) {
-    return BlocListener<OrderBloc, OrderState>(
-      listener: (context, state) {
-        if (state is ErrorOrder) {
+    return ProviderListener(
+      onChange: (context, state) {
+        if (state is OrderError) {
           showOrderErrorDialog(state.message);
         }
-        if (state is LoadedMarketOrder) {
+        if (state is MarketOrderLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
-        if (state is LoadedLimitOrder) {
+        if (state is LimitOrderLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
       },
+      provider: orderNotifierProvider,
       child: SizedBox(),
     );
+
+    // return BlocListener<OrderBloc, OrderState>(
+    //   listener: (context, state) {
+    //     if (state is ErrorOrder) {
+    //       showOrderErrorDialog(state.message);
+    //     }
+    //     if (state is LoadedMarketOrder) {
+    //       showOrderLoadedDialog(state.orderResponse);
+    //     }
+    //     if (state is LoadedLimitOrder) {
+    //       showOrderLoadedDialog(state.orderResponse);
+    //     }
+    //   },
+    //   child: SizedBox(),
+    // );
   }
 
   void showOrderErrorDialog(String message) {

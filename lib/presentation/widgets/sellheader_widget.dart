@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/presentation/bloc/userdata_bloc.dart';
+import 'package:price_action_orders/presentation/logic/userdata_state_notifier.dart';
+import 'package:price_action_orders/providers.dart';
 import 'balancefororder_widget.dart';
 
 class SellHeader extends StatelessWidget {
@@ -21,12 +24,19 @@ class SellHeader extends StatelessWidget {
         ),
         Icon(Icons.account_balance_wallet_outlined, color: Colors.white60),
         SizedBox(width: 5),
-        BlocBuilder<UserDataBloc, UserDataState>(builder: (context, state) {
-          if (state is LoadedUserData) {
-            return BalanceForOrder(asset: baseAsset, balances: state.userData.balances);
+        Consumer(builder: (context, watch, child) {
+          final userDataState = watch(userDataNotifierProvider);
+          if (userDataState is UserDataLoaded) {
+            return BalanceForOrder(asset: baseAsset, balances: userDataState.userData.balances);
           }
           return SizedBox();
         }),
+        // BlocBuilder<UserDataBloc, UserDataState>(builder: (context, state) {
+        //   if (state is LoadedUserData) {
+        //     return BalanceForOrder(asset: baseAsset, balances: state.userData.balances);
+        //   }
+        //   return SizedBox();
+        // }),
         // Text('0.11', style: TextStyle(color: Colors.white60)),
       ],
     );

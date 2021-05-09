@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'core/globals/enums.dart';
+import 'core/globals/variables.dart';
 import 'data/datasources/bookticker_datasource.dart';
 import 'data/datasources/order_datasource.dart';
 import 'data/datasources/userdata_datasource.dart';
@@ -24,24 +29,39 @@ import 'presentation/logic/userdata_state_notifier.dart';
 SharedPreferences sharedPreferencesInstance;
 
 Future<void> init() async {
+  await loadKeys();
   sharedPreferencesInstance = await SharedPreferences.getInstance();
 }
 
+Future<void> loadKeys() async {
+  final location = appMode == AppMode.PRODUCTION ? 'assets/config-prod.json' : 'assets/config-test.json';
+  final jsonStr = await rootBundle.loadString(location);
+  final data = jsonDecode(jsonStr);
+  apiKey = data['api_key'];
+  apiSecret = data['api_secret'];
+}
+
 // Logic
-final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, BookTickerState>((ref) => BookTickerNotifier(
-      getLastTicker: ref.watch(getLastTickerProvider),
-      streamBookTicker: ref.watch(streamBookTicker),
-      orderConfigNotifier: ref.watch(orderConfigNotifierProvider.notifier),
-    ));
-final orderNotifierProvider = StateNotifierProvider<OrderNotifier, OrderState>((ref) => OrderNotifier(
-      postLimitOrder: ref.watch(postLimitOder),
-      postMarketOrder: ref.watch(postMarketOrder),
-    ));
+final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, BookTickerState>(
+  (ref) => BookTickerNotifier(
+    getLastTicker: ref.watch(getLastTickerProvider),
+    streamBookTicker: ref.watch(streamBookTicker),
+    orderConfigNotifier: ref.watch(orderConfigNotifierProvider.notifier),
+  ),
+);
+final orderNotifierProvider = StateNotifierProvider<OrderNotifier, OrderState>(
+  (ref) => OrderNotifier(
+    postLimitOrder: ref.watch(postLimitOder),
+    postMarketOrder: ref.watch(postMarketOrder),
+  ),
+);
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
-final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>((ref) => UserDataNotifier(
-      getUserData: ref.watch(getUserData),
-      streamUserData: ref.watch(streamUserData),
-    ));
+final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
+  (ref) => UserDataNotifier(
+    getUserData: ref.watch(getUserData),
+    streamUserData: ref.watch(streamUserData),
+  ),
+);
 
 // Use Cases
 final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref.watch(bookTickerRepositoryProvider)));
