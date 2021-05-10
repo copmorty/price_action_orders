@@ -44,7 +44,7 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
     await _subscription?.cancel();
     final failureOrStream = await _streamBookTicker(Params(ticker));
     failureOrStream.fold(
-      (failure) => BookTickerError('idk'),
+      (failure) => state = BookTickerError('idk'),
       (stream) {
         _orderConfigNotifier.setState(ticker);
         _subscription = stream.listen((event) => state = BookTickerLoaded(bookTicker: event));

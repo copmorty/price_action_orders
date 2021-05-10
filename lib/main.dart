@@ -23,19 +23,5 @@ class MyApp extends StatelessWidget {
       home: HomeScreen(),
       debugShowCheckedModeBanner: false,
     );
-    // return MultiBlocProvider(
-    //   providers: [
-    //     BlocProvider(create: (context) => sl<BookTickerBloc>()),
-    //     BlocProvider(create: (context) => sl<OrderBloc>()),
-    //     BlocProvider(create: (context) => sl<OrderConfigBloc>()),
-    //     BlocProvider(create: (context) => sl<UserDataBloc>()),
-    //   ],
-    //   child: MaterialApp(
-    //     title: 'Price Action Orders',
-    //     theme: ThemeData.dark(),
-    //     home: HomeScreen(),
-    //     debugShowCheckedModeBanner: false,
-    //   ),
-    // );
   }
 }

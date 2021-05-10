@@ -1,11 +1,8 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_limit.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
-import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/limit_form_field_amount.dart';
 import 'package:price_action_orders/presentation/widgets/limit_form_field_price.dart';
@@ -42,7 +39,6 @@ class _LimitSellFormState extends State<LimitSellForm> {
 
   _setCurrentPrice() {
     final bookTickerState = context.read(bookTickerNotifierProvider);
-    // final bookTickerState = BlocProvider.of<BookTickerBloc>(context).state;
     if (bookTickerState is BookTickerLoaded) {
       final currentPrice = (bookTickerState.bookTicker.bidPrice + bookTickerState.bookTicker.askPrice) / Decimal.fromInt(2);
       _priceController.text = currentPrice.toString();
@@ -70,7 +66,6 @@ class _LimitSellFormState extends State<LimitSellForm> {
       _totalController.clear();
       FocusScope.of(context).unfocus();
       context.read(orderNotifierProvider.notifier).postLimitOrder(limitOrder);
-      // BlocProvider.of<OrderBloc>(context).add(LimitOrderEvent(limitOrder));
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;

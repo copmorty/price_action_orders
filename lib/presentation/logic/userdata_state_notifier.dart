@@ -32,7 +32,7 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
   Future<void> getUserData() async {
     final failureOrUserData = await _getUserData(NoParams());
     failureOrUserData.fold(
-      (failure) => UserDataError('sww w/ GetUserData'),
+      (failure) => state = UserDataError('sww w/ GetUserData'),
       (userData) => state = UserDataLoaded(userData),
     );
   }
@@ -42,7 +42,7 @@ class UserDataNotifier extends StateNotifier<UserDataState> {
 
     final failureOrStream = await _streamUserData(NoParams());
     failureOrStream.fold(
-      (failure) => UserDataError(failure.message),
+      (failure) => state = UserDataError(failure.message),
       (stream) {
         _subscription = stream.listen((event) => state = _updateUserDataBalances(event.changedBalances));
       },

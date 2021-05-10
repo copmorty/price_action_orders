@@ -23,8 +23,8 @@ class OrderNotifier extends StateNotifier<OrderState> {
   Future<void> postLimitOrder(LimitOrder limitOrder) async {
     final failureOrOrderResponse = await _postLimitOrder(plo.Params(limitOrder));
     failureOrOrderResponse.fold(
-      (failure) => OrderError(orderTimestamp: limitOrder.timestamp, message: failure.message),
-      (orderResponse) => LimitOrderLoaded(orderResponse),
+      (failure) => state = OrderError(orderTimestamp: limitOrder.timestamp, message: failure.message),
+      (orderResponse) => state = LimitOrderLoaded(orderResponse),
     );
   }
 
