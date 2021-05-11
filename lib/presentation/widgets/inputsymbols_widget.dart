@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/providers.dart';
 
 class InputSymbol extends StatefulWidget {
   @override
@@ -66,6 +66,7 @@ class _InputSymbolState extends State<InputSymbol> {
         IconButton(
           color: Colors.white70,
           icon: Icon(Icons.send),
+          splashRadius: 25,
           onPressed: dispatchSymbol,
         )
       ],
@@ -81,6 +82,6 @@ class _InputSymbolState extends State<InputSymbol> {
     _baseAssetController.clear();
     _quoteAssetcontroller.clear();
     FocusScope.of(context).unfocus();
-    BlocProvider.of<BookTickerBloc>(context).add(StreamBookTickerEvent(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset)));
+    context.read(bookTickerNotifierProvider.notifier).streamBookTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
   }
 }

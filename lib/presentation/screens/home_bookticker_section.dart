@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:price_action_orders/presentation/bloc/bookticker_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/bookticker_display.dart';
 import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'package:price_action_orders/providers.dart';
 
 class BookTickerSection extends StatelessWidget {
   @override
@@ -16,16 +17,17 @@ class BookTickerSection extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               height: double.infinity,
               width: double.infinity,
-              child: BlocBuilder<BookTickerBloc, BookTickerState>(
-                builder: (context, state) {
-                  if (state is EmptyBookTicker) {
-                    return Text('Empty');
-                  } else if (state is LoadingBookTicker) {
+              child: Consumer(
+                builder: (context, watch, child) {
+                  final bookTickerState = watch(bookTickerNotifierProvider);
+                  if (bookTickerState is BookTickerLoading) {
                     return LoadingWidget();
-                  } else if (state is LoadedBookTicker) {
-                    return BookTickerDisplay(bookTicker: state.bookTicker);
                   }
-                  return Container();
+                  if (bookTickerState is BookTickerLoaded) {
+                    return BookTickerDisplay(bookTicker: bookTickerState.bookTicker);
+                  }
+                  // bookTickerState is BookTickerInitial
+                  return SizedBox();
                 },
               ),
             ),

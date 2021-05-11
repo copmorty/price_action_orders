@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/core/util/formatters.dart';
 import 'package:price_action_orders/domain/entities/order_market.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
+import 'package:price_action_orders/presentation/widgets/default_form_field.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/providers.dart';
 
 class MarketBuyForm extends StatefulWidget {
   final String baseAsset;
@@ -19,6 +19,12 @@ class MarketBuyForm extends StatefulWidget {
 
 class _MarketBuyFormState extends State<MarketBuyForm> {
   final TextEditingController _controller = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,24 +56,11 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
             ),
           ),
           SizedBox(height: 10),
-          Container(
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
-            child: TextFormField(
-              controller: _controller,
-              cursorColor: Colors.white,
-              inputFormatters: [
-                ValidatorInputFormatter(
-                  editingValidator: DotCurrencyEditingRegexValidator(),
-                )
-              ],
-              decoration: InputDecoration(
-                hintText: 'Total',
-                suffixText: widget.quoteAsset,
-                enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
-                focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-              ),
-              onFieldSubmitted: (_) => _marketBuy(),
-            ),
+          DefaultFormField(
+            hintText: 'Total',
+            suffixText: widget.quoteAsset,
+            controller: _controller,
+            onFieldSubmitted: (_) => _marketBuy(),
           ),
           SizedBox(height: 10),
           SizedBox(
@@ -84,7 +77,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
     );
   }
 
-  _marketBuy() {
+  void _marketBuy() {
     if (_controller.text == '') return;
 
     final quantity = null;
@@ -99,6 +92,6 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
 
     _controller.clear();
     FocusScope.of(context).unfocus();
-    BlocProvider.of<OrderBloc>(context).add(MarketOrderEvent(marketOrder));
+    context.read(orderNotifierProvider.notifier).postMarketOrder(marketOrder);
   }
 }

@@ -51,7 +51,7 @@ class TableBookTicker extends StatelessWidget {
         TableRow(
           children: [
             Text(
-              'Price',
+              'Price (${bookTicker.ticker.quoteAsset})',
               style: TextStyle(
                 color: Colors.white.withOpacity(0.3),
               ),
@@ -59,7 +59,7 @@ class TableBookTicker extends StatelessWidget {
             Align(
               alignment: Alignment.centerRight,
               child: Text(
-                'Amount',
+                'Amount (${bookTicker.ticker.baseAsset})',
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.3),
                 ),

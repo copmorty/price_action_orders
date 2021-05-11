@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'package:price_action_orders/presentation/bloc/order_bloc.dart';
+import 'package:price_action_orders/presentation/logic/order_state_notifier.dart';
+import 'package:price_action_orders/providers.dart';
 
 /// This is basically an empty UI widget that only
 /// manages popup messages
@@ -18,15 +19,19 @@ class _PopupManagerState extends State<PopupManager> {
 
   @override
   Widget build(BuildContext buildContext) {
-    return BlocListener<OrderBloc, OrderState>(
-      listener: (context, state) {
-        if (state is ErrorOrder) {
+    return ProviderListener(
+      onChange: (context, state) {
+        if (state is OrderError) {
           showOrderErrorDialog(state.message);
         }
-        if (state is LoadedMarketOrder) {
+        if (state is MarketOrderLoaded) {
+          showOrderLoadedDialog(state.orderResponse);
+        }
+        if (state is LimitOrderLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
       },
+      provider: orderNotifierProvider,
       child: SizedBox(),
     );
   }
@@ -65,11 +70,6 @@ class _PopupManagerState extends State<PopupManager> {
 
   void showOrderLoadedDialog(OrderResponseFull orderResponse) {
     final bool orderCompleted = orderResponse.status == BinanceOrderStatus.FILLED;
-    Decimal weightedAveragePrice;
-    if (orderResponse.executedQty > Decimal.zero) {
-      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
-      weightedAveragePrice = sum / orderResponse.executedQty;
-    }
 
     showDialog(
       // barrierDismissible: orderCompleted ? false : true,
@@ -117,17 +117,7 @@ class _PopupManagerState extends State<PopupManager> {
                     ],
                   ),
                 ),
-                RowDivision('STATUS:', orderResponse.status.toShortString()),
-                if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.BUY) ...[
-                  RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-                  RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-                  RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-                ],
-                if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.SELL) ...[
-                  RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-                  RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-                  RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-                ],
+                orderResponse.type == BinanceOrderType.LIMIT ? LimitOrderPopupDialog(orderResponse) : MarketOrderPopupDialog(orderResponse),
               ],
             ),
           ),
@@ -139,6 +129,86 @@ class _PopupManagerState extends State<PopupManager> {
           _timer.cancel();
         }
       },
+    );
+  }
+}
+
+class LimitOrderPopupDialog extends StatelessWidget {
+  final OrderResponseFull orderResponse;
+
+  LimitOrderPopupDialog(this.orderResponse);
+
+  @override
+  Widget build(BuildContext context) {
+    Decimal weightedAveragePrice;
+    if (orderResponse.executedQty > Decimal.zero) {
+      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
+      weightedAveragePrice = sum / orderResponse.executedQty;
+    }
+
+    return Column(
+      children: [
+        RowDivision('STATUS:', orderResponse.status.toShortString()),
+        if (orderResponse.side == BinanceOrderSide.BUY) ...[
+          RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          RowDivision('TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          RowDivision('TO SPENT:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
+          if (weightedAveragePrice != null) ...[
+            Divider(),
+            RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+            RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          ],
+        ],
+        if (orderResponse.side == BinanceOrderSide.SELL) ...[
+          RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          RowDivision('TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          RowDivision('TO RECEIVE:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
+          if (weightedAveragePrice != null) ...[
+            Divider(),
+            RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+            RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          ],
+        ],
+      ],
+    );
+  }
+}
+
+class MarketOrderPopupDialog extends StatelessWidget {
+  final OrderResponseFull orderResponse;
+
+  MarketOrderPopupDialog(this.orderResponse);
+
+  @override
+  Widget build(BuildContext context) {
+    Decimal weightedAveragePrice;
+    if (orderResponse.executedQty > Decimal.zero) {
+      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
+      weightedAveragePrice = sum / orderResponse.executedQty;
+    }
+
+    return Column(
+      children: [
+        RowDivision('STATUS:', orderResponse.status.toShortString()),
+        if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.BUY) ...[
+          orderResponse.origQty != orderResponse.executedQty
+              ? RowDivision('TRIED TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
+              : SizedBox(),
+          RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+        ],
+        if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.SELL) ...[
+          orderResponse.origQty != orderResponse.executedQty
+              ? RowDivision('TRIED TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
+              : SizedBox(),
+          RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+        ],
+      ],
     );
   }
 }

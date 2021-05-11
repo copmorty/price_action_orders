@@ -10,7 +10,7 @@ import 'package:meta/meta.dart';
 class UserDataRepositoryImpl implements UserDataRepository {
   final UserDataDataSource dataSource;
 
-  UserDataRepositoryImpl({@required this.dataSource});
+  UserDataRepositoryImpl(this.dataSource);
 
   @override
   Future<Either<Failure, UserData>> getUserData() async {
