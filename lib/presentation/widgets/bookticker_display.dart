@@ -67,13 +67,13 @@ class TableBookTicker extends StatelessWidget {
             ),
           ],
         ),
-        buildBookRow(rowColor: Colors.red, price: bookTicker.askPrice, qty: bookTicker.askQty),
-        buildBookRow(rowColor: Colors.green, price: bookTicker.bidPrice, qty: bookTicker.bidQty),
+        _buildBookRow(rowColor: Colors.red, price: bookTicker.askPrice, qty: bookTicker.askQty),
+        _buildBookRow(rowColor: Colors.green, price: bookTicker.bidPrice, qty: bookTicker.bidQty),
       ],
     );
   }
 
-  TableRow buildBookRow({
+  TableRow _buildBookRow({
     @required Color rowColor,
     @required Decimal price,
     @required Decimal qty,

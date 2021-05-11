@@ -5,7 +5,6 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
 import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
-import 'package:meta/meta.dart';
 
 class UserDataRepositoryImpl implements UserDataRepository {
   final UserDataDataSource dataSource;

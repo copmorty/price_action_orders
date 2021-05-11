@@ -89,6 +89,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
         _webSocket.listen(
           (data) {
             final Map jsonData = jsonDecode(data);
+            print(data);
             if (jsonData['e'] == 'outboundAccountPosition') {
               final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
               _streamController.add(userDataPayloadAccountUpdate);
