@@ -11,9 +11,9 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
   BookTickerRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, Stream<BookTicker>>> streamBookTicker(Ticker ticker) async {
+  Future<Either<Failure, Stream<BookTicker>>> getBookTickerStream(Ticker ticker) async {
     try {
-      final response = await dataSource.streamBookTicker(ticker);
+      final response = await dataSource.getBookTickerStream(ticker);
       dataSource.cacheLastTicker(ticker);
       return Right(response);
     } catch (e) {

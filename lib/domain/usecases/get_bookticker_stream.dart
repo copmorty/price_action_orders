@@ -6,14 +6,14 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/bookticker_respository.dart';
 
-class StreamBookTicker implements UseCase<Stream<BookTicker>, Params> {
+class GetBookTickerStream implements UseCase<Stream<BookTicker>, Params> {
   final BookTickerRepository repository;
 
-  StreamBookTicker(this.repository);
+  GetBookTickerStream(this.repository);
 
   @override
   Future<Either<Failure, Stream<BookTicker>>> call(Params params) async {
-    return await repository.streamBookTicker(params.ticker);
+    return await repository.getBookTickerStream(params.ticker);
   }
 }
 

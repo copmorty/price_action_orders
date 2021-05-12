@@ -12,7 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BookTickerDataSource {
   /// Websocket stream
-  Future<Stream<BookTicker>> streamBookTicker(Ticker ticker);
+  Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker);
   Future<void> cacheLastTicker(Ticker ticker);
   Future<Ticker> getLastTicker();
 }
@@ -25,7 +25,7 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
   BookTickerDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<Stream<BookTicker>> streamBookTicker(ticker) async {
+  Future<Stream<BookTicker>> getBookTickerStream(ticker) async {
     const pathWS = '/ws/';
     final String symbol = ticker.baseAsset + ticker.quoteAsset;
     String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');

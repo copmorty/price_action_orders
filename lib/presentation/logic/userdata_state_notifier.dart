@@ -6,19 +6,19 @@ import 'package:equatable/equatable.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata.dart';
-import 'package:price_action_orders/domain/usecases/stream_userdata.dart';
+import 'package:price_action_orders/domain/usecases/get_userdata_accountinfo.dart';
+import 'package:price_action_orders/domain/usecases/get_userdata_stream.dart';
 
 part 'userdata_state.dart';
 
 class UserDataNotifier extends StateNotifier<UserDataState> {
-  final GetUserData _getUserData;
-  final StreamUserData _streamUserData;
+  final GetAccountInfo _getUserData;
+  final GetUserDataStream _streamUserData;
   StreamSubscription _subscription;
 
   UserDataNotifier({
-    @required GetUserData getUserData,
-    @required StreamUserData streamUserData,
+    @required GetAccountInfo getUserData,
+    @required GetUserDataStream streamUserData,
     bool start = true,
   })  : _getUserData = getUserData,
         _streamUserData = streamUserData,

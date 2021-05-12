@@ -12,9 +12,9 @@ class UserDataRepositoryImpl implements UserDataRepository {
   UserDataRepositoryImpl(this.dataSource);
 
   @override
-  Future<Either<Failure, UserData>> getUserData() async {
+  Future<Either<Failure, UserData>> getAccountInfo() async {
     try {
-      final userData = await dataSource.getUserData();
+      final userData = await dataSource.getAccountInfo();
       return Right(userData);
     } on ServerException {
       return Left(ServerFailure());
@@ -22,9 +22,19 @@ class UserDataRepositoryImpl implements UserDataRepository {
   }
 
   @override
-  Future<Either<ServerFailure, Stream<UserDataPayloadAccountUpdate>>> streamUserData() async {
+  Future<Either<ServerFailure, Stream<UserDataPayloadAccountUpdate>>> getUserDataStream() async {
     try {
-      final result = await dataSource.streamUserData();
+      final result = await dataSource.getUserDataStream();
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(message: e.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, dynamic>> getOpenOrders() async {
+    try {
+      final result = await dataSource.getOpenOrders();
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(message: e.message));

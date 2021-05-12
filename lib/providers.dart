@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/globals/enums.dart';
 import 'core/globals/variables.dart';
@@ -16,11 +17,11 @@ import 'domain/repositories/bookticker_respository.dart';
 import 'domain/repositories/order_repository.dart';
 import 'domain/repositories/userdata_repository.dart';
 import 'domain/usecases/get_lastticker.dart';
-import 'domain/usecases/get_userdata.dart';
+import 'domain/usecases/get_userdata_accountinfo.dart';
 import 'domain/usecases/post_limitorder.dart';
 import 'domain/usecases/post_marketorder.dart';
-import 'domain/usecases/stream_bookticker.dart';
-import 'domain/usecases/stream_userdata.dart';
+import 'domain/usecases/get_bookticker_stream.dart';
+import 'domain/usecases/get_userdata_stream.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
 import 'presentation/logic/order_state_notifier.dart';
 import 'presentation/logic/orderconfig_state_notifier.dart';
@@ -45,7 +46,7 @@ Future<void> loadKeys() async {
 final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, BookTickerState>(
   (ref) => BookTickerNotifier(
     getLastTicker: ref.watch(getLastTickerProvider),
-    streamBookTicker: ref.watch(streamBookTicker),
+    getBookTickerStream: ref.watch(getBookTickerStream),
     orderConfigNotifier: ref.watch(orderConfigNotifierProvider.notifier),
   ),
 );
@@ -58,18 +59,19 @@ final orderNotifierProvider = StateNotifierProvider<OrderNotifier, OrderState>(
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
 final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
   (ref) => UserDataNotifier(
-    getUserData: ref.watch(getUserData),
-    streamUserData: ref.watch(streamUserData),
+    getUserData: ref.watch(getAccountInfo),
+    streamUserData: ref.watch(getUserDataStream),
   ),
 );
 
 // Use Cases
+final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(bookTickerRepositoryProvider)));
 final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref.watch(bookTickerRepositoryProvider)));
-final getUserData = Provider<GetUserData>((ref) => GetUserData(ref.watch(userDataRepositoryProvider)));
+final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userDataRepositoryProvider)));
+final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userDataRepositoryProvider)));
+final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userDataRepositoryProvider)));
 final postLimitOder = Provider<PostLimitOrder>((ref) => PostLimitOrder(ref.watch(orderRepositoryProvider)));
 final postMarketOrder = Provider<PostMarketOrder>((ref) => PostMarketOrder(ref.watch(orderRepositoryProvider)));
-final streamBookTicker = Provider<StreamBookTicker>((ref) => StreamBookTicker(ref.watch(bookTickerRepositoryProvider)));
-final streamUserData = Provider<StreamUserData>((ref) => StreamUserData(ref.watch(userDataRepositoryProvider)));
 
 // Repositories
 final bookTickerRepositoryProvider = Provider<BookTickerRepository>((ref) => BookTickerRepositoryImpl(ref.watch(bookTickerProvider)));
