@@ -9,14 +9,14 @@ class ControlsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black12,
-      width: MediaQuery.of(context).size.width / 2,
+      // width: MediaQuery.of(context).size.width / 2,
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
           InputSymbol(),
-          SizedBox(height: 15),
+          SizedBox(height: 10),
           SpotBalances(),
-          SizedBox(height: 15),
+          SizedBox(height: 10),
           OrdersSection(),
           PopupManager(),
         ],

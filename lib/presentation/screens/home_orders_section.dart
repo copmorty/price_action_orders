@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/limit_section_widget.dart';
 import 'package:price_action_orders/presentation/widgets/market_section_widget.dart';
-import 'package:price_action_orders/presentation/widgets/orderbtn_widget.dart';
+import 'package:price_action_orders/presentation/widgets/pageselector_widget.dart';
 import 'package:price_action_orders/providers.dart';
 
 class OrdersSection extends StatefulWidget {
@@ -14,6 +14,12 @@ class OrdersSection extends StatefulWidget {
 class _OrdersSectionState extends State<OrdersSection> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
+  }
 
   void _onTabTapped(int index) {
     setState(() {
@@ -33,30 +39,34 @@ class _OrdersSectionState extends State<OrdersSection> {
         final orderConfigState = watch(orderConfigNotifierProvider);
         if (orderConfigState is OrderConfigLoaded) {
           return Container(
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    OrderTypeBtn(index: 0, selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
-                    OrderTypeBtn(index: 1, selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
-                    OrderTypeBtn(index: 2, selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
-                  ],
-                ),
-                Divider(height: 1),
-                SizedBox(height: 10),
-                Container(
-                  height: 370,
-                  child: PageView(
-                    physics: NeverScrollableScrollPhysics(),
-                    controller: _pageController,
+            child: Expanded(
+              child: Column(
+                children: [
+                  Row(
                     children: [
-                      LimitOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                      MarketOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                      Container(),
+                      PageSelector(label: 'Limit', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
+                      PageSelector(label: 'Market', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
+                      PageSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                     ],
                   ),
-                ),
-              ],
+                  Divider(height: 1),
+                  SizedBox(height: 10),
+                  Expanded(
+                    child: Container(
+                      // height: 370,
+                      child: PageView(
+                        // physics: NeverScrollableScrollPhysics(),
+                        controller: _pageController,
+                        children: [
+                          LimitOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
+                          MarketOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
+                          Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         }

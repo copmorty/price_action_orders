@@ -32,9 +32,13 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
       child: Column(
         children: [
           Container(
-            height: 48,
+            height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
+            decoration: BoxDecoration(
+              color: Colors.white10,
+              border: Border.all(color: Colors.transparent),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
             child: Row(
               children: [
                 Expanded(
