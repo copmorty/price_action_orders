@@ -55,7 +55,7 @@ class _OrdersSectionState extends State<OrdersSection> {
                     child: Container(
                       // height: 370,
                       child: PageView(
-                        // physics: NeverScrollableScrollPhysics(),
+                        physics: NeverScrollableScrollPhysics(),
                         controller: _pageController,
                         children: [
                           LimitOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),

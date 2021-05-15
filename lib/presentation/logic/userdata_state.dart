@@ -1,30 +1,30 @@
-part of 'userdata_state_notifier.dart';
+// part of 'userdata_state_notifier.dart';
 
-abstract class UserDataState extends Equatable {
-  const UserDataState();
+// abstract class UserDataState extends Equatable {
+//   const UserDataState();
 
-  @override
-  List<Object> get props => [];
-}
+//   @override
+//   List<Object> get props => [];
+// }
 
-class UserDataInitial extends UserDataState {}
+// class UserDataInitial extends UserDataState {}
 
-class UserDataLoading extends UserDataState {}
+// class UserDataLoading extends UserDataState {}
 
-class UserDataLoaded extends UserDataState {
-  final UserData userData;
+// class UserDataLoaded extends UserDataState {
+//   final UserData userData;
 
-  UserDataLoaded(this.userData);
+//   UserDataLoaded(this.userData);
 
-  @override
-  List<Object> get props => [userData];
-}
+//   @override
+//   List<Object> get props => [userData];
+// }
 
-class UserDataError extends UserDataState {
-  final String message;
+// class UserDataError extends UserDataState {
+//   final String message;
 
-  UserDataError(this.message);
+//   UserDataError(this.message);
 
-  @override
-  List<Object> get props => [message];
-}
+//   @override
+//   List<Object> get props => [message];
+// }

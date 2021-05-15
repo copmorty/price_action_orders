@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_limit.dart';
+import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
-class LimitOrderModel extends LimitOrder {
-  LimitOrderModel({
+class LimitOrderRequestModel extends LimitOrderRequest {
+  LimitOrderRequestModel({
     @required Ticker ticker,
     @required BinanceOrderSide side,
     @required BinanceOrderTimeInForce timeInForce,
@@ -24,8 +24,8 @@ class LimitOrderModel extends LimitOrder {
   @override
   List<Object> get props => [symbol, side, type, timestamp];
 
-  factory LimitOrderModel.fromLimitOrder(LimitOrder limiOrder) {
-    return LimitOrderModel(
+  factory LimitOrderRequestModel.fromLimitOrderRequest(LimitOrderRequest limiOrder) {
+    return LimitOrderRequestModel(
       ticker: limiOrder.ticker,
       side: limiOrder.side,
       timeInForce: limiOrder.timeInForce,

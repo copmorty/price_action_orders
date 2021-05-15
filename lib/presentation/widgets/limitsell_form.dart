@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_limit.dart';
+import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/limit_form_field_amount.dart';
@@ -53,7 +53,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
       final price = Decimal.parse(_priceController.text);
       final quantity = Decimal.parse(_amountController.text);
 
-      final limitOrder = LimitOrder(
+      final limitOrder = LimitOrderRequest(
         ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
         side: BinanceOrderSide.SELL,
         timeInForce: BinanceOrderTimeInForce.GTC,
@@ -65,7 +65,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
       _amountController.clear();
       _totalController.clear();
       FocusScope.of(context).unfocus();
-      context.read(orderNotifierProvider.notifier).postLimitOrder(limitOrder);
+      context.read(orderRequestNotifierProvider.notifier).postLimitOrder(limitOrder);
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;

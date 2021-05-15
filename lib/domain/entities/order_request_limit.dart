@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'order.dart';
+import 'order_request.dart';
 import 'ticker.dart';
 
-class LimitOrder extends Order {
-  LimitOrder({
+class LimitOrderRequest extends OrderRequest {
+  LimitOrderRequest({
     @required Ticker ticker,
     @required BinanceOrderSide side,
     @required BinanceOrderTimeInForce timeInForce,

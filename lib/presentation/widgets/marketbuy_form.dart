@@ -1,7 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_market.dart';
+import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/widgets/default_form_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,7 +87,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
     final quantity = null;
     final quoteOrderQtyText = _controller.text.replaceAll(',', '.');
     final quoteOrderQty = Decimal.parse(quoteOrderQtyText);
-    final marketOrder = MarketOrder(
+    final marketOrder = MarketOrderRequest(
       ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
       side: BinanceOrderSide.BUY,
       quantity: quantity,
@@ -96,6 +96,6 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
 
     _controller.clear();
     FocusScope.of(context).unfocus();
-    context.read(orderNotifierProvider.notifier).postMarketOrder(marketOrder);
+    context.read(orderRequestNotifierProvider.notifier).postMarketOrder(marketOrder);
   }
 }

@@ -2,10 +2,10 @@ import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'order.dart';
+import 'order_request.dart';
 
-class MarketOrder extends Order {
-  MarketOrder({
+class MarketOrderRequest extends OrderRequest {
+  MarketOrderRequest({
     @required Ticker ticker,
     // @required String symbol,
     @required BinanceOrderSide side,

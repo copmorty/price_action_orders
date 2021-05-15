@@ -4,7 +4,7 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
-class Order extends Equatable {
+class OrderRequest extends Equatable {
   final Ticker ticker;
   final String symbol;
   final BinanceOrderSide side;
@@ -20,7 +20,7 @@ class Order extends Equatable {
   final int recvWindow;
   final int timestamp;
 
-  Order({
+  OrderRequest({
     @required this.ticker,
     // @required this.symbol,
     @required this.side,

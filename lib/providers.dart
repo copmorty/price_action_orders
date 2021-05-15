@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
+import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/globals/enums.dart';
 import 'core/globals/variables.dart';
@@ -23,9 +24,10 @@ import 'domain/usecases/post_marketorder.dart';
 import 'domain/usecases/get_bookticker_stream.dart';
 import 'domain/usecases/get_userdata_stream.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
-import 'presentation/logic/order_state_notifier.dart';
+import 'presentation/logic/orderrequest_state_notifier.dart';
 import 'presentation/logic/orderconfig_state_notifier.dart';
-import 'presentation/logic/userdata_state_notifier.dart';
+// import 'presentation/logic/userdata_state_notifier.dart';
+import 'presentation/logic/accountinfo_state_notifier.dart';
 
 SharedPreferences sharedPreferencesInstance;
 
@@ -50,19 +52,24 @@ final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, Boo
     orderConfigNotifier: ref.watch(orderConfigNotifierProvider.notifier),
   ),
 );
-final orderNotifierProvider = StateNotifierProvider<OrderNotifier, OrderState>(
-  (ref) => OrderNotifier(
+final orderRequestNotifierProvider = StateNotifierProvider<OrderRequestNotifier, OrderRequestState>(
+  (ref) => OrderRequestNotifier(
     postLimitOrder: ref.watch(postLimitOder),
     postMarketOrder: ref.watch(postMarketOrder),
   ),
 );
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
-final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
-  (ref) => UserDataNotifier(
-    getUserData: ref.watch(getAccountInfo),
-    streamUserData: ref.watch(getUserDataStream),
-  ),
-);
+final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, AccountInfoState>((ref) => AccountInfoNotifier(
+      getAccountInfo: ref.watch(getAccountInfo),
+      userDataStream: ref.watch(userDataStream),
+    ));
+// final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
+//   (ref) => UserDataNotifier(
+//     getUserData: ref.watch(getAccountInfo),
+//     streamUserData: ref.watch(getUserDataStream),
+//   ),
+// );
+final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
 
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(bookTickerRepositoryProvider)));

@@ -1,11 +1,11 @@
 import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_market.dart';
+import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
-class MarketOrderModel extends MarketOrder {
-  MarketOrderModel({
+class MarketOrderRequestModel extends MarketOrderRequest {
+  MarketOrderRequestModel({
     @required Ticker ticker,
     // @required String symbol,
     @required BinanceOrderSide side,
@@ -25,8 +25,8 @@ class MarketOrderModel extends MarketOrder {
   @override
   List<Object> get props => [symbol, side, type, timestamp, quantity, quoteOrderQty];
 
-  factory MarketOrderModel.fromMarketOrder(MarketOrder marketOrder) {
-    return MarketOrderModel(
+  factory MarketOrderRequestModel.fromMarketOrderRequest(MarketOrderRequest marketOrder) {
+    return MarketOrderRequestModel(
       ticker: marketOrder.ticker,
       side: marketOrder.side,
       quantity: marketOrder.quantity,
