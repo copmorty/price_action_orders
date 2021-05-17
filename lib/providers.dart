@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
+import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/globals/enums.dart';
@@ -69,6 +70,7 @@ final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, A
 //     streamUserData: ref.watch(getUserDataStream),
 //   ),
 // );
+final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState>((ref) => OrdersNotifier(getOpenOrders: ref.watch(getOpenOrders)));
 final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
 
 // Use Cases

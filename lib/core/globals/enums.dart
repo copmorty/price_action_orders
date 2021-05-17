@@ -18,11 +18,21 @@ extension BinanceOrderSideExtension on BinanceOrderSide {
   String toShortString() {
     return this.toString().substring(this.toString().indexOf('.') + 1);
   }
+
+  String capitalize() {
+    final shortString = this.toShortString();
+    return shortString[0] + shortString.substring(1).toLowerCase();
+  }
 }
 
 extension BinanceOrderTypeExtension on BinanceOrderType {
   String toShortString() {
     return this.toString().substring(this.toString().indexOf('.') + 1);
+  }
+
+  String capitalize() {
+    final shortString = this.toShortString();
+    return shortString[0] + shortString.substring(1).toLowerCase();
   }
 }
 

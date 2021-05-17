@@ -10,12 +10,12 @@ class OrdersInitial extends OrdersState {}
 class Ordersloading extends OrdersState {}
 
 class OrdersLoaded extends OrdersState {
-  final openOrders;
+  final List<Order> openOrders;
 
   OrdersLoaded(this.openOrders);
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [openOrders];
 }
 
 class OrdersError extends OrdersState {

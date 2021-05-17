@@ -4,15 +4,17 @@ import 'dart:io' show WebSocket;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_util.dart';
+import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
+import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
 
 abstract class UserDataDataSource {
   Future<UserData> getAccountInfo();
-  Future<dynamic> getOpenOrders();
+  Future<List<Order>> getOpenOrders();
   Future<Stream<UserDataPayloadAccountUpdate>> getUserDataStream();
 }
 
@@ -63,6 +65,43 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
     if (response.statusCode == 200) {
       return UserDataModel.fromStringifiedMap(response.body);
+    } else {
+      throw ServerException();
+    }
+  }
+
+  @override
+  Future<List<Order>> getOpenOrders() async {
+    print('getOpenOrders DATASOURCE!');
+    const pathOpenOrders = '/api/v3/openOrders';
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+
+    Map<String, dynamic> params = {
+      'timestamp': timestamp.toString(),
+    };
+
+    String url = generatetUrl(path: pathOpenOrders, params: params);
+
+    final uri = Uri.parse(url);
+
+    final response = await client.get(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-MBX-APIKEY': apiKey,
+      },
+    );
+
+    print(response.body);
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      final List<OrderModel> openOrders = [];
+      data.forEach((element) {
+        openOrders.add(OrderModel.fromJson(element));
+      });
+
+      return openOrders;
     } else {
       throw ServerException();
     }
@@ -127,35 +166,5 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     }
 
     return _streamController.stream;
-  }
-
-  @override
-  Future<dynamic> getOpenOrders() async {
-    const pathOpenOrders = '/api/v3/openOrders';
-    final timestamp = DateTime.now().millisecondsSinceEpoch;
-
-    Map<String, dynamic> params = {
-      'timestamp': timestamp.toString(),
-    };
-
-    String url = generatetUrl(path: pathOpenOrders, params: params);
-
-    final uri = Uri.parse(url);
-
-    final response = await client.get(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-MBX-APIKEY': apiKey,
-      },
-    );
-
-    print(response.body);
-
-    if (response.statusCode == 200) {
-      return 'response.body';
-    } else {
-      throw ServerException();
-    }
   }
 }
