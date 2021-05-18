@@ -7,5 +7,5 @@ import 'package:price_action_orders/domain/entities/order.dart' as entity;
 abstract class UserDataRepository {
   Future<Either<Failure, UserData>> getAccountInfo();
   Future<Either<Failure, List<entity.Order>>> getOpenOrders();
-  Future<Either<ServerFailure, Stream<UserDataPayloadAccountUpdate>>> getUserDataStream();
+  Future<Either<ServerFailure, Stream<dynamic>>> getUserDataStream();
 }

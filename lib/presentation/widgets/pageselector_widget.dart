@@ -16,6 +16,7 @@ class PageSelector extends StatelessWidget {
         style: TextButton.styleFrom(
           primary: selected ? Colors.white : Colors.grey,
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+          textStyle: TextStyle(fontWeight: FontWeight.w600)
         ),
         child: Text(label),
       ),

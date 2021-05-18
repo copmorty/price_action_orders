@@ -45,5 +45,5 @@ class Order extends Equatable {
   });
 
   @override
-  List<Object> get props => [symbol, orderId];
+  List<Object> get props => [symbol, orderId, updateTime];
 }

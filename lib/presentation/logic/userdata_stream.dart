@@ -7,7 +7,7 @@ import 'package:meta/meta.dart';
 class UserDataStream {
   final GetUserDataStream _getUserDataStream;
   StreamSubscription _subscription;
-  StreamController<dynamic> _streamController = StreamController<dynamic>();
+  StreamController<dynamic> _streamController = StreamController<dynamic>.broadcast();
 
   UserDataStream({
     @required GetUserDataStream getUserDataStream,

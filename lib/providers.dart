@@ -60,17 +60,21 @@ final orderRequestNotifierProvider = StateNotifierProvider<OrderRequestNotifier,
   ),
 );
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
-final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, AccountInfoState>((ref) => AccountInfoNotifier(
-      getAccountInfo: ref.watch(getAccountInfo),
-      userDataStream: ref.watch(userDataStream),
-    ));
+final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, AccountInfoState>(
+  (ref) => AccountInfoNotifier(getAccountInfo: ref.watch(getAccountInfo), userDataStream: ref.watch(userDataStream)),
+);
 // final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
 //   (ref) => UserDataNotifier(
 //     getUserData: ref.watch(getAccountInfo),
 //     streamUserData: ref.watch(getUserDataStream),
 //   ),
 // );
-final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState>((ref) => OrdersNotifier(getOpenOrders: ref.watch(getOpenOrders)));
+final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState>(
+  (ref) => OrdersNotifier(
+    getOpenOrders: ref.watch(getOpenOrders),
+    userDataStream: ref.watch(userDataStream),
+  ),
+);
 final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
 
 // Use Cases

@@ -33,7 +33,7 @@ class UserDataRepositoryImpl implements UserDataRepository {
   }
 
   @override
-  Future<Either<ServerFailure, Stream<UserDataPayloadAccountUpdate>>> getUserDataStream() async {
+  Future<Either<ServerFailure, Stream<dynamic>>> getUserDataStream() async {
     try {
       final result = await dataSource.getUserDataStream();
       return Right(result);

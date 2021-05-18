@@ -34,7 +34,7 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
       (failure) => state = AccountInfoError('sww w/ GetUserData'),
       (userData) {
         state = AccountInfoLoaded(userData);
-        _subscription = _userDataStream.stream().listen((event) => _checkForUpdate(event));
+        _subscription = _userDataStream.stream().listen((data) => _checkForUpdate(data));
       },
     );
   }
@@ -43,7 +43,7 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
     if (data is UserDataPayloadAccountUpdate) {
       _updateUserDataBalances(data.changedBalances);
     }
-    // if (data is anothertype) {
+    // if (data is --balanceUpdate--) {
     // NEEDS LATER IMPLEMENTATION
     // }
   }

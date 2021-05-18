@@ -41,6 +41,8 @@ class _OrdersWallState extends State<OrdersWall> {
               PageSelector(label: 'Trade History', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
             ],
           ),
+          Divider(height: 1),
+          SizedBox(height: 5),
           Expanded(
             child: PageView(
               physics: NeverScrollableScrollPhysics(),

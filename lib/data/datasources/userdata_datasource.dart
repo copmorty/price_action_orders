@@ -7,6 +7,7 @@ import 'package:price_action_orders/core/utils/datasource_util.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
+import 'package:price_action_orders/data/models/userdata_payload_orderupdate_model.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:http/http.dart' as http;
@@ -15,13 +16,13 @@ import 'package:price_action_orders/domain/entities/userdata_payload_accountupda
 abstract class UserDataDataSource {
   Future<UserData> getAccountInfo();
   Future<List<Order>> getOpenOrders();
-  Future<Stream<UserDataPayloadAccountUpdate>> getUserDataStream();
+  Future<Stream<dynamic>> getUserDataStream();
 }
 
 class UserDataDataSourceImpl implements UserDataDataSource {
   final http.Client client;
   WebSocket _webSocket;
-  StreamController<UserDataPayloadAccountUpdate> _streamController;
+  StreamController<dynamic> _streamController;
   Timer _timer;
 
   UserDataDataSourceImpl(this.client);
@@ -108,7 +109,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
   }
 
   @override
-  Future<Stream<UserDataPayloadAccountUpdate>> getUserDataStream() async {
+  Future<Stream<dynamic>> getUserDataStream() async {
     const pathListenKey = '/api/v3/userDataStream';
     const pathWS = '/ws/';
 
@@ -137,7 +138,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
     _webSocket?.close();
     _streamController?.close();
-    _streamController = StreamController<UserDataPayloadAccountUpdate>();
+    _streamController = StreamController<dynamic>();
 
     try {
       _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + listenKey);
@@ -146,10 +147,16 @@ class UserDataDataSourceImpl implements UserDataDataSource {
           (data) {
             final Map jsonData = jsonDecode(data);
             print(data);
+            dynamic finalData;
+
             if (jsonData['e'] == 'outboundAccountPosition') {
-              final userDataPayloadAccountUpdate = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
-              _streamController.add(userDataPayloadAccountUpdate);
+              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
+            } else if (jsonData['e'] == 'balanceUpdate') {
+            } else if (jsonData['e'] == 'executionReport') {
+              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData);
             }
+
+            if (finalData != null) _streamController.add(finalData);
           },
           onDone: () => print('[+]Done :)'),
           onError: (err) => print('[!]Error -- ${err.toString()}'),
