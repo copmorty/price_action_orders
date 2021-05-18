@@ -20,6 +20,7 @@ import 'domain/repositories/order_repository.dart';
 import 'domain/repositories/userdata_repository.dart';
 import 'domain/usecases/get_lastticker.dart';
 import 'domain/usecases/get_userdata_accountinfo.dart';
+import 'domain/usecases/post_cancelorder.dart';
 import 'domain/usecases/post_limitorder.dart';
 import 'domain/usecases/post_marketorder.dart';
 import 'domain/usecases/get_bookticker_stream.dart';
@@ -57,6 +58,7 @@ final orderRequestNotifierProvider = StateNotifierProvider<OrderRequestNotifier,
   (ref) => OrderRequestNotifier(
     postLimitOrder: ref.watch(postLimitOder),
     postMarketOrder: ref.watch(postMarketOrder),
+    postCancelOrder: ref.watch(postCancelOrder),
   ),
 );
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
@@ -85,6 +87,7 @@ final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(u
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userDataRepositoryProvider)));
 final postLimitOder = Provider<PostLimitOrder>((ref) => PostLimitOrder(ref.watch(orderRepositoryProvider)));
 final postMarketOrder = Provider<PostMarketOrder>((ref) => PostMarketOrder(ref.watch(orderRepositoryProvider)));
+final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(orderRepositoryProvider)));
 
 // Repositories
 final bookTickerRepositoryProvider = Provider<BookTickerRepository>((ref) => BookTickerRepositoryImpl(ref.watch(bookTickerProvider)));
