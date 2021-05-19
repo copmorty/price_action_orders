@@ -30,9 +30,11 @@ extension BinanceOrderTypeExtension on BinanceOrderType {
     return this.toString().substring(this.toString().indexOf('.') + 1);
   }
 
-  String capitalize() {
+  String capitalizeWords() {
     final shortString = this.toShortString();
-    return shortString[0] + shortString.substring(1).toLowerCase();
+    return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
+
+    // return shortString[0] + shortString.substring(1).toLowerCase();
   }
 }
 
