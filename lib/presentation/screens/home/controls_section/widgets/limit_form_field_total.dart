@@ -1,5 +1,5 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:decimal/decimal.dart';
 import 'default_trade_form_field.dart';
 
 class TotalFormField extends StatelessWidget {

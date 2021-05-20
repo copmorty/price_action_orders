@@ -1,14 +1,14 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_request_limit.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_amount.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_price.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_total.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:price_action_orders/domain/entities/order_request_limit.dart';
+import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
+import 'limit_form_field_amount.dart';
+import 'limit_form_field_price.dart';
+import 'limit_form_field_total.dart';
 
 class LimitBuyForm extends StatefulWidget {
   final String baseAsset;

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:price_action_orders/presentation/logic/userdata_state_notifier.dart';
-import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
 
 class SpotBalances extends ConsumerWidget {
   @override

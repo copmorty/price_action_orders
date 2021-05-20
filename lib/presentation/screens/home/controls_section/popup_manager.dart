@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:decimal/decimal.dart';
+import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/orderrequest_state_notifier.dart';
-import 'package:price_action_orders/providers.dart';
 
 /// This is basically an empty UI widget that only
 /// manages popup messages

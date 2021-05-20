@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/screens/home/market_section/bookticker_display.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'market_section/bookticker_display.dart';
 
 class MarketSection extends StatelessWidget {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/market_board.dart';
-import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
 import 'widgets/limit_board.dart';
+import 'widgets/market_board.dart';
 
 class TradePanel extends StatefulWidget {
   @override

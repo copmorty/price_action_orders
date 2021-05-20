@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
-import 'package:price_action_orders/providers.dart';
 
 class TradeFormHeader extends StatelessWidget {
   final String baseAsset;

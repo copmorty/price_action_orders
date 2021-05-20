@@ -1,11 +1,11 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_request_market.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/default_trade_form_field.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:price_action_orders/domain/entities/order_request_market.dart';
+import 'default_trade_form_field.dart';
 
 class MarketBuyForm extends StatefulWidget {
   final String baseAsset;

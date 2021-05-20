@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class InputSymbol extends StatefulWidget {
   @override

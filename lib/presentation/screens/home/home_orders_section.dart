@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/presentation/screens/home/orders_section/open_orders_wall.dart';
 import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
+import 'orders_section/open_orders_wall.dart';
 
 class OrdersSection extends StatefulWidget {
   @override
