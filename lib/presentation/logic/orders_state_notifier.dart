@@ -28,7 +28,7 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
   }
 
   Future<void> getOpenOrders() async {
-    state = Ordersloading();
+    state = OrdersLoading();
 
     final response = await _getOpenOrders(NoParams());
     response.fold(

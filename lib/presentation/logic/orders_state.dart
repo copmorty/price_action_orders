@@ -7,7 +7,7 @@ abstract class OrdersState extends Equatable {
 
 class OrdersInitial extends OrdersState {}
 
-class Ordersloading extends OrdersState {}
+class OrdersLoading extends OrdersState {}
 
 class OrdersLoaded extends OrdersState {
   final List<Order> openOrders;
