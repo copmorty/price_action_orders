@@ -4,23 +4,23 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/limit_form_field_amount.dart';
-import 'package:price_action_orders/presentation/widgets/limit_form_field_price.dart';
-import 'package:price_action_orders/presentation/widgets/limit_form_field_total.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_amount.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_price.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/limit_form_field_total.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 
-class LimitSellForm extends StatefulWidget {
+class LimitBuyForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const LimitSellForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const LimitBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
 
   @override
-  _LimitSellFormState createState() => _LimitSellFormState();
+  _LimitBuyFormState createState() => _LimitBuyFormState();
 }
 
-class _LimitSellFormState extends State<LimitSellForm> {
+class _LimitBuyFormState extends State<LimitBuyForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
@@ -55,7 +55,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
 
       final limitOrder = LimitOrderRequest(
         ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-        side: BinanceOrderSide.SELL,
+        side: BinanceOrderSide.BUY,
         timeInForce: BinanceOrderTimeInForce.GTC,
         quantity: quantity,
         price: price,
@@ -115,8 +115,8 @@ class _LimitSellFormState extends State<LimitSellForm> {
             height: 40,
             child: ElevatedButton(
               onPressed: _onFormSubmitted,
-              child: Text('Sell ${widget.baseAsset}'),
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              child: Text('Buy ${widget.baseAsset}'),
+              style: ElevatedButton.styleFrom(primary: Colors.green),
             ),
           ),
         ],

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/utils/formatters.dart';
 
-class DefaultFormField extends StatefulWidget {
+class DefaultTradeFormField extends StatefulWidget {
   final String hintText;
   final String suffixText;
   final TextEditingController controller;
@@ -10,7 +10,7 @@ class DefaultFormField extends StatefulWidget {
   final ValueChanged<String> onFieldSubmitted;
   final FormFieldValidator<String> validator;
 
-  const DefaultFormField({
+  const DefaultTradeFormField({
     Key key,
     @required this.hintText,
     @required this.suffixText,
@@ -22,10 +22,10 @@ class DefaultFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _DefaultFormFieldState createState() => _DefaultFormFieldState();
+  _DefaultTradeFormFieldState createState() => _DefaultTradeFormFieldState();
 }
 
-class _DefaultFormFieldState extends State<DefaultFormField> {
+class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
   bool _textFieldHasFocus = false;
 
   @override

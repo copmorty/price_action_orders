@@ -1,18 +1,20 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'default_form_field.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/default_trade_form_field.dart';
 
-class TotalFormField extends StatelessWidget {
-  final String quoteAsset;
+class AmountFormField extends StatelessWidget {
+  final String baseAsset;
+  final FocusNode amountFocus;
   final TextEditingController priceController;
   final TextEditingController amountController;
   final TextEditingController totalController;
   final Function setCurrentPrice;
   final Function submitForm;
 
-  const TotalFormField({
+  const AmountFormField({
     Key key,
-    @required this.quoteAsset,
+    @required this.baseAsset,
+    @required this.amountFocus,
     @required this.priceController,
     @required this.amountController,
     @required this.totalController,
@@ -20,23 +22,24 @@ class TotalFormField extends StatelessWidget {
     @required this.submitForm,
   }) : super(key: key);
 
-  void _onChanged(strTotal) {
+  void _onChanged(strAmount) {
     if (priceController.text.isEmpty) setCurrentPrice();
-    if (strTotal.isEmpty) {
-      amountController.text = '';
+    if (strAmount.isEmpty) {
+      totalController.text = '';
     } else {
       final price = Decimal.parse(priceController.text);
-      final total = Decimal.parse(strTotal);
-      amountController.text = (total / price).toString();
+      final amount = Decimal.parse(strAmount);
+      totalController.text = (price * amount).toString();
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultFormField(
-      hintText: 'Total',
-      suffixText: quoteAsset,
-      controller: totalController,
+    return DefaultTradeFormField(
+      hintText: 'Amount',
+      suffixText: baseAsset,
+      focusNode: amountFocus,
+      controller: amountController,
       onChanged: _onChanged,
       onFieldSubmitted: (strVal) => submitForm,
     );

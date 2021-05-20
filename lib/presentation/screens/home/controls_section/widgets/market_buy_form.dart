@@ -3,21 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/widgets/default_form_field.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/default_trade_form_field.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 
-class MarketSellForm extends StatefulWidget {
+class MarketBuyForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const MarketSellForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const MarketBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
 
   @override
-  _MarketSellFormState createState() => _MarketSellFormState();
+  _MarketBuyFormState createState() => _MarketBuyFormState();
 }
 
-class _MarketSellFormState extends State<MarketSellForm> {
+class _MarketBuyFormState extends State<MarketBuyForm> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -31,36 +31,14 @@ class _MarketSellFormState extends State<MarketSellForm> {
     return Form(
       child: Column(
         children: [
-          // //timeInForce
-          // Row(
-          //   children: [
-          //     DropdownButton(
-          //       value: _timeInForce,
-          //       onChanged: (val) => _selectTimeInForce(val),
-          //       items: [
-          //         DropdownMenuItem(
-          //           child: Text('GTC'),
-          //           value: BinanceOrderTimeInForce.GTC,
-          //           onTap: () {},
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text('IOC'),
-          //           value: BinanceOrderTimeInForce.IOC,
-          //           onTap: () {},
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text('FOK'),
-          //           value: BinanceOrderTimeInForce.FOK,
-          //           onTap: () {},
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
           Container(
-            height: 48,
+            height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(color: Colors.white10, borderRadius: BorderRadius.all(Radius.circular(4))),
+            decoration: BoxDecoration(
+              color: Colors.white10,
+              border: Border.all(color: Colors.transparent),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
             child: Row(
               children: [
                 Expanded(
@@ -82,20 +60,20 @@ class _MarketSellFormState extends State<MarketSellForm> {
             ),
           ),
           SizedBox(height: 10),
-          DefaultFormField(
-            hintText: 'Amount',
-            suffixText: widget.baseAsset,
+          DefaultTradeFormField(
+            hintText: 'Total',
+            suffixText: widget.quoteAsset,
             controller: _controller,
-            onFieldSubmitted: (_) => _marketSell(),
+            onFieldSubmitted: (_) => _marketBuy(),
           ),
           SizedBox(height: 10),
           SizedBox(
             width: double.infinity,
             height: 40,
             child: ElevatedButton(
-              onPressed: _marketSell,
-              child: Text('Sell ${widget.baseAsset}'),
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+              onPressed: _marketBuy,
+              child: Text('Buy ${widget.baseAsset}'),
+              style: ElevatedButton.styleFrom(primary: Colors.green),
             ),
           ),
         ],
@@ -103,15 +81,15 @@ class _MarketSellFormState extends State<MarketSellForm> {
     );
   }
 
-  void _marketSell() {
+  void _marketBuy() {
     if (_controller.text == '') return;
 
-    final quantityText = _controller.text.replaceAll(',', '.');
-    final quantity = Decimal.parse(quantityText);
-    final quoteOrderQty = null;
+    final quantity = null;
+    final quoteOrderQtyText = _controller.text.replaceAll(',', '.');
+    final quoteOrderQty = Decimal.parse(quoteOrderQtyText);
     final marketOrder = MarketOrderRequest(
       ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-      side: BinanceOrderSide.SELL,
+      side: BinanceOrderSide.BUY,
       quantity: quantity,
       quoteOrderQty: quoteOrderQty,
     );

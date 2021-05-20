@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class PageSelector extends StatelessWidget {
+class TabSelector extends StatelessWidget {
   final String label;
   final bool selected;
   final Function onTapped;
 
-  const PageSelector({Key key, @required this.label, @required this.selected, @required this.onTapped}) : super(key: key);
+  const TabSelector({Key key, @required this.label, @required this.selected, @required this.onTapped}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

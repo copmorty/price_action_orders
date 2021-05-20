@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/presentation/screens/home_orders_section.dart';
-import 'package:price_action_orders/presentation/widgets/inputsymbols_widget.dart';
-import 'package:price_action_orders/presentation/widgets/popup_manager_widget.dart';
-import 'package:price_action_orders/presentation/widgets/spotbalances_widget.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/trade_panel.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/input_symbols.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/popup_manager.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/spot_balances.dart';
 
 class ControlsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.black12,
-      // width: MediaQuery.of(context).size.width / 2,
       padding: const EdgeInsets.all(10),
       child: Column(
         children: [
@@ -17,7 +16,7 @@ class ControlsSection extends StatelessWidget {
           SizedBox(height: 10),
           SpotBalances(),
           SizedBox(height: 10),
-          OrdersSection(),
+          TradePanel(),
           PopupManager(),
         ],
       ),

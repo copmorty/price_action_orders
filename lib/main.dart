@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/presentation/screens/home_screen.dart';
+import 'package:price_action_orders/presentation/screens/home/_screen.dart';
 import 'providers.dart';
 
 void main() async {

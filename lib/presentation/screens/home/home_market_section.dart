@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/bookticker_display.dart';
+import 'package:price_action_orders/presentation/screens/home/market_section/bookticker_display.dart';
 import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'package:price_action_orders/providers.dart';
 
-class BookTickerSection extends StatelessWidget {
+class MarketSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // width: MediaQuery.of(context).size.width / 2,
       child: Column(
         children: [
           Expanded(
@@ -26,7 +25,6 @@ class BookTickerSection extends StatelessWidget {
                   if (bookTickerState is BookTickerLoaded) {
                     return BookTickerDisplay(bookTicker: bookTickerState.bookTicker);
                   }
-                  // bookTickerState is BookTickerInitial
                   return SizedBox();
                 },
               ),

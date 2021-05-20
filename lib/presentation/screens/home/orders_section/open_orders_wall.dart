@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:intl/intl.dart';
@@ -52,11 +53,7 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
           final ordersState = watch(ordersNotifierProvider);
           if (ordersState is OrdersLoading) {
             return Expanded(
-              child: Center(
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.indigo.shade300),
-                ),
-              ),
+              child: LoadingWidget(),
             );
           }
           if (ordersState is OrdersLoaded) {

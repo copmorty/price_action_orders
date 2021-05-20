@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/limit_section_widget.dart';
-import 'package:price_action_orders/presentation/widgets/market_section_widget.dart';
-import 'package:price_action_orders/presentation/widgets/pageselector_widget.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/market_board.dart';
+import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
 import 'package:price_action_orders/providers.dart';
+import 'widgets/limit_board.dart';
 
-class OrdersSection extends StatefulWidget {
+class TradePanel extends StatefulWidget {
   @override
-  _OrdersSectionState createState() => _OrdersSectionState();
+  _TradePanelState createState() => _TradePanelState();
 }
 
-class _OrdersSectionState extends State<OrdersSection> {
+class _TradePanelState extends State<TradePanel> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
 
@@ -44,9 +44,9 @@ class _OrdersSectionState extends State<OrdersSection> {
                 children: [
                   Row(
                     children: [
-                      PageSelector(label: 'Limit', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
-                      PageSelector(label: 'Market', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
-                      PageSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
+                      TabSelector(label: 'Limit', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
+                      TabSelector(label: 'Market', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
+                      TabSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                     ],
                   ),
                   Divider(height: 1),
@@ -58,8 +58,8 @@ class _OrdersSectionState extends State<OrdersSection> {
                         physics: NeverScrollableScrollPhysics(),
                         controller: _pageController,
                         children: [
-                          LimitOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                          MarketOrderSection(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
+                          LimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
+                          MarketBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
                           Container(),
                         ],
                       ),

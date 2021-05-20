@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:price_action_orders/presentation/screens/home_orders_wall.dart';
-import 'home_bookticker_section.dart';
+import 'package:price_action_orders/presentation/screens/home/home_orders_section.dart';
+import 'home_market_section.dart';
 import 'home_controls_section.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -32,28 +32,24 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       body: Container(
-        child: bodyBuilder(context),
-      ),
-    );
-  }
-
-  Widget bodyBuilder(context) {
-    return Column(
-      children: [
-        Expanded(
-          flex: 73,
-          child: Row(
-            children: [
-              Expanded(child: BookTickerSection()),
-              Expanded(child: ControlsSection()),
-            ],
-          ),
+        child: Column(
+          children: [
+            Expanded(
+              flex: 73,
+              child: Row(
+                children: [
+                  Expanded(child: MarketSection()),
+                  Expanded(child: ControlsSection()),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 27,
+              child: OrdersSection(),
+            ),
+          ],
         ),
-        Expanded(
-          flex: 27,
-            child: OrdersWall(),
-          ),
-      ],
+      ),
     );
   }
 }

@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:price_action_orders/presentation/widgets/default_form_field.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/default_trade_form_field.dart';
 
 class PriceFormField extends StatelessWidget {
   final String quoteAsset;
@@ -39,7 +39,7 @@ class PriceFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultFormField(
+    return DefaultTradeFormField(
       hintText: 'Price',
       suffixText: quoteAsset,
       controller: priceController,
