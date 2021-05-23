@@ -33,14 +33,17 @@ extension BinanceOrderTypeExtension on BinanceOrderType {
   String capitalizeWords() {
     final shortString = this.toShortString();
     return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
-
-    // return shortString[0] + shortString.substring(1).toLowerCase();
   }
 }
 
 extension BinanceOrderStatusExtension on BinanceOrderStatus {
   String toShortString() {
     return this.toString().substring(this.toString().indexOf('.') + 1);
+  }
+
+  String capitalizeWords() {
+    final shortString = this.toShortString();
+    return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
   }
 }
 

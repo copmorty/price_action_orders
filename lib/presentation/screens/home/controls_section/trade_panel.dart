@@ -24,11 +24,7 @@ class _TradePanelState extends State<TradePanel> {
   void _onTabTapped(int index) {
     setState(() {
       _currentPage = index;
-      _pageController.animateToPage(
-        index,
-        duration: Duration(milliseconds: 500),
-        curve: Curves.ease,
-      );
+      _pageController.jumpToPage(index);
     });
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
 import 'orders_section/open_orders_wall.dart';
+import 'orders_section/order_history_wall.dart';
 
 class OrdersSection extends StatefulWidget {
   @override
@@ -23,7 +24,7 @@ class _OrdersSectionState extends State<OrdersSection> {
       _pageController.animateToPage(
         index,
         duration: Duration(milliseconds: 500),
-        curve: Curves.ease,
+        curve: Curves.fastLinearToSlowEaseIn,
       );
     });
   }
@@ -37,7 +38,7 @@ class _OrdersSectionState extends State<OrdersSection> {
           Row(
             children: [
               TabSelector(label: 'Open Orders', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
-              TabSelector(label: 'Orders History', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
+              TabSelector(label: 'Order History', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
               TabSelector(label: 'Trade History', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
             ],
           ),
@@ -49,7 +50,7 @@ class _OrdersSectionState extends State<OrdersSection> {
               controller: _pageController,
               children: [
                 OpenOrdersWall(),
-                Container(),
+                OrderHistoryWall(),
                 Container(),
               ],
             ),

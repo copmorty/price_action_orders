@@ -11,13 +11,17 @@ class OrdersLoading extends OrdersState {}
 
 class OrdersLoaded extends OrdersState {
   final List<Order> openOrders;
-  final List<Order> ordersHistory = [];
-  final List<Order> tradeHistory = [];
+  final List<Order> orderHistory;
+  final List<Order> tradeHistory;
 
-  OrdersLoaded(this.openOrders);
+  OrdersLoaded({
+    @required this.openOrders,
+    this.orderHistory = const [],
+    this.tradeHistory = const [],
+  });
 
   @override
-  List<Object> get props => [openOrders, ordersHistory, tradeHistory];
+  List<Object> get props => [openOrders, orderHistory, tradeHistory];
 }
 
 class OrdersError extends OrdersState {
