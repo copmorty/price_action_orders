@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/providers.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'widgets/wall_table_cell.dart';
+
+class TradeHistoryWall extends StatefulWidget {
+  @override
+  _TradeHistoryWallState createState() => _TradeHistoryWallState();
+}
+
+class _TradeHistoryWallState extends State<TradeHistoryWall> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            WallTableCell(label: 'Date', isHeader: true),
+            WallTableCell(label: 'Pair', isHeader: true),
+            WallTableCell(label: 'Side', isHeader: true),
+            WallTableCell(label: 'Price', isHeader: true),
+            WallTableCell(label: 'Executed', isHeader: true),
+            WallTableCell(label: 'Fee', isHeader: true),
+            WallTableCell(label: 'Total', isHeader: true),
+          ],
+        ),
+        SizedBox(height: 5),
+        Consumer(
+          builder: (context, watch, child) {
+            final ordersState = watch(ordersNotifierProvider);
+            if (ordersState is OrdersLoading) {
+              return Expanded(
+                child: LoadingWidget(),
+              );
+            }
+            if (ordersState is OrdersLoaded) {
+              return Expanded(
+                child: ordersState.tradeHistory?.length == 0
+                    ? Center(
+                        child: Text('You have no trades.', style: TextStyle(color: Colors.white54)),
+                      )
+                    : Scrollbar(
+                        controller: _scrollController,
+                        isAlwaysShown: true,
+                        child: ListView.builder(
+                          controller: _scrollController,
+                          itemCount: ordersState.tradeHistory.length,
+                          itemBuilder: (context, index) {
+                            final trade = ordersState.tradeHistory[index];
+                            final dateTime = new DateTime.fromMillisecondsSinceEpoch(trade.time);
+                            final fee = trade.commisionAmount.toString() + ' ' + trade.commisionAsset;
+
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 2.5),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                children: [
+                                  WallTableCell(
+                                    label: DateFormat('yyyy-MM-d HH:mm:ss').format(dateTime),
+                                    style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+                                  ),
+                                  WallTableCell(label: trade.symbol),
+                                  WallTableCell(
+                                    label: trade.side.capitalize(),
+                                    style:
+                                        TextStyle(color: trade.side == BinanceOrderSide.BUY ? Colors.green : Colors.red, fontWeight: FontWeight.w500),
+                                  ),
+                                  WallTableCell(label: trade.price.toString()),
+                                  WallTableCell(label: trade.executedQty.toString()),
+                                  WallTableCell(label: fee),
+                                  WallTableCell(label: trade.quoteQty.toString()),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+              );
+            }
+
+            return SizedBox();
+          },
+        ),
+      ],
+    );
+  }
+}

@@ -15,7 +15,6 @@ class WallTableCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: Colors.pink,
       width: 100,
       child: child == null
           ? FittedBox(

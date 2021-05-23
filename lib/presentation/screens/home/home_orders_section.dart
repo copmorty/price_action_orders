@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
 import 'orders_section/open_orders_wall.dart';
 import 'orders_section/order_history_wall.dart';
+import 'orders_section/trade_history_wall.dart';
 
 class OrdersSection extends StatefulWidget {
   @override
@@ -51,7 +52,7 @@ class _OrdersSectionState extends State<OrdersSection> {
               children: [
                 OpenOrdersWall(),
                 OrderHistoryWall(),
-                Container(),
+                TradeHistoryWall(),
               ],
             ),
           ),

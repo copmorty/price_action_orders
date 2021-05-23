@@ -12,7 +12,7 @@ class OrdersLoading extends OrdersState {}
 class OrdersLoaded extends OrdersState {
   final List<Order> openOrders;
   final List<Order> orderHistory;
-  final List<Order> tradeHistory;
+  final List<Trade> tradeHistory;
 
   OrdersLoaded({
     @required this.openOrders,
