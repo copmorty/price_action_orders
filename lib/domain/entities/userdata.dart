@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
+import 'package:equatable/equatable.dart';
 import 'balance.dart';
 
 class UserData extends Equatable {

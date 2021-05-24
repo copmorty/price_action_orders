@@ -1,6 +1,6 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
@@ -45,8 +45,8 @@ class OrderRequestNotifier extends StateNotifier<OrderRequestState> {
     print('logic postCancelOrder');
     final failureOrCancelResponse = await _postCancelOrder(pco.Params(cancelOrderRequest));
     failureOrCancelResponse.fold(
-      (l) => null, //NEEDS LATER IMPLEMENTATION
-      (r) => null, //The success case is managed by the stream (executionReport)
+      (l) => null, // NEEDS LATER IMPLEMENTATION
+      (r) => null, // The success case is managed by the user data stream (executionReport)
     );
   }
 }

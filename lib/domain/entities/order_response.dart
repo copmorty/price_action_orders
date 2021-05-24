@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:equatable/equatable.dart';
+import 'ticker.dart';
 
 class OrderResponse extends Equatable {
   final Ticker ticker;

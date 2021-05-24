@@ -1,9 +1,9 @@
-import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/order_fill.dart';
-import 'package:price_action_orders/domain/entities/order_response.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'order_fill.dart';
+import 'order_response.dart';
+import 'ticker.dart';
 
 class OrderResponseFull extends OrderResponse {
   final Decimal price;

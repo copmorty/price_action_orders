@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
+import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_util.dart';
@@ -10,8 +11,6 @@ import 'package:price_action_orders/data/models/userdata_payload_accountupdate_m
 import 'package:price_action_orders/data/models/userdata_payload_orderupdate_model.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
-import 'package:http/http.dart' as http;
-import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
 
 abstract class UserDataDataSource {
   Future<UserData> getAccountInfo();
@@ -67,13 +66,12 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     if (response.statusCode == 200) {
       return UserDataModel.fromStringifiedMap(response.body);
     } else {
-      throw ServerException();
+      throw ServerException(message: "Account information could not be obtained.");
     }
   }
 
   @override
   Future<List<Order>> getOpenOrders() async {
-    print('getOpenOrders DATASOURCE!');
     const pathOpenOrders = '/api/v3/openOrders';
     final timestamp = DateTime.now().millisecondsSinceEpoch;
 
@@ -104,7 +102,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
       return openOrders;
     } else {
-      throw ServerException();
+      throw ServerException(message: "Could not obtain current open orders.");
     }
   }
 
@@ -131,8 +129,8 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
       final int statusCode = await _extendListenKeyValidity(listenKey);
       if (statusCode != 200) {
-        print('SOMETHING WENT WRONG');
-        throw ServerException(); //NEEDS IMPLEMENTATION
+        _streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));
+        timer.cancel();
       }
     });
 
@@ -158,18 +156,18 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
             if (finalData != null) _streamController.add(finalData);
           },
-          onDone: () => print('[+]Done :)'),
-          onError: (err) => print('[!]Error -- ${err.toString()}'),
+          onDone: () => print('[+] UserDataStream done.'),
+          onError: (err) => print('[!] Error: ${err.toString()}'),
           cancelOnError: true,
         );
       } else {
-        print('[!]Connection Denied');
+        print('[!] Connection denied.');
       }
     } catch (err) {
-      print(err);
+      _webSocket?.close();
       _streamController.close();
       if (_timer.isActive) _timer.cancel();
-      throw ServerException();
+      throw ServerException(message: "Could not obtain UserData stream.");
     }
 
     return _streamController.stream;

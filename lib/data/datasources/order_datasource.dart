@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
@@ -48,7 +47,7 @@ class OrderDataSourceImpl implements OrderDataSource {
       final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, marketOrder.ticker);
       return orderResponseFullModel;
     } else {
-      throw ServerException.fromStringifiedMap(response.body);
+      throw ServerException(message: "Market order could not be placed.");
     }
   }
 
@@ -72,7 +71,7 @@ class OrderDataSourceImpl implements OrderDataSource {
       final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, limitOrder.ticker);
       return orderResponseFullModel;
     } else {
-      throw ServerException.fromStringifiedMap(response.body);
+      throw ServerException(message: "Limit order could not be placed.");
     }
   }
 
@@ -96,7 +95,7 @@ class OrderDataSourceImpl implements OrderDataSource {
       final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);
       return cancelOrderResponse;
     } else {
-      throw ServerException.fromStringifiedMap(response.body);
+      throw ServerException(message: "The order could not be canceled.");
     }
   }
 }

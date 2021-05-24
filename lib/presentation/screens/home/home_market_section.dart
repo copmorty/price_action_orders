@@ -22,6 +22,9 @@ class MarketSection extends StatelessWidget {
                   if (bookTickerState is BookTickerLoading) {
                     return LoadingWidget();
                   }
+                  if (bookTickerState is BookTickerError) {
+                    return _BookTickerErrorWidget();
+                  }
                   if (bookTickerState is BookTickerLoaded) {
                     return BookTickerDisplay(bookTicker: bookTickerState.bookTicker);
                   }
@@ -38,6 +41,22 @@ class MarketSection extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _BookTickerErrorWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.error_outline_sharp, size: 60),
+        SizedBox(height: 10),
+        Text('Error', style: TextStyle(fontSize: 20)),
+        SizedBox(height: 5),
+        Text('Something went wrong. Please re-enter Base and Quote assets.'),
+      ],
     );
   }
 }

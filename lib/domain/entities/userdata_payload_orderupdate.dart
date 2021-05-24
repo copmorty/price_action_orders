@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/userdata_payload.dart';
+import 'userdata_payload.dart';
 
 class UserDataPayloadOrderUpdate extends UserDataPayload {
   final String symbol;

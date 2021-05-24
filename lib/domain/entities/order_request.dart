@@ -1,8 +1,8 @@
-import 'package:decimal/decimal.dart';
-import 'package:equatable/equatable.dart';
-import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:meta/meta.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:equatable/equatable.dart';
+import 'package:decimal/decimal.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'ticker.dart';
 
 class OrderRequest extends Equatable {
   final Ticker ticker;

@@ -1,7 +1,7 @@
 import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/balance.dart';
-import 'package:price_action_orders/domain/entities/userdata_payload.dart';
+import 'balance.dart';
+import 'userdata_payload.dart';
 
 class UserDataPayloadAccountUpdate extends UserDataPayload {
   final int lastAccountUpdateTime;

@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/data/datasources/order_datasource.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
@@ -19,8 +18,8 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await dataSource.postMarketOrder(marketOrder);
       return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure.fromException(e));
     }
   }
 
@@ -29,8 +28,8 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await dataSource.postLimitOrder(limitOrder);
       return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure.fromException(e));
     }
   }
 
@@ -39,8 +38,8 @@ class OrderRepositoryImpl implements OrderRepository {
     try {
       final response = await dataSource.postCancelOrder(cancelOrder);
       return Right(response);
-    } on ServerException catch (e) {
-      return Left(ServerFailure(message: e.message));
+    } catch (e) {
+      return Left(ServerFailure.fromException(e));
     }
   }
 }

@@ -1,9 +1,9 @@
 import 'dart:convert';
+import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/data/models/balance_model.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
-import 'package:meta/meta.dart';
 
 class UserDataModel extends UserData {
   final int updateTime;

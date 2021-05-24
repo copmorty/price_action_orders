@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 

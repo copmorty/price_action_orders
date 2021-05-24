@@ -17,9 +17,7 @@ class BookTickerRepositoryImpl implements BookTickerRepository {
       dataSource.cacheLastTicker(ticker);
       return Right(response);
     } catch (e) {
-      print('catchE');
-      print(e); //Needs implementation on ui
-      return Left(ServerFailure());
+      return Left(ServerFailure.fromException(e));
     }
   }
 

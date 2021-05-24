@@ -1,5 +1,5 @@
-import 'package:decimal/decimal.dart';
 import 'package:meta/meta.dart';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'order_request.dart';
 import 'ticker.dart';

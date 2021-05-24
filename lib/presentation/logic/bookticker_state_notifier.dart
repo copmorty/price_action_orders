@@ -1,14 +1,13 @@
 import 'dart:async';
-
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/usecases/get_lastticker.dart';
 import 'package:price_action_orders/domain/usecases/get_bookticker_stream.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
 
 part 'bookticker_state.dart';
 
@@ -33,7 +32,7 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
   Future<void> initialization() async {
     final failureOrTicker = await _getLastTicker(NoParams());
     failureOrTicker.fold(
-      (failure) => print('No ticker cached yet'),
+      (failure) => print('No ticker cached yet.'),
       (ticker) => streamBookTicker(ticker),
     );
   }
@@ -44,10 +43,16 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
     await _subscription?.cancel();
     final failureOrStream = await _getBookTickerStream(Params(ticker));
     failureOrStream.fold(
-      (failure) => state = BookTickerError('idk'),
+      (failure) => state = BookTickerError(failure.message),
       (stream) {
         _orderConfigNotifier.setState(ticker);
-        _subscription = stream.listen((event) => state = BookTickerLoaded(bookTicker: event));
+        _subscription = stream.listen(
+          (event) => state = BookTickerLoaded(bookTicker: event),
+          onError: (error) {
+            state = BookTickerError(error?.message ?? 'Market data not available right now.');
+          },
+          cancelOnError: true,
+        );
       },
     );
   }

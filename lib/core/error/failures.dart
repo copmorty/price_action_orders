@@ -1,12 +1,22 @@
 import 'package:equatable/equatable.dart';
+import 'exceptions.dart';
 
-abstract class Failure extends Equatable {}
+abstract class Failure extends Equatable {
+  final String message = 'Something went wrong.';
+}
 
-// General failures
 class ServerFailure extends Failure {
+  @override
   final String message;
 
   ServerFailure({this.message});
+
+  factory ServerFailure.fromException(Exception e) {
+    if (e is ServerException && e.message != null) {
+      return ServerFailure(message: e.message);
+    }
+    return ServerFailure();
+  }
 
   @override
   List<Object> get props => [message];

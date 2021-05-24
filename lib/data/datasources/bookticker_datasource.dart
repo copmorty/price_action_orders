@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
@@ -8,10 +9,8 @@ import 'package:price_action_orders/data/models/bookticker_model.dart';
 import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class BookTickerDataSource {
-  /// Websocket stream
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker);
   Future<void> cacheLastTicker(Ticker ticker);
   Future<Ticker> getLastTicker();
@@ -25,8 +24,9 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
   BookTickerDataSourceImpl(this.sharedPreferences);
 
   @override
-  Future<Stream<BookTicker>> getBookTickerStream(ticker) async {
+  Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker) async {
     const pathWS = '/ws/';
+
     final String symbol = ticker.baseAsset + ticker.quoteAsset;
     String pair = symbol.toLowerCase().replaceAll(RegExp(r'/'), '');
 
@@ -36,23 +36,24 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
 
     try {
       _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
+
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
             final bookTickerModel = BookTickerModel.fromStringifiedMap(strMap: data, ticker: ticker);
             _streamController.add(bookTickerModel);
           },
-          onDone: () => print('[+]Done :)'),
-          onError: (err) => print('[!]Error -- ${err.toString()}'),
+          onDone: () => print('[+] BookTicker stream done.'),
+          onError: (err) => print('[!] Error: ${err.toString()}'),
           cancelOnError: true,
         );
       } else {
-        print('[!]Connection Denied');
+        print('[!] Connection denied.');
       }
     } catch (err) {
-      print(err);
+      _webSocket?.close();
       _streamController.close();
-      throw ServerException();
+      throw ServerException(message: "Could not obtain BookTicker stream.");
     }
 
     return _streamController.stream;

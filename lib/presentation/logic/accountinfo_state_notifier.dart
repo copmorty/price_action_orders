@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -7,8 +7,6 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
 import 'package:price_action_orders/domain/usecases/get_userdata_accountinfo.dart';
-import 'package:meta/meta.dart';
-
 import 'userdata_stream.dart';
 
 part 'accountinfo_state.dart';
@@ -29,12 +27,19 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
   }
 
   Future<void> getAccountInfo() async {
+    state = AccountInfoLoading();
+
+    await _subscription?.cancel();
     final failureOrUserData = await _getAccountInfo(NoParams());
     failureOrUserData.fold(
-      (failure) => state = AccountInfoError('sww w/ GetUserData'),
+      (failure) => state = AccountInfoError(failure.message),
       (userData) {
         state = AccountInfoLoaded(userData);
-        _subscription = _userDataStream.stream().listen((data) => _checkForUpdate(data));
+        _subscription = _userDataStream.stream().listen(
+              (data) => _checkForUpdate(data),
+              onError: (error) => state = AccountInfoError(error?.message ?? 'Account info not available right now.'),
+              cancelOnError: true,
+            );
       },
     );
   }

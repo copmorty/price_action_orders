@@ -30,14 +30,21 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
   Future<void> getOpenOrders() async {
     state = OrdersLoading();
 
+    await _subscription?.cancel();
     final response = await _getOpenOrders(NoParams());
     response.fold(
-      (failure) => state = OrdersError('failure.message'),
+      (failure) => state = OrdersError(failure.message),
       (openOrderModels) {
         final List<Order> openOrders = openOrderModels.map((o) => o).toList();
         openOrders.sort((a, b) => b.time.compareTo(a.time));
+        
         state = OrdersLoaded(openOrders: openOrders);
-        _subscription = _userDataStream.stream().listen((data) => _checkForUpdate(data));
+
+        _subscription = _userDataStream.stream().listen(
+              (data) => _checkForUpdate(data),
+              onError: (error) => state = OrdersError('Something went wrong.'),
+              cancelOnError: true,
+            );
       },
     );
   }
