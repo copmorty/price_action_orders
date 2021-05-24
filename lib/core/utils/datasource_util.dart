@@ -1,8 +1,8 @@
-import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:meta/meta.dart';
 import 'dart:convert';
+import 'package:meta/meta.dart';
 import 'package:convert/convert.dart';
 import 'package:crypto/crypto.dart';
+import 'package:price_action_orders/core/globals/variables.dart';
 
 String generatetUrl({@required String path, @required Map<String, dynamic> params}) {
   String baseUrl = binanceUrl + path;

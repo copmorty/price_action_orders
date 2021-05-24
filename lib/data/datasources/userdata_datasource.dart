@@ -64,7 +64,8 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     );
 
     if (response.statusCode == 200) {
-      return UserDataModel.fromStringifiedMap(response.body);
+      final jsonData = jsonDecode(response.body);
+      return UserDataModel.fromJson(jsonData);
     } else {
       throw ServerException(message: "Account information could not be obtained.");
     }

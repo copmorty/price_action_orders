@@ -1,3 +1,5 @@
+import 'package:price_action_orders/core/utils/enums_functions.dart';
+
 enum AppMode { TEST, PRODUCTION }
 enum BinanceOrderSide { BUY, SELL }
 enum BinanceOrderType { LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER }
@@ -8,65 +10,36 @@ enum BinanceOrderExecutionType { NEW, CANCELED, REPLACED, REJECTED, TRADE, EXPIR
 enum BinanceUserDataPayloadEventType { outboundAccountPosition, balanceUpdate, executionReport, listStatus }
 
 extension AppModeExtension on AppMode {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-    // return this.toString().split('.').last;
-  }
+  String toShortString() => enumToShortString(this);
 }
 
 extension BinanceOrderSideExtension on BinanceOrderSide {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
-
-  String capitalize() {
-    final shortString = this.toShortString();
-    return shortString[0] + shortString.substring(1).toLowerCase();
-  }
+  String toShortString() => enumToShortString(this);
+  String capitalize() => enumToCapitalizedSentenceString(this);
 }
 
 extension BinanceOrderTypeExtension on BinanceOrderType {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
-
-  String capitalizeWords() {
-    final shortString = this.toShortString();
-    return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
-  }
+  String toShortString() => enumToShortString(this);
+  String capitalizeWords() => enumToCapitalizedWordsString(this);
 }
 
 extension BinanceOrderStatusExtension on BinanceOrderStatus {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
-
-  String capitalizeWords() {
-    final shortString = this.toShortString();
-    return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
-  }
+  String toShortString() => enumToShortString(this);
+  String capitalizeWords() => enumToCapitalizedWordsString(this);
 }
 
 extension BinanceOrderTimeInForceExtension on BinanceOrderTimeInForce {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
+  String toShortString() => enumToShortString(this);
 }
 
 extension BinanceOrderResponseTypeExtension on BinanceOrderResponseType {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
+  String toShortString() => enumToShortString(this);
 }
 
 extension BinanceOrderExecutionTypeExtension on BinanceOrderExecutionType {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
+  String toShortString() => enumToShortString(this);
 }
 
 extension BinanceUserDataPayloadEventTypeExtension on BinanceUserDataPayloadEventType {
-  String toShortString() {
-    return this.toString().substring(this.toString().indexOf('.') + 1);
-  }
+  String toShortString() => enumToShortString(this);
 }

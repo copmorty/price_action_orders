@@ -40,7 +40,8 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
-            final bookTickerModel = BookTickerModel.fromStringifiedMap(strMap: data, ticker: ticker);
+            final jsonData = jsonDecode(data);
+            final bookTickerModel = BookTickerModel.fromJson(jsonData, ticker);
             _streamController.add(bookTickerModel);
           },
           onDone: () => print('[+] BookTicker stream done.'),
@@ -72,7 +73,7 @@ class BookTickerDataSourceImpl implements BookTickerDataSource {
   Future<Ticker> getLastTicker() {
     final jsonString = sharedPreferences.getString(LAST_TICKER);
     if (jsonString != null) {
-      return Future.value(TickerModel.fromJson(json.decode(jsonString)));
+      return Future.value(TickerModel.fromJson(jsonDecode(jsonString)));
     } else {
       throw CacheException();
     }

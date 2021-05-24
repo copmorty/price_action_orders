@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/data/models/balance_model.dart';
@@ -35,24 +34,22 @@ class UserDataModel extends UserData {
   @override
   List<Object> get props => [updateTime];
 
-  factory UserDataModel.fromStringifiedMap(String strMap) {
-    final Map data = jsonDecode(strMap);
-
-    var bList = data['balances'] as List;
+  factory UserDataModel.fromJson(Map<String, dynamic> parsedJson) {
+    var bList = parsedJson['balances'] as List;
     List<Balance> balancesList =
         bList.map((item) => BalanceModel.fromJson(item)).where((balance) => balance.free != Decimal.zero || balance.locked != Decimal.zero).toList();
-    List<String> permissionsList = List<String>.from(data['permissions']);
+    List<String> permissionsList = List<String>.from(parsedJson['permissions']);
 
     return UserDataModel(
-      updateTime: data['updateTime'],
-      makerCommission: data['makerCommission'],
-      takerCommission: data['takerCommission'],
-      buyerCommission: data['buyerCommission'],
-      sellerCommission: data['sellerCommission'],
-      canTrade: data['canTrade'],
-      canWithdraw: data['canWithdraw'],
-      canDeposit: data['canDeposit'],
-      accountType: data['accountType'],
+      updateTime: parsedJson['updateTime'],
+      makerCommission: parsedJson['makerCommission'],
+      takerCommission: parsedJson['takerCommission'],
+      buyerCommission: parsedJson['buyerCommission'],
+      sellerCommission: parsedJson['sellerCommission'],
+      canTrade: parsedJson['canTrade'],
+      canWithdraw: parsedJson['canWithdraw'],
+      canDeposit: parsedJson['canDeposit'],
+      accountType: parsedJson['accountType'],
       permissions: permissionsList,
       balances: balancesList,
     );

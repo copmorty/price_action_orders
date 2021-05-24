@@ -43,7 +43,8 @@ class OrderDataSourceImpl implements OrderDataSource {
     );
 
     if (response.statusCode == 200) {
-      final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, marketOrder.ticker);
+      final jsonData = jsonDecode(response.body);
+      final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, marketOrder.ticker);
       return orderResponseFullModel;
     } else {
       throw ServerException(message: "Market order could not be placed.");
@@ -67,7 +68,8 @@ class OrderDataSourceImpl implements OrderDataSource {
     );
 
     if (response.statusCode == 200) {
-      final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, limitOrder.ticker);
+      final jsonData = jsonDecode(response.body);
+      final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, limitOrder.ticker);
       return orderResponseFullModel;
     } else {
       throw ServerException(message: "Limit order could not be placed.");
@@ -87,7 +89,7 @@ class OrderDataSourceImpl implements OrderDataSource {
         'X-MBX-APIKEY': apiKey,
       },
     );
-    
+
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);

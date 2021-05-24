@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
@@ -26,17 +25,15 @@ class BookTickerModel extends BookTicker {
   @override
   List<Object> get props => [updatedId];
 
-  factory BookTickerModel.fromStringifiedMap({@required String strMap, @required Ticker ticker}) {
-    final data = jsonDecode(strMap);
-
+  factory BookTickerModel.fromJson(Map<String, dynamic> parsedJson, Ticker ticker) {
     return BookTickerModel(
-      updatedId: data['u'],
-      symbol: data['s'],
+      updatedId: parsedJson['u'],
+      symbol: parsedJson['s'],
       ticker: ticker,
-      bidPrice: Decimal.parse(data['b']),
-      bidQty: Decimal.parse(data['B']),
-      askPrice: Decimal.parse(data['a']),
-      askQty: Decimal.parse(data['A']),
+      bidPrice: Decimal.parse(parsedJson['b']),
+      bidQty: Decimal.parse(parsedJson['B']),
+      askPrice: Decimal.parse(parsedJson['a']),
+      askQty: Decimal.parse(parsedJson['A']),
     );
   }
 }
