@@ -20,7 +20,7 @@ class UserDataStream {
 
     final failureOrStream = await _getUserDataStream(NoParams());
     failureOrStream.fold(
-      (failure) => print('UserDataStream ERROR!!'),
+      (failure) => _streamController.addError(failure),
       (stream) => _subscription = stream.listen(
         (event) => _streamController.add(event),
         onError: (error) => _streamController.addError(error),

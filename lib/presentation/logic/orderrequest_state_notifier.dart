@@ -42,7 +42,6 @@ class OrderRequestNotifier extends StateNotifier<OrderRequestState> {
   }
 
   Future<void> postCancelOrder(CancelOrderRequest cancelOrderRequest) async {
-    print('logic postCancelOrder');
     final failureOrCancelResponse = await _postCancelOrder(pco.Params(cancelOrderRequest));
     failureOrCancelResponse.fold(
       (l) => null, // NEEDS LATER IMPLEMENTATION

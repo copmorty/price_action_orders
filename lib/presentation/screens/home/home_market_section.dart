@@ -19,6 +19,9 @@ class MarketSection extends StatelessWidget {
               child: Consumer(
                 builder: (context, watch, child) {
                   final bookTickerState = watch(bookTickerNotifierProvider);
+                  if (bookTickerState is BookTickerInitial) {
+                    return Center(child: Text('Please enter Base & Quote assets'));
+                  }
                   if (bookTickerState is BookTickerLoading) {
                     return LoadingWidget();
                   }
@@ -55,7 +58,7 @@ class _BookTickerErrorWidget extends StatelessWidget {
         SizedBox(height: 10),
         Text('Error', style: TextStyle(fontSize: 20)),
         SizedBox(height: 5),
-        Text('Something went wrong. Please re-enter Base and Quote assets.'),
+        Text('Something went wrong. Please re-enter Base and Quote assets'),
       ],
     );
   }

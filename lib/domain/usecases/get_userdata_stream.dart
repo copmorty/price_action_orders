@@ -9,7 +9,7 @@ class GetUserDataStream implements UseCase<Stream<dynamic>, NoParams> {
   GetUserDataStream(this.repository);
 
   @override
-  Future<Either<Failure, Stream<dynamic>>> call(params) {
-    return repository.getUserDataStream();
+  Future<Either<Failure, Stream<dynamic>>> call(params) async {
+    return await repository.getUserDataStream();
   }
 }

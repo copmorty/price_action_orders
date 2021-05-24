@@ -43,7 +43,6 @@ class OrderDataSourceImpl implements OrderDataSource {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
       final orderResponseFullModel = OrderResponseFullModel.fromStringifiedMap(response.body, marketOrder.ticker);
       return orderResponseFullModel;
     } else {
@@ -88,8 +87,7 @@ class OrderDataSourceImpl implements OrderDataSource {
         'X-MBX-APIKEY': apiKey,
       },
     );
-    print(response.statusCode);
-    print(response.body);
+    
     if (response.statusCode == 200) {
       final jsonData = jsonDecode(response.body);
       final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);

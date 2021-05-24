@@ -91,8 +91,6 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       },
     );
 
-    print(response.body);
-
     if (response.statusCode == 200) {
       final List<dynamic> data = jsonDecode(response.body);
       final List<OrderModel> openOrders = [];
@@ -144,7 +142,6 @@ class UserDataDataSourceImpl implements UserDataDataSource {
         _webSocket.listen(
           (data) {
             final Map jsonData = jsonDecode(data);
-            print(data);
             dynamic finalData;
 
             if (jsonData['e'] == 'outboundAccountPosition') {

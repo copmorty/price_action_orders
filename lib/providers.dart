@@ -28,7 +28,6 @@ import 'domain/usecases/get_userdata_stream.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
 import 'presentation/logic/orderrequest_state_notifier.dart';
 import 'presentation/logic/orderconfig_state_notifier.dart';
-// import 'presentation/logic/userdata_state_notifier.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
 
 SharedPreferences sharedPreferencesInstance;
@@ -63,14 +62,11 @@ final orderRequestNotifierProvider = StateNotifierProvider<OrderRequestNotifier,
 );
 final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
 final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, AccountInfoState>(
-  (ref) => AccountInfoNotifier(getAccountInfo: ref.watch(getAccountInfo), userDataStream: ref.watch(userDataStream)),
+  (ref) => AccountInfoNotifier(
+    getAccountInfo: ref.watch(getAccountInfo),
+    userDataStream: ref.watch(userDataStream),
+  ),
 );
-// final userDataNotifierProvider = StateNotifierProvider<UserDataNotifier, UserDataState>(
-//   (ref) => UserDataNotifier(
-//     getUserData: ref.watch(getAccountInfo),
-//     streamUserData: ref.watch(getUserDataStream),
-//   ),
-// );
 final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState>(
   (ref) => OrdersNotifier(
     getOpenOrders: ref.watch(getOpenOrders),
