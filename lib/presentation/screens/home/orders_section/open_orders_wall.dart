@@ -25,9 +25,9 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
   }
 
   void _cancelOrder(String symbol, int orderId) {
-    final orderRequestNotifier = context.read(orderRequestNotifierProvider.notifier);
+    final tradeNotifier = context.read(tradeNotifierProvider.notifier);
     final cancelOrderRequest = CancelOrderRequest(symbol: symbol, orderId: orderId);
-    orderRequestNotifier.postCancelOrder(cancelOrderRequest);
+    tradeNotifier.postCancelOrder(cancelOrderRequest);
   }
 
   @override

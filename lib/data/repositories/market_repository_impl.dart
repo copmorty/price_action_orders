@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
-import 'package:price_action_orders/data/datasources/bookticker_datasource.dart';
+import 'package:price_action_orders/data/datasources/market_datasource.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/domain/repositories/bookticker_respository.dart';
+import 'package:price_action_orders/domain/repositories/market_respository.dart';
 
-class BookTickerRepositoryImpl implements BookTickerRepository {
-  final BookTickerDataSource dataSource;
+class MarketRepositoryImpl implements MarketRepository {
+  final MarketDataSource dataSource;
 
-  BookTickerRepositoryImpl(this.dataSource);
+  MarketRepositoryImpl(this.dataSource);
 
   @override
   Future<Either<Failure, Stream<BookTicker>>> getBookTickerStream(Ticker ticker) async {

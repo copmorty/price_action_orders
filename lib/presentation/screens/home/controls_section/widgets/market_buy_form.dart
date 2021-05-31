@@ -96,6 +96,6 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
 
     _controller.clear();
     FocusScope.of(context).unfocus();
-    context.read(orderRequestNotifierProvider.notifier).postMarketOrder(marketOrder);
+    context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
   }
 }

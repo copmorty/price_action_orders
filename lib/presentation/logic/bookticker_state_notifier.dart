@@ -5,8 +5,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/domain/usecases/get_lastticker.dart';
-import 'package:price_action_orders/domain/usecases/get_bookticker_stream.dart';
+import 'package:price_action_orders/domain/usecases/get_market_last_ticker.dart';
+import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
 
 part 'bookticker_state.dart';

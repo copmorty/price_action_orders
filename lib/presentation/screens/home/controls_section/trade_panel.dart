@@ -49,7 +49,6 @@ class _TradePanelState extends State<TradePanel> {
                   SizedBox(height: 10),
                   Expanded(
                     child: Container(
-                      // height: 370,
                       child: PageView(
                         physics: NeverScrollableScrollPhysics(),
                         controller: _pageController,

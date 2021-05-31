@@ -10,18 +10,18 @@ import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
-abstract class BookTickerDataSource {
+abstract class MarketDataSource {
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker);
   Future<void> cacheLastTicker(Ticker ticker);
   Future<Ticker> getLastTicker();
 }
 
-class BookTickerDataSourceImpl implements BookTickerDataSource {
+class MarketDataSourceImpl implements MarketDataSource {
   final SharedPreferences sharedPreferences;
   WebSocket _webSocket;
   StreamController<BookTicker> _streamController;
 
-  BookTickerDataSourceImpl(this.sharedPreferences);
+  MarketDataSourceImpl(this.sharedPreferences);
 
   @override
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker) async {

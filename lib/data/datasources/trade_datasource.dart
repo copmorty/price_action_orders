@@ -14,17 +14,17 @@ import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 
-abstract class OrderDataSource {
+abstract class TradeDataSource {
   Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder);
   Future<OrderResponseFull> postLimitOrder(LimitOrderRequest limitOrder);
   Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest limitOrder);
 }
 
-class OrderDataSourceImpl implements OrderDataSource {
+class TradeDataSourceImpl implements TradeDataSource {
   static const path = '/api/v3/order';
   final http.Client client;
 
-  OrderDataSourceImpl(this.client);
+  TradeDataSourceImpl(this.client);
 
   @override
   Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder) async {

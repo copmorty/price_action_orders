@@ -5,7 +5,7 @@ import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'package:price_action_orders/presentation/logic/orderrequest_state_notifier.dart';
+import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 
 /// This is basically an empty UI widget that only
 /// manages popup messages
@@ -21,17 +21,17 @@ class _PopupManagerState extends State<PopupManager> {
   Widget build(BuildContext buildContext) {
     return ProviderListener(
       onChange: (context, state) {
-        if (state is OrderRequestError) {
+        if (state is TradeError) {
           showOrderErrorDialog(state.message);
         }
-        if (state is MarketOrderLoaded) {
+        if (state is MarketTradeLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
-        if (state is LimitOrderLoaded) {
+        if (state is LimitTradeLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
       },
-      provider: orderRequestNotifierProvider,
+      provider: tradeNotifierProvider,
       child: SizedBox(),
     );
   }

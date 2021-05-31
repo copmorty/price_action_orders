@@ -4,10 +4,10 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'package:price_action_orders/domain/repositories/order_repository.dart';
+import 'package:price_action_orders/domain/repositories/trade_repository.dart';
 
 class PostLimitOrder implements UseCase<OrderResponseFull, Params> {
-  OrderRepository repository;
+  final TradeRepository repository;
 
   PostLimitOrder(this.repository);
 

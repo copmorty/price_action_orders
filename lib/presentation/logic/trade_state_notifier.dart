@@ -5,39 +5,39 @@ import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'package:price_action_orders/domain/usecases/post_limitorder.dart' as plo;
-import 'package:price_action_orders/domain/usecases/post_marketorder.dart' as pmo;
-import 'package:price_action_orders/domain/usecases/post_cancelorder.dart' as pco;
+import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart' as plo;
+import 'package:price_action_orders/domain/usecases/post_trade_market_order.dart' as pmo;
+import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart' as pco;
 
-part 'orderrequest_state.dart';
+part 'trade_state.dart';
 
-class OrderRequestNotifier extends StateNotifier<OrderRequestState> {
+class TradeNotifier extends StateNotifier<TradeState> {
   final plo.PostLimitOrder _postLimitOrder;
   final pmo.PostMarketOrder _postMarketOrder;
   final pco.PostCancelOrder _postCancelOrder;
 
-  OrderRequestNotifier({
+  TradeNotifier({
     @required plo.PostLimitOrder postLimitOrder,
     @required pmo.PostMarketOrder postMarketOrder,
     @required pco.PostCancelOrder postCancelOrder,
   })  : _postLimitOrder = postLimitOrder,
         _postMarketOrder = postMarketOrder,
         _postCancelOrder = postCancelOrder,
-        super(OrderRequestInitial());
+        super(TradeInitial());
 
   Future<void> postLimitOrder(LimitOrderRequest limitOrder) async {
     final failureOrOrderResponse = await _postLimitOrder(plo.Params(limitOrder));
     failureOrOrderResponse.fold(
-      (failure) => state = OrderRequestError(orderTimestamp: limitOrder.timestamp, message: failure.message),
-      (orderResponse) => state = LimitOrderLoaded(orderResponse),
+      (failure) => state = TradeError(orderTimestamp: limitOrder.timestamp, message: failure.message),
+      (orderResponse) => state = LimitTradeLoaded(orderResponse),
     );
   }
 
   Future<void> postMarketOrder(MarketOrderRequest marketOrder) async {
     final failureOrOrderResponse = await _postMarketOrder(pmo.Params(marketOrder));
     failureOrOrderResponse.fold(
-      (failure) => state = OrderRequestError(orderTimestamp: marketOrder.timestamp, message: failure.message),
-      (orderResponse) => state = MarketOrderLoaded(orderResponse),
+      (failure) => state = TradeError(orderTimestamp: marketOrder.timestamp, message: failure.message),
+      (orderResponse) => state = MarketTradeLoaded(orderResponse),
     );
   }
 
