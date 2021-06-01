@@ -50,7 +50,7 @@ class TradeNotifier extends StateNotifier<TradeState> {
 
     final failureOrCancelResponse = await _postCancelOrder(pco.Params(cancelOrderRequest));
     failureOrCancelResponse.fold(
-      (failure) => state = TradeError(orderTimestamp: cancelOrderRequest.timestamp, message: failure.message),// NEEDS MESSAGE IMPROVEMENT
+      (failure) => state = TradeError(orderTimestamp: cancelOrderRequest.timestamp, message: failure.message),
       (cancelResponse) => null, // The success case is managed by the user data stream (executionReport)
     );
   }

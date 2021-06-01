@@ -42,7 +42,7 @@ class _TradePanelState extends State<TradePanel> {
                     children: [
                       TabSelector(label: 'Limit', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
                       TabSelector(label: 'Market', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
-                      TabSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
+                      // TabSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                     ],
                   ),
                   Divider(height: 1),
@@ -55,7 +55,7 @@ class _TradePanelState extends State<TradePanel> {
                         children: [
                           LimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
                           MarketBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                          Container(),
+                          // Container(),
                         ],
                       ),
                     ),

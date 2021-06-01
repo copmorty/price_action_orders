@@ -76,7 +76,7 @@ class _TradeHistoryWallState extends State<TradeHistoryWall> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               WallTableCell(
-                                label: DateFormat('yyyy-MM-d HH:mm:ss').format(dateTime),
+                                label: DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
                                 style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
                               ),
                               WallTableCell(label: trade.symbol),

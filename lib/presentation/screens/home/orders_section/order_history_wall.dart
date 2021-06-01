@@ -88,7 +88,7 @@ class _OrderHistoryWallState extends State<OrderHistoryWall> {
                               mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 WallTableCell(
-                                  label: DateFormat('MM-d HH:mm:ss').format(dateTime),
+                                  label: DateFormat('MM-dd HH:mm:ss').format(dateTime),
                                   style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
                                 ),
                                 WallTableCell(label: order.symbol),

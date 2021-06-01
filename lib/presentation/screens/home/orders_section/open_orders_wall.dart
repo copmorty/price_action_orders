@@ -86,7 +86,7 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
                               WallTableCell(
-                                label: DateFormat('MM-d HH:mm:ss').format(dateTime),
+                                label: DateFormat('MM-dd HH:mm:ss').format(dateTime),
                                 style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
                               ),
                               WallTableCell(label: order.symbol),
@@ -101,7 +101,7 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
                               WallTableCell(label: total.toString()),
                               WallTableCell(label: triggerConditions),
                               WallTableCell(
-                                child: _CancelOrderButton(order),
+                                child: _CancelOrderButton(key: ValueKey(order.orderId), order: order),
                               ),
                             ],
                           ),
@@ -124,7 +124,10 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
 class _CancelOrderButton extends StatefulWidget {
   final Order order;
 
-  const _CancelOrderButton(this.order, {Key key}) : super(key: key);
+  const _CancelOrderButton({
+    @required Key key,
+    @required this.order,
+  }) : super(key: key);
 
   @override
   __CancelOrderButtonState createState() => __CancelOrderButtonState();
