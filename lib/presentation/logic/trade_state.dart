@@ -9,19 +9,19 @@ abstract class TradeState extends Equatable {
 
 class TradeInitial extends TradeState {}
 
-class MarketTradeLoaded extends TradeState {
-  final OrderResponseFull orderResponse;
+class TradeLoading extends TradeState {
+  final int operationId;
 
-  MarketTradeLoaded(this.orderResponse);
+  TradeLoading(this.operationId);
 
   @override
-  List<Object> get props => [orderResponse];
+  List<Object> get props => [operationId];
 }
 
-class LimitTradeLoaded extends TradeState {
+class TradeLoaded extends TradeState {
   final OrderResponseFull orderResponse;
 
-  LimitTradeLoaded(this.orderResponse);
+  TradeLoaded(this.orderResponse);
 
   @override
   List<Object> get props => [orderResponse];

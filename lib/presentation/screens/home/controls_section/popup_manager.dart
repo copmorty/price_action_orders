@@ -24,10 +24,7 @@ class _PopupManagerState extends State<PopupManager> {
         if (state is TradeError) {
           showOrderErrorDialog(state.message);
         }
-        if (state is MarketTradeLoaded) {
-          showOrderLoadedDialog(state.orderResponse);
-        }
-        if (state is LimitTradeLoaded) {
+        if (state is TradeLoaded) {
           showOrderLoadedDialog(state.orderResponse);
         }
       },
@@ -117,7 +114,8 @@ class _PopupManagerState extends State<PopupManager> {
                     ],
                   ),
                 ),
-                orderResponse.type == BinanceOrderType.LIMIT ? LimitOrderPopupDialog(orderResponse) : MarketOrderPopupDialog(orderResponse),
+                if (orderResponse.type == BinanceOrderType.LIMIT) LimitOrderPopupDialog(orderResponse),
+                if (orderResponse.type == BinanceOrderType.MARKET) MarketOrderPopupDialog(orderResponse),
               ],
             ),
           ),

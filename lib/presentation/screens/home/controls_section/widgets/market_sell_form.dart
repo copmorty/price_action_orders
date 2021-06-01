@@ -5,6 +5,8 @@ import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
+import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'default_trade_form_field.dart';
 
 class MarketSellForm extends StatefulWidget {
@@ -19,6 +21,7 @@ class MarketSellForm extends StatefulWidget {
 
 class _MarketSellFormState extends State<MarketSellForm> {
   final TextEditingController _controller = TextEditingController();
+  int operationId;
 
   @override
   void dispose() {
@@ -92,10 +95,24 @@ class _MarketSellFormState extends State<MarketSellForm> {
           SizedBox(
             width: double.infinity,
             height: 40,
-            child: ElevatedButton(
-              onPressed: _marketSell,
-              child: Text('Sell ${widget.baseAsset}'),
-              style: ElevatedButton.styleFrom(primary: Colors.red),
+            child: Consumer(
+              builder: (context, watch, child) {
+                final tradeState = watch(tradeNotifierProvider);
+
+                if (tradeState is TradeLoading && tradeState.operationId == operationId) {
+                  return ElevatedButton(
+                    onPressed: () {},
+                    child: LoadingWidget(height: 20, width: 20, color: Colors.white70),
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                  );
+                }
+
+                return ElevatedButton(
+                  onPressed: _marketSell,
+                  child: Text('Sell ${widget.baseAsset}'),
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                );
+              },
             ),
           ),
         ],
@@ -115,6 +132,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
       quantity: quantity,
       quoteOrderQty: quoteOrderQty,
     );
+    operationId = marketOrder.timestamp;
 
     _controller.clear();
     FocusScope.of(context).unfocus();

@@ -4,8 +4,10 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
+import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/widgets/reload_widget.dart';
 import 'widgets/wall_table_cell.dart';
@@ -22,12 +24,6 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
   void dispose() {
     super.dispose();
     _scrollController.dispose();
-  }
-
-  void _cancelOrder(String symbol, int orderId) {
-    final tradeNotifier = context.read(tradeNotifierProvider.notifier);
-    final cancelOrderRequest = CancelOrderRequest(symbol: symbol, orderId: orderId);
-    tradeNotifier.postCancelOrder(cancelOrderRequest);
   }
 
   @override
@@ -105,7 +101,7 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
                               WallTableCell(label: total.toString()),
                               WallTableCell(label: triggerConditions),
                               WallTableCell(
-                                child: _CancelOrderButton(() => _cancelOrder(order.symbol, order.orderId)),
+                                child: _CancelOrderButton(order),
                               ),
                             ],
                           ),
@@ -125,25 +121,46 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
   }
 }
 
-class _CancelOrderButton extends StatelessWidget {
-  final Function callback;
+class _CancelOrderButton extends StatefulWidget {
+  final Order order;
 
-  const _CancelOrderButton(this.callback, {Key key}) : super(key: key);
+  const _CancelOrderButton(this.order, {Key key}) : super(key: key);
+
+  @override
+  __CancelOrderButtonState createState() => __CancelOrderButtonState();
+}
+
+class __CancelOrderButtonState extends State<_CancelOrderButton> {
+  int operationId;
+
+  void _cancelOrder() {
+    final cancelOrderRequest = CancelOrderRequest(symbol: widget.order.symbol, orderId: widget.order.orderId);
+    operationId = cancelOrderRequest.timestamp;
+    context.read(tradeNotifierProvider.notifier).postCancelOrder(cancelOrderRequest);
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-      style: ButtonStyle(
-        padding: MaterialStateProperty.all(EdgeInsets.zero),
-        minimumSize: MaterialStateProperty.all(Size(0, 0)),
-        overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
-        foregroundColor: MaterialStateProperty.resolveWith((states) {
-          if (states.contains(MaterialState.hovered)) return Colors.indigo.shade400;
-          return Colors.indigo.shade300;
-        }),
-      ),
-      onPressed: callback,
-      child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
-    );
+    return Consumer(builder: (context, watch, child) {
+      final tradeState = watch(tradeNotifierProvider);
+
+      if (tradeState is TradeLoading && tradeState.operationId == operationId) {
+        return LoadingWidget(height: 15, width: 15);
+      }
+
+      return TextButton(
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(EdgeInsets.zero),
+          minimumSize: MaterialStateProperty.all(Size(0, 0)),
+          overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+          foregroundColor: MaterialStateProperty.resolveWith((states) {
+            if (states.contains(MaterialState.hovered)) return Colors.indigo.shade400;
+            return Colors.indigo.shade300;
+          }),
+        ),
+        onPressed: _cancelOrder,
+        child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
+      );
+    });
   }
 }

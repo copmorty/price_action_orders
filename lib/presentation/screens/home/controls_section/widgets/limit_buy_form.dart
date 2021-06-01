@@ -6,6 +6,8 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
+import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
+import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
 import 'limit_form_field_amount.dart';
 import 'limit_form_field_price.dart';
 import 'limit_form_field_total.dart';
@@ -27,6 +29,7 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
   final TextEditingController _totalController = TextEditingController();
   final FocusNode _amountFocus = FocusNode();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
+  int operationId;
 
   @override
   void dispose() {
@@ -60,6 +63,7 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
         quantity: quantity,
         price: price,
       );
+      operationId = limitOrder.timestamp;
 
       _priceController.clear();
       _amountController.clear();
@@ -113,10 +117,24 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
           SizedBox(
             width: double.infinity,
             height: 40,
-            child: ElevatedButton(
-              onPressed: _onFormSubmitted,
-              child: Text('Buy ${widget.baseAsset}'),
-              style: ElevatedButton.styleFrom(primary: Colors.green),
+            child: Consumer(
+              builder: (context, watch, child) {
+                final tradeState = watch(tradeNotifierProvider);
+
+                if (tradeState is TradeLoading && tradeState.operationId == operationId) {
+                  return ElevatedButton(
+                    onPressed: () {},
+                    child: LoadingWidget(height: 20, width: 20, color: Colors.white70),
+                    style: ElevatedButton.styleFrom(primary: Colors.green),
+                  );
+                }
+
+                return ElevatedButton(
+                  onPressed: _onFormSubmitted,
+                  child: Text('Buy ${widget.baseAsset}'),
+                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                );
+              },
             ),
           ),
         ],

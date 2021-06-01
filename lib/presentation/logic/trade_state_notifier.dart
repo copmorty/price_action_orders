@@ -26,26 +26,32 @@ class TradeNotifier extends StateNotifier<TradeState> {
         super(TradeInitial());
 
   Future<void> postLimitOrder(LimitOrderRequest limitOrder) async {
+    state = TradeLoading(limitOrder.timestamp);
+
     final failureOrOrderResponse = await _postLimitOrder(plo.Params(limitOrder));
     failureOrOrderResponse.fold(
       (failure) => state = TradeError(orderTimestamp: limitOrder.timestamp, message: failure.message),
-      (orderResponse) => state = LimitTradeLoaded(orderResponse),
+      (orderResponse) => state = TradeLoaded(orderResponse),
     );
   }
 
   Future<void> postMarketOrder(MarketOrderRequest marketOrder) async {
+    state = TradeLoading(marketOrder.timestamp);
+
     final failureOrOrderResponse = await _postMarketOrder(pmo.Params(marketOrder));
     failureOrOrderResponse.fold(
       (failure) => state = TradeError(orderTimestamp: marketOrder.timestamp, message: failure.message),
-      (orderResponse) => state = MarketTradeLoaded(orderResponse),
+      (orderResponse) => state = TradeLoaded(orderResponse),
     );
   }
 
   Future<void> postCancelOrder(CancelOrderRequest cancelOrderRequest) async {
+    state = TradeLoading(cancelOrderRequest.timestamp);
+
     final failureOrCancelResponse = await _postCancelOrder(pco.Params(cancelOrderRequest));
     failureOrCancelResponse.fold(
-      (l) => null, // NEEDS LATER IMPLEMENTATION
-      (r) => null, // The success case is managed by the user data stream (executionReport)
+      (failure) => state = TradeError(orderTimestamp: cancelOrderRequest.timestamp, message: failure.message),// NEEDS MESSAGE IMPROVEMENT
+      (cancelResponse) => null, // The success case is managed by the user data stream (executionReport)
     );
   }
 }
