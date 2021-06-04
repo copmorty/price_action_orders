@@ -7,8 +7,7 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 
-/// This is basically an empty UI widget that only
-/// manages popup messages
+/// This is an empty UI widget that manages popup messages
 class PopupManager extends StatefulWidget {
   @override
   _PopupManagerState createState() => _PopupManagerState();
@@ -146,27 +145,27 @@ class LimitOrderPopupDialog extends StatelessWidget {
 
     return Column(
       children: [
-        RowDivision('STATUS:', orderResponse.status.toShortString()),
+        _RowDivisionStatus(orderResponse.status, orderResponse.side),
         if (orderResponse.side == BinanceOrderSide.BUY) ...[
-          RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          RowDivision('TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          RowDivision('TO SPENT:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          _RowDivision('TO SPENT:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
           if (weightedAveragePrice != null) ...[
             Divider(),
-            RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-            RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-            RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            _RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+            _RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
           ],
         ],
         if (orderResponse.side == BinanceOrderSide.SELL) ...[
-          RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          RowDivision('TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          RowDivision('TO RECEIVE:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          _RowDivision('TO RECEIVE:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
           if (weightedAveragePrice != null) ...[
             Divider(),
-            RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-            RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-            RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+            _RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+            _RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
           ],
         ],
       ],
@@ -189,33 +188,33 @@ class MarketOrderPopupDialog extends StatelessWidget {
 
     return Column(
       children: [
-        RowDivision('STATUS:', orderResponse.status.toShortString()),
+        _RowDivisionStatus(orderResponse.status, orderResponse.side),
         if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.BUY) ...[
           orderResponse.origQty != orderResponse.executedQty
-              ? RowDivision('TRIED TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
+              ? _RowDivision('TRIED TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
               : SizedBox(),
-          RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
         ],
         if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.SELL) ...[
           orderResponse.origQty != orderResponse.executedQty
-              ? RowDivision('TRIED TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
+              ? _RowDivision('TRIED TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
               : SizedBox(),
-          RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
+          _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
+          _RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
         ],
       ],
     );
   }
 }
 
-class RowDivision extends StatelessWidget {
+class _RowDivision extends StatelessWidget {
   final String leftText;
   final String rightText;
 
-  const RowDivision(this.leftText, this.rightText, {Key key}) : super(key: key);
+  const _RowDivision(this.leftText, this.rightText, {Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -226,5 +225,41 @@ class RowDivision extends StatelessWidget {
         Expanded(child: SelectableText(rightText, textAlign: TextAlign.left)),
       ],
     );
+  }
+}
+
+class _RowDivisionStatus extends StatelessWidget {
+  final BinanceOrderStatus status;
+  final BinanceOrderSide side;
+
+  const _RowDivisionStatus(this.status, this.side, {Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (status == BinanceOrderStatus.FILLED) {
+      return Row(
+        children: [
+          Expanded(child: Text('STATUS:', textAlign: TextAlign.right)),
+          SizedBox(width: 5),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  decoration: BoxDecoration(
+                    color: side == BinanceOrderSide.BUY ? Colors.green : Colors.red,
+                    borderRadius: BorderRadius.all(Radius.circular(7)),
+                  ),
+                  child: Text(status.capitalizeCharacters(), style: TextStyle(fontWeight: FontWeight.w600)),
+                ),
+              ],
+            ),
+          ),
+        ],
+      );
+    } else {
+      return _RowDivision('STATUS:', status.toShortString());
+    }
   }
 }

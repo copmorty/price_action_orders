@@ -10,9 +10,6 @@ class TickerModel extends Ticker {
           quoteAsset: quoteAsset,
         );
 
-  @override
-  List<Object> get props => [baseAsset, quoteAsset];
-
   factory TickerModel.fromTicker(Ticker ticker) {
     return TickerModel(
       baseAsset: ticker.baseAsset,

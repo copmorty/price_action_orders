@@ -17,9 +17,6 @@ class UserDataPayloadAccountUpdateModel extends UserDataPayloadAccountUpdate {
           changedBalances: changedBalances,
         );
 
-  @override
-  List<Object> get props => [lastAccountUpdateTime];
-
   factory UserDataPayloadAccountUpdateModel.fromJson(Map jsonData) {
     var bList = jsonData['B'] as List;
     List<Balance> balancesList = bList.map((item) => BalanceModel.fromJsonStream(item)).toList();

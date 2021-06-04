@@ -23,5 +23,5 @@ class BookTicker extends Equatable {
   });
 
   @override
-  List<Object> get props => [updatedId];
+  List<Object> get props => [updatedId, symbol];
 }

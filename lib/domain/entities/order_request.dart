@@ -4,7 +4,7 @@ import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'ticker.dart';
 
-class OrderRequest extends Equatable {
+abstract class OrderRequest extends Equatable {
   final Ticker ticker;
   final String symbol;
   final BinanceOrderSide side;

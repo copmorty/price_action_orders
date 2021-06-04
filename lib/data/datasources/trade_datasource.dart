@@ -42,12 +42,14 @@ class TradeDataSourceImpl implements TradeDataSource {
       },
     );
 
+    final jsonData = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
       final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, marketOrder.ticker);
       return orderResponseFullModel;
     } else {
-      throw ServerException(message: "Market order could not be placed.");
+      print(jsonData);
+      throw BinanceException.fromJson(jsonData);
     }
   }
 
@@ -67,12 +69,14 @@ class TradeDataSourceImpl implements TradeDataSource {
       },
     );
 
+    final jsonData = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
       final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, limitOrder.ticker);
       return orderResponseFullModel;
     } else {
-      throw ServerException(message: "Limit order could not be placed.");
+      print(jsonData);
+      throw BinanceException.fromJson(jsonData);
     }
   }
 
@@ -90,12 +94,14 @@ class TradeDataSourceImpl implements TradeDataSource {
       },
     );
 
+    final jsonData = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
       final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);
       return cancelOrderResponse;
     } else {
-      throw ServerException(message: "The order could not be canceled.");
+      print(jsonData);
+      throw BinanceException.fromJson(jsonData);
     }
   }
 }

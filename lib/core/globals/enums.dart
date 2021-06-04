@@ -1,4 +1,4 @@
-import 'package:price_action_orders/core/utils/enums_functions.dart';
+import 'package:price_action_orders/core/utils/enum_functions.dart';
 
 enum AppMode { TEST, PRODUCTION }
 enum BinanceOrderSide { BUY, SELL }
@@ -26,6 +26,7 @@ extension BinanceOrderTypeExtension on BinanceOrderType {
 extension BinanceOrderStatusExtension on BinanceOrderStatus {
   String toShortString() => enumToShortString(this);
   String capitalizeWords() => enumToCapitalizedWordsString(this);
+  String capitalizeCharacters() => enumToCapitalizedCharactersString(this);
 }
 
 extension BinanceOrderTimeInForceExtension on BinanceOrderTimeInForce {

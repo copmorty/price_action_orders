@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
 import 'package:price_action_orders/presentation/widgets/tab_selector.dart';
+import 'package:price_action_orders/providers.dart';
 import 'orders_section/open_orders_wall.dart';
 import 'orders_section/order_history_wall.dart';
 import 'orders_section/trade_history_wall.dart';
@@ -38,7 +41,7 @@ class _OrdersSectionState extends State<OrdersSection> {
         children: [
           Row(
             children: [
-              TabSelector(label: 'Open Orders', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
+              _OpenOrdersTab(selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
               TabSelector(label: 'Order History', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
               TabSelector(label: 'Trade History', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
             ],
@@ -59,5 +62,21 @@ class _OrdersSectionState extends State<OrdersSection> {
         ],
       ),
     );
+  }
+}
+
+class _OpenOrdersTab extends ConsumerWidget {
+  final bool selected;
+  final Function onTapped;
+
+  const _OpenOrdersTab({Key key, this.selected, this.onTapped}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, ScopedReader watch) {
+    final ordersState = watch(ordersNotifierProvider);
+    int openOrdersQty = 0;
+    if (ordersState is OrdersLoaded) openOrdersQty = ordersState.openOrders.length;
+
+    return TabSelector(label: 'Open Orders($openOrdersQty)', selected: selected, onTapped: onTapped);
   }
 }

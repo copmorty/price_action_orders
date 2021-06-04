@@ -21,7 +21,4 @@ class LimitOrderRequest extends OrderRequest {
           price: price,
           timestamp: timestamp ?? DateTime.now().millisecondsSinceEpoch,
         );
-
-  @override
-  List<Object> get props => [symbol, side, type, timestamp];
 }

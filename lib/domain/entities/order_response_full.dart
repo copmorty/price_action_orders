@@ -42,5 +42,5 @@ class OrderResponseFull extends OrderResponse {
         );
 
   @override
-  List<Object> get props => [orderId];
+  List<Object> get props => super.props..addAll([type, origQty, executedQty]);
 }

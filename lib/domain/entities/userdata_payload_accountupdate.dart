@@ -15,5 +15,5 @@ class UserDataPayloadAccountUpdate extends UserDataPayload {
   }) : super(eventType: eventType, eventTime: eventTime);
 
   @override
-  List<Object> get props => [lastAccountUpdateTime];
+  List<Object> get props => super.props..addAll([lastAccountUpdateTime]);
 }

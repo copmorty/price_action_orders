@@ -22,9 +22,6 @@ class MarketOrderRequestModel extends MarketOrderRequest {
           timestamp: timestamp,
         );
 
-  @override
-  List<Object> get props => [symbol, side, type, timestamp, quantity, quoteOrderQty];
-
   factory MarketOrderRequestModel.fromMarketOrderRequest(MarketOrderRequest marketOrder) {
     return MarketOrderRequestModel(
       ticker: marketOrder.ticker,

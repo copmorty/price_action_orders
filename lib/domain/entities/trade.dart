@@ -29,5 +29,5 @@ class Trade extends Equatable {
   });
 
   @override
-  List<Object> get props => [tradeId];
+  List<Object> get props => [symbol, orderId, tradeId];
 }

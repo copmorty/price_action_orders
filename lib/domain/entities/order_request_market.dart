@@ -7,7 +7,6 @@ import 'ticker.dart';
 class MarketOrderRequest extends OrderRequest {
   MarketOrderRequest({
     @required Ticker ticker,
-    // @required String symbol,
     @required BinanceOrderSide side,
     @required Decimal quantity,
     @required Decimal quoteOrderQty,
@@ -15,14 +14,10 @@ class MarketOrderRequest extends OrderRequest {
   })  : assert(quantity == null || quoteOrderQty == null),
         super(
           ticker: ticker,
-          // symbol: symbol,
           side: side,
           type: BinanceOrderType.MARKET,
           quantity: quantity,
           quoteOrderQty: quoteOrderQty,
           timestamp: timestamp ?? DateTime.now().millisecondsSinceEpoch,
         );
-
-  @override
-  List<Object> get props => [symbol, side, type, timestamp, quantity, quoteOrderQty];
 }

@@ -5,34 +5,31 @@ import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 
 class UserDataModel extends UserData {
-  final int updateTime;
-  final int makerCommission;
-  final int takerCommission;
-  final int buyerCommission;
-  final int sellerCommission;
-  final bool canTrade;
-  final bool canWithdraw;
-  final bool canDeposit;
-  final String accountType;
-  final List<Balance> balances;
-  final List<String> permissions;
-
   UserDataModel({
-    @required this.updateTime,
-    @required this.makerCommission,
-    @required this.takerCommission,
-    @required this.buyerCommission,
-    @required this.sellerCommission,
-    @required this.canTrade,
-    @required this.canWithdraw,
-    @required this.canDeposit,
-    @required this.accountType,
-    @required this.balances,
-    @required this.permissions,
-  });
-
-  @override
-  List<Object> get props => [updateTime];
+    @required int updateTime,
+    @required int makerCommission,
+    @required int takerCommission,
+    @required int buyerCommission,
+    @required int sellerCommission,
+    @required bool canTrade,
+    @required bool canWithdraw,
+    @required bool canDeposit,
+    @required String accountType,
+    @required List<Balance> balances,
+    @required List<String> permissions,
+  }) : super(
+          updateTime: updateTime,
+          makerCommission: makerCommission,
+          takerCommission: takerCommission,
+          buyerCommission: buyerCommission,
+          sellerCommission: sellerCommission,
+          canTrade: canTrade,
+          canWithdraw: canWithdraw,
+          canDeposit: canDeposit,
+          accountType: accountType,
+          balances: balances,
+          permissions: permissions,
+        );
 
   factory UserDataModel.fromJson(Map<String, dynamic> parsedJson) {
     var bList = parsedJson['balances'] as List;

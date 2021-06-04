@@ -20,5 +20,5 @@ class OrderResponse extends Equatable {
   });
 
   @override
-  List<Object> get props => [orderId];
+  List<Object> get props => [symbol, orderId];
 }

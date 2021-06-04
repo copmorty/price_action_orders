@@ -21,9 +21,6 @@ class LimitOrderRequestModel extends LimitOrderRequest {
           timestamp: timestamp,
         );
 
-  @override
-  List<Object> get props => [symbol, side, type, timestamp];
-
   factory LimitOrderRequestModel.fromLimitOrderRequest(LimitOrderRequest limiOrder) {
     return LimitOrderRequestModel(
       ticker: limiOrder.ticker,

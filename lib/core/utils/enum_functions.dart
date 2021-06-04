@@ -12,3 +12,8 @@ String enumToCapitalizedWordsString(enumValue) {
   final shortString = enumToShortString(enumValue);
   return shortString.split('_').map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
 }
+
+String enumToCapitalizedCharactersString(enumValue) {
+  final shortString = enumToShortString(enumValue);
+  return shortString.split('_').map((word) => word.toUpperCase()).join(' ');
+}

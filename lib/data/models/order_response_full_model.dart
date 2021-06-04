@@ -41,11 +41,7 @@ class OrderResponseFullModel extends OrderResponseFull {
           fills: fills,
         );
 
-  @override
-  List<Object> get props => [orderId];
-
   factory OrderResponseFullModel.fromJson(Map<String, dynamic> parsedJson, Ticker ticker) {
-
     var fList = parsedJson['fills'] as List;
     List<OrderFill> fillsList = fList.map((item) => OrderFillModel.fromJsonStream(item)).toList();
 

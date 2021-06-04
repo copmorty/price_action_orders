@@ -30,5 +30,5 @@ class UserData extends Equatable {
   });
 
   @override
-  List<Object> get props => [updateTime];
+  List<Object> get props => [updateTime, accountType];
 }

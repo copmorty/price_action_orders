@@ -62,12 +62,13 @@ class UserDataDataSourceImpl implements UserDataDataSource {
         'X-MBX-APIKEY': apiKey,
       },
     );
+    final jsonData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
       return UserDataModel.fromJson(jsonData);
     } else {
-      throw ServerException(message: "Account information could not be obtained.");
+      print(jsonData);
+      throw BinanceException.fromJson(jsonData);
     }
   }
 
@@ -92,8 +93,10 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       },
     );
 
+    final jsonData = jsonDecode(response.body);
+
     if (response.statusCode == 200) {
-      final List<dynamic> data = jsonDecode(response.body);
+      final List<dynamic> data = jsonData;
       final List<OrderModel> openOrders = [];
       data.forEach((element) {
         openOrders.add(OrderModel.fromJson(element));
@@ -101,7 +104,8 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
       return openOrders;
     } else {
-      throw ServerException(message: "Could not obtain current open orders.");
+      print(jsonData);
+      throw BinanceException.fromJson(jsonData);
     }
   }
 

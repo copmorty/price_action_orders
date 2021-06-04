@@ -22,9 +22,6 @@ class BookTickerModel extends BookTicker {
           askQty: askQty,
         );
 
-  @override
-  List<Object> get props => [updatedId];
-
   factory BookTickerModel.fromJson(Map<String, dynamic> parsedJson, Ticker ticker) {
     return BookTickerModel(
       updatedId: parsedJson['u'],
