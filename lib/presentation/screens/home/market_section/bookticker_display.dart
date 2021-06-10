@@ -1,6 +1,7 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class BookTickerDisplay extends StatelessWidget {
   final BookTicker bookTicker;
@@ -21,18 +22,18 @@ class BookTickerDisplay extends StatelessWidget {
           left: 0,
           child: Text(
             bookTicker.updatedId.toString(),
-            style: TextStyle(fontSize: 10),
+            style: TextStyle(color: whiteColor, fontSize: 10),
           ),
         ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              bookTicker.ticker.baseAsset+'/'+bookTicker.ticker.quoteAsset,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              bookTicker.ticker.baseAsset + '/' + bookTicker.ticker.quoteAsset,
+              style: TextStyle(color: whiteColor, fontSize: 16, fontWeight: FontWeight.w600),
             ),
             SizedBox(height: 10),
-            TableBookTicker(bookTicker: bookTicker),
+            _TableBookTicker(bookTicker: bookTicker),
           ],
         ),
       ],
@@ -40,10 +41,10 @@ class BookTickerDisplay extends StatelessWidget {
   }
 }
 
-class TableBookTicker extends StatelessWidget {
+class _TableBookTicker extends StatelessWidget {
   final BookTicker bookTicker;
 
-  const TableBookTicker({Key key, @required this.bookTicker}) : super(key: key);
+  const _TableBookTicker({Key key, @required this.bookTicker}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Table(
@@ -53,7 +54,7 @@ class TableBookTicker extends StatelessWidget {
             Text(
               'Price (${bookTicker.ticker.quoteAsset})',
               style: TextStyle(
-                color: Colors.white.withOpacity(0.3),
+                color: whiteColorOp30,
               ),
             ),
             Align(
@@ -61,14 +62,14 @@ class TableBookTicker extends StatelessWidget {
               child: Text(
                 'Amount (${bookTicker.ticker.baseAsset})',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.3),
+                  color: whiteColorOp30,
                 ),
               ),
             ),
           ],
         ),
-        _buildBookRow(rowColor: Colors.red, price: bookTicker.askPrice, qty: bookTicker.askQty),
-        _buildBookRow(rowColor: Colors.green, price: bookTicker.bidPrice, qty: bookTicker.bidQty),
+        _buildBookRow(rowColor: sellColor, price: bookTicker.askPrice, qty: bookTicker.askQty),
+        _buildBookRow(rowColor: buyColor, price: bookTicker.bidPrice, qty: bookTicker.bidQty),
       ],
     );
   }
@@ -96,9 +97,9 @@ class TableBookTicker extends StatelessWidget {
             child: Text(
               qty.toStringAsFixed(8),
               style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
+                color: whiteColorOp50,
                 fontSize: 30,
-                // fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.normal,
               ),
             ),
           ),

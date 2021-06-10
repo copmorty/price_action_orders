@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../colors.dart';
 
 class ReloadWidget extends StatelessWidget {
   final Function callback;
@@ -11,8 +12,8 @@ class ReloadWidget extends StatelessWidget {
       style: ButtonStyle(
         shape: MaterialStateProperty.all(CircleBorder()),
         padding: MaterialStateProperty.all(EdgeInsets.all(30)),
-        foregroundColor: MaterialStateProperty.all(Colors.indigo.shade300),
-        overlayColor: MaterialStateProperty.all(Colors.indigo.shade400.withAlpha(20)),
+        foregroundColor: MaterialStateProperty.all(mainColor),
+        overlayColor: MaterialStateProperty.all(mainColorDarkOp10),
       ),
       onPressed: callback,
       child: Column(

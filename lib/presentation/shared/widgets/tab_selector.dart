@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../colors.dart';
 
 class TabSelector extends StatelessWidget {
   final String label;
@@ -10,11 +11,11 @@ class TabSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: selected ? BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: Colors.white))) : null,
+      decoration: selected ? BoxDecoration(border: Border(bottom: BorderSide(width: 1.0, color: whiteColor))) : null,
       child: TextButton(
         onPressed: onTapped,
         style: TextButton.styleFrom(
-          primary: selected ? Colors.white : Colors.grey,
+          primary: selected ? whiteColor : greyWhiteColor,
           padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
           textStyle: TextStyle(fontWeight: FontWeight.w600)
         ),

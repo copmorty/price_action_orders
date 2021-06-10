@@ -4,6 +4,7 @@ import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class TradeFormHeader extends StatelessWidget {
   final String baseAsset;
@@ -19,22 +20,20 @@ class TradeFormHeader extends StatelessWidget {
         Expanded(
           child: Text(
             (side == BinanceOrderSide.BUY ? 'Buy ' : 'Sell ') + baseAsset,
-            style: TextStyle(fontSize: 18),
+            style: TextStyle(color: whiteColorOp90, fontSize: 18),
           ),
         ),
-        Icon(Icons.account_balance_wallet_outlined, color: Colors.white60),
+        Icon(Icons.account_balance_wallet_outlined, color: whiteColorOp60),
         SizedBox(width: 5),
         Consumer(
           builder: (context, watch, child) {
             final accountInfoState = watch(accountInfoNotifierProvider);
 
             if (accountInfoState is AccountInfoLoaded) {
-              // final asset = side == BinanceOrderSide.BUY ? quoteAsset : baseAsset;
-              // final balance = accountInfoState.userData.balances.firstWhere((element) => element.asset == asset, orElse: () => null);
-              // final strBalance = balance == null ? '0' : balance.free.toString();
-
-              // return Text(strBalance + ' ' + asset, style: TextStyle(color: Colors.white60));
-              return _BalanceForOrder(asset: side == BinanceOrderSide.BUY ? quoteAsset : baseAsset, balances: accountInfoState.userData.balances);
+              return _BalanceForOrder(
+                asset: side == BinanceOrderSide.BUY ? quoteAsset : baseAsset,
+                balances: accountInfoState.userData.balances,
+              );
             }
 
             return SizedBox();
@@ -55,6 +54,7 @@ class _BalanceForOrder extends StatelessWidget {
   Widget build(BuildContext context) {
     final balance = balances.firstWhere((element) => element.asset == asset, orElse: () => null);
     final strBalance = balance == null ? '0' : balance.free.toString();
-    return Text(strBalance + ' ' + asset, style: TextStyle(color: Colors.white60));
+
+    return Text(strBalance + ' ' + asset, style: TextStyle(color: whiteColorOp60));
   }
 }

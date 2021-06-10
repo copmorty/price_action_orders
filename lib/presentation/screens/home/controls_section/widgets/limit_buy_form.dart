@@ -7,7 +7,8 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'limit_form_field_amount.dart';
 import 'limit_form_field_price.dart';
 import 'limit_form_field_total.dart';
@@ -124,15 +125,18 @@ class _LimitBuyFormState extends State<LimitBuyForm> {
                 if (tradeState is TradeLoading && tradeState.operationId == operationId) {
                   return ElevatedButton(
                     onPressed: () {},
-                    child: LoadingWidget(height: 20, width: 20, color: Colors.white70),
-                    style: ElevatedButton.styleFrom(primary: Colors.green),
+                    child: LoadingWidget(height: 20, width: 20, color: whiteColorOp70),
+                    style: ElevatedButton.styleFrom(primary: buyColor),
                   );
                 }
 
                 return ElevatedButton(
                   onPressed: _onFormSubmitted,
-                  child: Text('Buy ${widget.baseAsset}'),
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  child: Text(
+                    'Buy ${widget.baseAsset}',
+                    style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),
+                  ),
+                  style: ElevatedButton.styleFrom(primary: buyColor),
                 );
               },
             ),

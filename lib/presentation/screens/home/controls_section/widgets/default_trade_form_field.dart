@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/utils/formatters.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class DefaultTradeFormField extends StatefulWidget {
   final String hintText;
@@ -33,15 +34,15 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: Colors.white10,
-        border: Border.all(color: _textFieldHasFocus ? Colors.white : Colors.transparent),
+        color: whiteColorOp10,
+        border: Border.all(color: _textFieldHasFocus ? whiteColorOp90 : transparentColor),
         borderRadius: BorderRadius.all(Radius.circular(4)),
       ),
       child: Row(
         children: [
           Text(
             widget.hintText,
-            style: TextStyle(fontSize: 16, color: Colors.white60),
+            style: TextStyle(fontSize: 16, color: whiteColorOp60),
           ),
           Expanded(
             child: FocusScope(
@@ -50,7 +51,7 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
                 focusNode: widget.focusNode,
                 controller: widget.controller,
                 textAlign: TextAlign.end,
-                cursorColor: Colors.white,
+                cursorColor: whiteColor,
                 inputFormatters: [
                   ValidatorInputFormatter(
                     editingValidator: DotCurrencyEditingRegexValidator(),
@@ -66,7 +67,7 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
           SizedBox(width: 10),
           Text(
             widget.suffixText,
-            style: TextStyle(fontSize: 16, color: Colors.white60),
+            style: TextStyle(fontSize: 16, color: whiteColorOp60),
           ),
         ],
       ),

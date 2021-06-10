@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/sizes.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'market_section/bookticker_display.dart';
 
 class MarketSection extends StatelessWidget {
@@ -13,7 +14,7 @@ class MarketSection extends StatelessWidget {
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(SECTION_PADDING_ALL),
               height: double.infinity,
               width: double.infinity,
               child: Consumer(

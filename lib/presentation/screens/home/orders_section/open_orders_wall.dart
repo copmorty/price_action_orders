@@ -8,8 +8,9 @@ import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
-import 'package:price_action_orders/presentation/widgets/reload_widget.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
 import 'widgets/wall_table_cell.dart';
 
 class OpenOrdersWall extends StatefulWidget {
@@ -63,7 +64,7 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
               if (ordersState is OrdersLoaded) {
                 if (ordersState.openOrders.length == 0) {
                   return Center(
-                    child: Text('You have no open orders.', style: TextStyle(color: Colors.white54)),
+                    child: Text('You have no open orders.', style: TextStyle(color: greyColor)),
                   );
                 } else {
                   return Scrollbar(
@@ -87,13 +88,17 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
                             children: [
                               WallTableCell(
                                 label: DateFormat('MM-dd HH:mm:ss').format(dateTime),
-                                style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: CELL_FONT_SIZE, color: whiteColorOp70, fontWeight: CELL_FONT_WEIGHT_LIGHT),
                               ),
                               WallTableCell(label: order.symbol),
                               WallTableCell(label: order.type.capitalizeWords()),
                               WallTableCell(
                                 label: order.side.capitalize(),
-                                style: TextStyle(color: order.side == BinanceOrderSide.BUY ? Colors.green : Colors.red, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                  fontSize: CELL_FONT_SIZE,
+                                  color: order.side == BinanceOrderSide.BUY ? buyColor : sellColor,
+                                  fontWeight: CELL_FONT_WEIGHT,
+                                ),
                               ),
                               WallTableCell(label: order.price.toString()),
                               WallTableCell(label: amount.toString()),
@@ -148,21 +153,21 @@ class __CancelOrderButtonState extends State<_CancelOrderButton> {
       final tradeState = watch(tradeNotifierProvider);
 
       if (tradeState is TradeLoading && tradeState.operationId == operationId) {
-        return LoadingWidget(height: 15, width: 15);
+        return LoadingWidget(height: CELL_FONT_SIZE, width: CELL_FONT_SIZE);
       }
 
       return TextButton(
         style: ButtonStyle(
           padding: MaterialStateProperty.all(EdgeInsets.zero),
           minimumSize: MaterialStateProperty.all(Size(0, 0)),
-          overlayColor: MaterialStateColor.resolveWith((states) => Colors.transparent),
+          overlayColor: MaterialStateColor.resolveWith((states) => transparentColor),
           foregroundColor: MaterialStateProperty.resolveWith((states) {
-            if (states.contains(MaterialState.hovered)) return Colors.indigo.shade400;
-            return Colors.indigo.shade300;
+            if (states.contains(MaterialState.hovered)) return mainColorDark;
+            return mainColor;
           }),
         ),
         onPressed: _cancelOrder,
-        child: Text('Cancel', style: TextStyle(fontWeight: FontWeight.w600)),
+        child: Text('Cancel', style: TextStyle(fontSize: CELL_FONT_SIZE, fontWeight: CELL_FONT_WEIGHT)),
       );
     });
   }

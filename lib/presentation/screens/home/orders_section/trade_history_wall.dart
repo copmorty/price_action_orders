@@ -4,8 +4,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
-import 'package:price_action_orders/presentation/widgets/reload_widget.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
 import 'widgets/wall_table_cell.dart';
 
 class TradeHistoryWall extends StatefulWidget {
@@ -56,7 +57,7 @@ class _TradeHistoryWallState extends State<TradeHistoryWall> {
               if (ordersState is OrdersLoaded) {
                 if (ordersState.tradeHistory?.length == 0) {
                   return Center(
-                    child: Text('You have no trades.', style: TextStyle(color: Colors.white54)),
+                    child: Text('You have no trades.', style: TextStyle(color: greyColor)),
                   );
                 } else {
                   return Scrollbar(
@@ -77,12 +78,16 @@ class _TradeHistoryWallState extends State<TradeHistoryWall> {
                             children: [
                               WallTableCell(
                                 label: DateFormat('yyyy-MM-dd HH:mm:ss').format(dateTime),
-                                style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+                                style: TextStyle(fontSize: CELL_FONT_SIZE, color: whiteColorOp70, fontWeight: CELL_FONT_WEIGHT_LIGHT),
                               ),
                               WallTableCell(label: trade.symbol),
                               WallTableCell(
                                 label: trade.side.capitalize(),
-                                style: TextStyle(color: trade.side == BinanceOrderSide.BUY ? Colors.green : Colors.red, fontWeight: FontWeight.w500),
+                                style: TextStyle(
+                                  fontSize: CELL_FONT_SIZE,
+                                  color: trade.side == BinanceOrderSide.BUY ? buyColor : sellColor,
+                                  fontWeight: CELL_FONT_WEIGHT,
+                                ),
                               ),
                               WallTableCell(label: trade.price.toString()),
                               WallTableCell(label: trade.executedQty.toString()),

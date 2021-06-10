@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class InputSymbol extends StatefulWidget {
   @override
@@ -26,12 +27,12 @@ class _InputSymbolState extends State<InputSymbol> {
         Expanded(
           child: TextField(
             controller: _baseAssetController,
-            cursorColor: Colors.white,
+            cursorColor: whiteColor,
             textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
               hintText: 'Base asset',
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: BorderSide(color: whiteColor),
               ),
             ),
             onSubmitted: (_) => dispatchSymbol(),
@@ -48,12 +49,12 @@ class _InputSymbolState extends State<InputSymbol> {
         Expanded(
           child: TextField(
             controller: _quoteAssetcontroller,
-            cursorColor: Colors.white,
+            cursorColor: whiteColor,
             textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
               hintText: 'Quote asset',
               focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: BorderSide(color: whiteColor),
               ),
             ),
             onSubmitted: (_) => dispatchSymbol(),
@@ -64,7 +65,7 @@ class _InputSymbolState extends State<InputSymbol> {
           ),
         ),
         IconButton(
-          color: Colors.white70,
+          color: whiteColorOp70,
           icon: Icon(Icons.send),
           splashRadius: 25,
           onPressed: dispatchSymbol,

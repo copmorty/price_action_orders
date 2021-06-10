@@ -6,6 +6,7 @@ import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 /// This is an empty UI widget that manages popup messages
 class PopupManager extends StatefulWidget {
@@ -44,9 +45,9 @@ class _PopupManagerState extends State<PopupManager> {
           content: Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.black,
+              color: blackColor,
               borderRadius: BorderRadius.all(Radius.circular(10)),
-              border: Border.all(width: 2, color: Colors.transparent),
+              border: Border.all(width: 2, color: transparentColor),
             ),
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -90,9 +91,9 @@ class _PopupManagerState extends State<PopupManager> {
                 width: 2,
                 color: orderCompleted
                     ? orderResponse.side == BinanceOrderSide.BUY
-                        ? Colors.green
-                        : Colors.red
-                    : Colors.transparent,
+                        ? buyColor
+                        : sellColor
+                    : transparentColor,
               ),
             ),
             child: Column(
@@ -108,7 +109,7 @@ class _PopupManagerState extends State<PopupManager> {
                       TextSpan(text: ' '),
                       TextSpan(
                         text: orderResponse.side.toShortString(),
-                        style: TextStyle(color: orderResponse.side == BinanceOrderSide.BUY ? Colors.green : Colors.red),
+                        style: TextStyle(color: orderResponse.side == BinanceOrderSide.BUY ? buyColor : sellColor),
                       ),
                     ],
                   ),
@@ -248,7 +249,7 @@ class _RowDivisionStatus extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   decoration: BoxDecoration(
-                    color: side == BinanceOrderSide.BUY ? Colors.green : Colors.red,
+                    color: side == BinanceOrderSide.BUY ? buyColor : sellColor,
                     borderRadius: BorderRadius.all(Radius.circular(7)),
                   ),
                   child: Text(status.capitalizeCharacters(), style: TextStyle(fontWeight: FontWeight.w600)),
@@ -259,7 +260,7 @@ class _RowDivisionStatus extends StatelessWidget {
         ],
       );
     } else {
-      return _RowDivision('STATUS:', status.toShortString());
+      return _RowDivision('STATUS:', status.capitalizeCharacters());
     }
   }
 }

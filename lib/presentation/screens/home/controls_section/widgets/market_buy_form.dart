@@ -6,7 +6,8 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'default_trade_form_field.dart';
 
 class MarketBuyForm extends StatefulWidget {
@@ -38,8 +39,8 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
             height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
-              color: Colors.white10,
-              border: Border.all(color: Colors.transparent),
+              color: whiteColorOp10,
+              border: Border.all(color: transparentColor),
               borderRadius: BorderRadius.all(Radius.circular(4)),
             ),
             child: Row(
@@ -47,7 +48,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
                 Expanded(
                   child: Text(
                     'Price',
-                    style: TextStyle(fontSize: 16, color: Colors.white60),
+                    style: TextStyle(fontSize: 16, color: whiteColorOp60),
                   ),
                 ),
                 Text(
@@ -57,7 +58,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
                 SizedBox(width: 10),
                 Text(
                   widget.quoteAsset,
-                  style: TextStyle(fontSize: 16, color: Colors.white60),
+                  style: TextStyle(fontSize: 16, color: whiteColorOp60),
                 ),
               ],
             ),
@@ -80,15 +81,18 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
                 if (tradeState is TradeLoading && tradeState.operationId == operationId) {
                   return ElevatedButton(
                     onPressed: () {},
-                    child: LoadingWidget(height: 20, width: 20, color: Colors.white70),
-                    style: ElevatedButton.styleFrom(primary: Colors.green),
+                    child: LoadingWidget(height: 20, width: 20, color: whiteColorOp70),
+                    style: ElevatedButton.styleFrom(primary: buyColor),
                   );
                 }
 
                 return ElevatedButton(
                   onPressed: _marketBuy,
-                  child: Text('Buy ${widget.baseAsset}'),
-                  style: ElevatedButton.styleFrom(primary: Colors.green),
+                  child: Text(
+                    'Buy ${widget.baseAsset}',
+                    style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),
+                  ),
+                  style: ElevatedButton.styleFrom(primary: buyColor),
                 );
               },
             ),

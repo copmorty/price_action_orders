@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
-import 'package:price_action_orders/presentation/widgets/loading_widget.dart';
-import 'package:price_action_orders/presentation/widgets/reload_widget.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
+import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
 
 class SpotBalances extends StatelessWidget {
   @override
@@ -33,13 +34,22 @@ class SpotBalances extends StatelessWidget {
                   padding: EdgeInsets.all(10),
                   child: Column(
                     children: [
-                      Text(accountInfoState.userData.balances[index].asset),
-                      Text(accountInfoState.userData.balances[index].free.toString()),
+                      Text(
+                        accountInfoState.userData.balances[index].asset,
+                        style: TextStyle(color: whiteColorOp90, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        accountInfoState.userData.balances[index].free.toString(),
+                        style: TextStyle(color: whiteColorOp90, fontWeight: FontWeight.normal),
+                      ),
                       Row(
                         children: [
-                          Icon(Icons.lock, size: 12),
+                          Icon(Icons.lock, color: whiteColorOp70, size: 12),
                           SizedBox(width: 2),
-                          Text(accountInfoState.userData.balances[index].locked.toString()),
+                          Text(
+                            accountInfoState.userData.balances[index].locked.toString(),
+                            style: TextStyle(color: whiteColorOp70, fontWeight: FontWeight.normal),
+                          ),
                         ],
                       ),
                     ],
