@@ -28,48 +28,67 @@ class DefaultTradeFormField extends StatefulWidget {
 
 class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
   bool _textFieldHasFocus = false;
+  bool _textFieldHasDecorator = false;
+
+  void _onHover(bool isHovered) {
+    setState(() {
+      if (!_textFieldHasFocus) _textFieldHasDecorator = isHovered;
+    });
+  }
+
+  void _onFocus(bool isFocused) {
+    setState(() {
+      _textFieldHasFocus = isFocused;
+      _textFieldHasDecorator = _textFieldHasFocus;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12),
-      decoration: BoxDecoration(
-        color: whiteColorOp10,
-        border: Border.all(color: _textFieldHasFocus ? whiteColorOp90 : transparentColor),
-        borderRadius: BorderRadius.all(Radius.circular(4)),
-      ),
-      child: Row(
-        children: [
-          Text(
-            widget.hintText,
-            style: TextStyle(fontSize: 16, color: whiteColorOp60),
-          ),
-          Expanded(
-            child: FocusScope(
-              onFocusChange: (isFocused) => setState(() => _textFieldHasFocus = isFocused),
-              child: TextFormField(
-                focusNode: widget.focusNode,
-                controller: widget.controller,
-                textAlign: TextAlign.end,
-                cursorColor: whiteColor,
-                inputFormatters: [
-                  ValidatorInputFormatter(
-                    editingValidator: DotCurrencyEditingRegexValidator(),
-                  )
-                ],
-                decoration: InputDecoration(border: InputBorder.none),
-                onChanged: widget.onChanged,
-                onFieldSubmitted: widget.onFieldSubmitted,
-                validator: widget.validator,
+    return MouseRegion(
+      onEnter: (_) => _onHover(true),
+      onExit: (_) => _onHover(false),
+      child: AnimatedContainer(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        duration: Duration(milliseconds: 150),
+        decoration: BoxDecoration(
+          color: whiteColorOp10,
+          border: Border.all(color: _textFieldHasDecorator ? whiteColorOp90 : transparentColor),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+        ),
+        child: Row(
+          children: [
+            Text(
+              widget.hintText,
+              style: TextStyle(fontSize: 16, color: whiteColorOp60),
+            ),
+            Expanded(
+              child: FocusScope(
+                onFocusChange: (isFocused) => _onFocus(isFocused),
+                child: TextFormField(
+                  focusNode: widget.focusNode,
+                  controller: widget.controller,
+                  textAlign: TextAlign.end,
+                  cursorColor: whiteColor,
+                  inputFormatters: [
+                    ValidatorInputFormatter(
+                      editingValidator: DotCurrencyEditingRegexValidator(),
+                    )
+                  ],
+                  decoration: InputDecoration(border: InputBorder.none),
+                  onChanged: widget.onChanged,
+                  onFieldSubmitted: widget.onFieldSubmitted,
+                  validator: widget.validator,
+                ),
               ),
             ),
-          ),
-          SizedBox(width: 10),
-          Text(
-            widget.suffixText,
-            style: TextStyle(fontSize: 16, color: whiteColorOp60),
-          ),
-        ],
+            SizedBox(width: 10),
+            Text(
+              widget.suffixText,
+              style: TextStyle(fontSize: 16, color: whiteColorOp60),
+            ),
+          ],
+        ),
       ),
     );
   }

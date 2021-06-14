@@ -35,36 +35,14 @@ class _MarketSellFormState extends State<MarketSellForm> {
     return Form(
       child: Column(
         children: [
-          // //timeInForce
-          // Row(
-          //   children: [
-          //     DropdownButton(
-          //       value: _timeInForce,
-          //       onChanged: (val) => _selectTimeInForce(val),
-          //       items: [
-          //         DropdownMenuItem(
-          //           child: Text('GTC'),
-          //           value: BinanceOrderTimeInForce.GTC,
-          //           onTap: () {},
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text('IOC'),
-          //           value: BinanceOrderTimeInForce.IOC,
-          //           onTap: () {},
-          //         ),
-          //         DropdownMenuItem(
-          //           child: Text('FOK'),
-          //           value: BinanceOrderTimeInForce.FOK,
-          //           onTap: () {},
-          //         ),
-          //       ],
-          //     ),
-          //   ],
-          // ),
           Container(
-            height: 48,
+            height: 50,
             padding: const EdgeInsets.symmetric(horizontal: 12),
-            decoration: BoxDecoration(color: whiteColorOp10, borderRadius: BorderRadius.all(Radius.circular(4))),
+            decoration: BoxDecoration(
+              color: whiteColorOp10,
+              border: Border.all(color: transparentColor),
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+            ),
             child: Row(
               children: [
                 Expanded(
