@@ -20,6 +20,18 @@ class _InputSymbolState extends State<InputSymbol> {
     _quoteAssetcontroller.dispose();
   }
 
+  void dispatchSymbol() {
+    final baseAsset = _baseAssetController.text;
+    final quoteAsset = _quoteAssetcontroller.text;
+
+    if (baseAsset == '' || quoteAsset == '') return;
+
+    _baseAssetController.clear();
+    _quoteAssetcontroller.clear();
+    FocusScope.of(context).unfocus();
+    context.read(bookTickerNotifierProvider.notifier).streamBookTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -31,9 +43,7 @@ class _InputSymbolState extends State<InputSymbol> {
             textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
               hintText: 'Base asset',
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: whiteColor),
-              ),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: whiteColor)),
             ),
             onSubmitted: (_) => dispatchSymbol(),
             onChanged: (value) {
@@ -53,9 +63,7 @@ class _InputSymbolState extends State<InputSymbol> {
             textCapitalization: TextCapitalization.characters,
             decoration: InputDecoration(
               hintText: 'Quote asset',
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: whiteColor),
-              ),
+              focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: whiteColor)),
             ),
             onSubmitted: (_) => dispatchSymbol(),
             onChanged: (value) {
@@ -72,17 +80,5 @@ class _InputSymbolState extends State<InputSymbol> {
         )
       ],
     );
-  }
-
-  void dispatchSymbol() {
-    final baseAsset = _baseAssetController.text;
-    final quoteAsset = _quoteAssetcontroller.text;
-
-    if (baseAsset == '' || quoteAsset == '') return;
-
-    _baseAssetController.clear();
-    _quoteAssetcontroller.clear();
-    FocusScope.of(context).unfocus();
-    context.read(bookTickerNotifierProvider.notifier).streamBookTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
   }
 }

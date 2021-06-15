@@ -1,12 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'widgets/limit_popup_dialog.dart';
+import 'widgets/market_popup_dialog.dart';
 
 /// This is an empty UI widget that manages popup messages
 class PopupManager extends StatefulWidget {
@@ -21,26 +22,20 @@ class _PopupManagerState extends State<PopupManager> {
   Widget build(BuildContext buildContext) {
     return ProviderListener(
       onChange: (context, state) {
-        if (state is TradeError) {
-          showOrderErrorDialog(state.message);
-        }
-        if (state is TradeLoaded) {
-          showOrderLoadedDialog(state.orderResponse);
-        }
+        if (state is TradeError) _showOrderErrorDialog(state.message);
+        if (state is TradeLoaded) _showOrderLoadedDialog(state.orderResponse);
       },
       provider: tradeNotifierProvider,
       child: SizedBox(),
     );
   }
 
-  void showOrderErrorDialog(String message) {
+  void _showOrderErrorDialog(String message) {
     showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           contentPadding: const EdgeInsets.all(0),
           content: Container(
             padding: const EdgeInsets.all(20),
@@ -65,7 +60,7 @@ class _PopupManagerState extends State<PopupManager> {
     );
   }
 
-  void showOrderLoadedDialog(OrderResponseFull orderResponse) {
+  void _showOrderLoadedDialog(OrderResponseFull orderResponse) {
     final bool orderCompleted = orderResponse.status == BinanceOrderStatus.FILLED;
 
     showDialog(
@@ -78,9 +73,7 @@ class _PopupManagerState extends State<PopupManager> {
           // });
         }
         return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(10))),
           contentPadding: const EdgeInsets.all(0),
           content: Container(
             width: MediaQuery.of(context).size.width / 3,
@@ -128,139 +121,5 @@ class _PopupManagerState extends State<PopupManager> {
         }
       },
     );
-  }
-}
-
-class LimitOrderPopupDialog extends StatelessWidget {
-  final OrderResponseFull orderResponse;
-
-  LimitOrderPopupDialog(this.orderResponse);
-
-  @override
-  Widget build(BuildContext context) {
-    Decimal weightedAveragePrice;
-    if (orderResponse.executedQty > Decimal.zero) {
-      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
-      weightedAveragePrice = sum / orderResponse.executedQty;
-    }
-
-    return Column(
-      children: [
-        _RowDivisionStatus(orderResponse.status, orderResponse.side),
-        if (orderResponse.side == BinanceOrderSide.BUY) ...[
-          _RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          _RowDivision('TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          _RowDivision('TO SPENT:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
-          if (weightedAveragePrice != null) ...[
-            Divider(),
-            _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-            _RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-            _RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          ],
-        ],
-        if (orderResponse.side == BinanceOrderSide.SELL) ...[
-          _RowDivision('LIMIT PRICE:', orderResponse.price.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          _RowDivision('TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          _RowDivision('TO RECEIVE:', (orderResponse.price * orderResponse.origQty).toString() + ' ' + orderResponse.ticker.quoteAsset),
-          if (weightedAveragePrice != null) ...[
-            Divider(),
-            _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-            _RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-            _RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          ],
-        ],
-      ],
-    );
-  }
-}
-
-class MarketOrderPopupDialog extends StatelessWidget {
-  final OrderResponseFull orderResponse;
-
-  MarketOrderPopupDialog(this.orderResponse);
-
-  @override
-  Widget build(BuildContext context) {
-    Decimal weightedAveragePrice;
-    if (orderResponse.executedQty > Decimal.zero) {
-      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
-      weightedAveragePrice = sum / orderResponse.executedQty;
-    }
-
-    return Column(
-      children: [
-        _RowDivisionStatus(orderResponse.status, orderResponse.side),
-        if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.BUY) ...[
-          orderResponse.origQty != orderResponse.executedQty
-              ? _RowDivision('TRIED TO BUY:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
-              : SizedBox(),
-          _RowDivision('BOUGHT:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          _RowDivision('SPENT:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-        ],
-        if (weightedAveragePrice != null && orderResponse.side == BinanceOrderSide.SELL) ...[
-          orderResponse.origQty != orderResponse.executedQty
-              ? _RowDivision('TRIED TO SELL:', orderResponse.origQty.toString() + ' ' + orderResponse.ticker.baseAsset)
-              : SizedBox(),
-          _RowDivision('SOLD:', orderResponse.executedQty.toString() + ' ' + orderResponse.ticker.baseAsset),
-          _RowDivision('PRICE:', weightedAveragePrice.toString() + ' ' + orderResponse.ticker.quoteAsset),
-          _RowDivision('RECEIVED:', orderResponse.cummulativeQuoteQty.toString() + ' ' + orderResponse.ticker.quoteAsset),
-        ],
-      ],
-    );
-  }
-}
-
-class _RowDivision extends StatelessWidget {
-  final String leftText;
-  final String rightText;
-
-  const _RowDivision(this.leftText, this.rightText, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(child: Text(leftText, textAlign: TextAlign.right)),
-        SizedBox(width: 5),
-        Expanded(child: SelectableText(rightText, textAlign: TextAlign.left)),
-      ],
-    );
-  }
-}
-
-class _RowDivisionStatus extends StatelessWidget {
-  final BinanceOrderStatus status;
-  final BinanceOrderSide side;
-
-  const _RowDivisionStatus(this.status, this.side, {Key key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    if (status == BinanceOrderStatus.FILLED) {
-      return Row(
-        children: [
-          Expanded(child: Text('STATUS:', textAlign: TextAlign.right)),
-          SizedBox(width: 5),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  decoration: BoxDecoration(
-                    color: side == BinanceOrderSide.BUY ? buyColor : sellColor,
-                    borderRadius: BorderRadius.all(Radius.circular(7)),
-                  ),
-                  child: Text(status.capitalizeCharacters(), style: TextStyle(fontWeight: FontWeight.w600)),
-                ),
-              ],
-            ),
-          ),
-        ],
-      );
-    } else {
-      return _RowDivision('STATUS:', status.capitalizeCharacters());
-    }
   }
 }

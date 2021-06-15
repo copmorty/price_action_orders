@@ -10,46 +10,67 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Text('Price Action Orders'),
-            Expanded(child: SizedBox()),
-            Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: appMode == AppMode.PRODUCTION ? productionBackgroundColor : testBackgroundColor,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: Text(
-                appMode.toShortString(),
-                style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  color: appMode == AppMode.PRODUCTION ? productionTextColor : testTextColor,
-                ),
+      appBar: _HomeAppBar(),
+      body: _HomeBody(),
+    );
+  }
+}
+
+class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
+  const _HomeAppBar({Key key}) : super(key: key);
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      title: Row(
+        children: [
+          Text('Price Action Orders'),
+          Expanded(child: SizedBox()),
+          Container(
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+              color: appMode == AppMode.PRODUCTION ? productionBackgroundColor : testBackgroundColor,
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+            ),
+            child: Text(
+              appMode.toShortString(),
+              style: TextStyle(
+                fontWeight: FontWeight.w600,
+                color: appMode == AppMode.PRODUCTION ? productionTextColor : testTextColor,
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
-      body: Container(
-        child: Column(
-          children: [
-            Expanded(
-              flex: 73,
-              child: Row(
-                children: [
-                  Expanded(child: MarketSection()),
-                  Expanded(child: ControlsSection()),
-                ],
-              ),
+    );
+  }
+}
+
+class _HomeBody extends StatelessWidget {
+  const _HomeBody({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          Expanded(
+            flex: 73,
+            child: Row(
+              children: [
+                Expanded(child: MarketSection()),
+                Expanded(child: ControlsSection()),
+              ],
             ),
-            Expanded(
-              flex: 27,
-              child: OrdersSection(),
-            ),
-          ],
-        ),
+          ),
+          Expanded(
+            flex: 27,
+            child: OrdersSection(),
+          ),
+        ],
       ),
     );
   }

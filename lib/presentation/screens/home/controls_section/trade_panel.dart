@@ -33,6 +33,7 @@ class _TradePanelState extends State<TradePanel> {
     return Consumer(
       builder: (context, watch, child) {
         final orderConfigState = watch(orderConfigNotifierProvider);
+
         if (orderConfigState is OrderConfigLoaded) {
           return Container(
             child: Expanded(
@@ -65,6 +66,7 @@ class _TradePanelState extends State<TradePanel> {
             ),
           );
         }
+
         return SizedBox();
       },
     );

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/presentation/screens/home/orders_section/widgets/wall_table.dart';
+import 'package:price_action_orders/presentation/screens/home/orders_section/widgets/wall_table_empty.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
@@ -12,13 +14,63 @@ import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
 import 'widgets/wall_table_cell.dart';
+import 'widgets/wall_table_row.dart';
 
-class OpenOrdersWall extends StatefulWidget {
+class OpenOrdersWall extends StatelessWidget {
+  const OpenOrdersWall({Key key}) : super(key: key);
+
   @override
-  _OpenOrdersWallState createState() => _OpenOrdersWallState();
+  Widget build(BuildContext context) {
+    return WallTable(
+      headerCells: [
+        WallTableCell(label: 'Date', isHeader: true),
+        WallTableCell(label: 'Pair', isHeader: true),
+        WallTableCell(label: 'Type', isHeader: true),
+        WallTableCell(label: 'Side', isHeader: true),
+        WallTableCell(label: 'Price', isHeader: true),
+        WallTableCell(label: 'Amount', isHeader: true),
+        WallTableCell(label: 'Filled', isHeader: true),
+        WallTableCell(label: 'Total', isHeader: true),
+        WallTableCell(label: 'Trigger Conditions', isHeader: true),
+        WallTableCell(label: 'Action', isHeader: true),
+      ],
+      content: Consumer(
+        builder: (context, watch, child) {
+          final ordersState = watch(ordersNotifierProvider);
+
+          if (ordersState is OrdersLoading) return LoadingWidget();
+
+          if (ordersState is OrdersError) {
+            return ReloadWidget(() {
+              context.read(userDataStream).initialization();
+              context.read(ordersNotifierProvider.notifier).getOpenOrders();
+            });
+          }
+
+          if (ordersState is OrdersLoaded) {
+            if (ordersState.openOrders.length == 0)
+              return WallTableEmpty('You have no open orders.');
+            else
+              return _WallData(ordersState.openOrders);
+          }
+
+          return SizedBox();
+        },
+      ),
+    );
+  }
 }
 
-class _OpenOrdersWallState extends State<OpenOrdersWall> {
+class _WallData extends StatefulWidget {
+  final List<Order> openOrders;
+
+  const _WallData(this.openOrders, {Key key}) : super(key: key);
+
+  @override
+  __WallDataState createState() => __WallDataState();
+}
+
+class __WallDataState extends State<_WallData> {
   final _scrollController = ScrollController();
 
   @override
@@ -29,99 +81,48 @@ class _OpenOrdersWallState extends State<OpenOrdersWall> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 5),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            WallTableCell(label: 'Date', isHeader: true),
-            WallTableCell(label: 'Pair', isHeader: true),
-            WallTableCell(label: 'Type', isHeader: true),
-            WallTableCell(label: 'Side', isHeader: true),
-            WallTableCell(label: 'Price', isHeader: true),
-            WallTableCell(label: 'Amount', isHeader: true),
-            WallTableCell(label: 'Filled', isHeader: true),
-            WallTableCell(label: 'Total', isHeader: true),
-            WallTableCell(label: 'Trigger Conditions', isHeader: true),
-            WallTableCell(label: 'Action', isHeader: true),
-          ],
-        ),
-        SizedBox(height: 5),
-        Expanded(
-          child: Consumer(
-            builder: (context, watch, child) {
-              final ordersState = watch(ordersNotifierProvider);
-              if (ordersState is OrdersLoading) {
-                return LoadingWidget();
-              }
-              if (ordersState is OrdersError) {
-                return ReloadWidget(() {
-                  context.read(userDataStream).initialization();
-                  context.read(ordersNotifierProvider.notifier).getOpenOrders();
-                });
-              }
-              if (ordersState is OrdersLoaded) {
-                if (ordersState.openOrders.length == 0) {
-                  return Center(
-                    child: Text('You have no open orders.', style: TextStyle(color: greyColor)),
-                  );
-                } else {
-                  return Scrollbar(
-                    controller: _scrollController,
-                    isAlwaysShown: true,
-                    child: ListView.builder(
-                      controller: _scrollController,
-                      itemCount: ordersState.openOrders.length,
-                      itemBuilder: (context, index) {
-                        final order = ordersState.openOrders[index];
-                        final dateTime = new DateTime.fromMillisecondsSinceEpoch(order.time);
-                        final amount = order.origQty;
-                        final filledQty = order.executedQty / order.origQty * Decimal.parse('100');
-                        final total = order.price * order.origQty;
-                        final triggerConditions = order.stopPrice == Decimal.zero ? '-' : '<= ' + order.stopPrice.toString();
+    return Scrollbar(
+      controller: _scrollController,
+      isAlwaysShown: true,
+      child: ListView.builder(
+        controller: _scrollController,
+        itemCount: widget.openOrders.length,
+        itemBuilder: (context, index) {
+          final order = widget.openOrders[index];
+          final dateTime = new DateTime.fromMillisecondsSinceEpoch(order.time);
+          final amount = order.origQty;
+          final filledQty = order.executedQty / order.origQty * Decimal.parse('100');
+          final total = order.price * order.origQty;
+          final triggerConditions = order.stopPrice == Decimal.zero ? '-' : '<= ' + order.stopPrice.toString();
 
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 2.5),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              WallTableCell(
-                                label: DateFormat('MM-dd HH:mm:ss').format(dateTime),
-                                style: TextStyle(fontSize: CELL_FONT_SIZE, color: whiteColorOp70, fontWeight: CELL_FONT_WEIGHT_LIGHT),
-                              ),
-                              WallTableCell(label: order.symbol),
-                              WallTableCell(label: order.type.capitalizeWords()),
-                              WallTableCell(
-                                label: order.side.capitalize(),
-                                style: TextStyle(
-                                  fontSize: CELL_FONT_SIZE,
-                                  color: order.side == BinanceOrderSide.BUY ? buyColor : sellColor,
-                                  fontWeight: CELL_FONT_WEIGHT,
-                                ),
-                              ),
-                              WallTableCell(label: order.price.toString()),
-                              WallTableCell(label: amount.toString()),
-                              WallTableCell(label: filledQty.toStringAsFixed(2) + '%'),
-                              WallTableCell(label: total.toString()),
-                              WallTableCell(label: triggerConditions),
-                              WallTableCell(
-                                child: _CancelOrderButton(key: ValueKey(order.orderId), order: order),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                }
-              }
-
-              return SizedBox();
-            },
-          ),
-        ),
-      ],
+          return WallTableRow(
+            cells: [
+              WallTableCell(
+                label: DateFormat('MM-dd HH:mm:ss').format(dateTime),
+                style: TextStyle(fontSize: CELL_FONT_SIZE, fontWeight: CELL_FONT_WEIGHT_LIGHT, color: whiteColorOp70),
+              ),
+              WallTableCell(label: order.symbol),
+              WallTableCell(label: order.type.capitalizeWords()),
+              WallTableCell(
+                label: order.side.capitalize(),
+                style: TextStyle(
+                  fontSize: CELL_FONT_SIZE,
+                  fontWeight: CELL_FONT_WEIGHT,
+                  color: order.side == BinanceOrderSide.BUY ? buyColor : sellColor,
+                ),
+              ),
+              WallTableCell(label: order.price.toString()),
+              WallTableCell(label: amount.toString()),
+              WallTableCell(label: filledQty.toStringAsFixed(2) + '%'),
+              WallTableCell(label: total.toString()),
+              WallTableCell(label: triggerConditions),
+              WallTableCell(
+                child: _CancelOrderButton(key: ValueKey(order.orderId), order: order),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }

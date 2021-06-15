@@ -6,7 +6,12 @@ class TabSelector extends StatelessWidget {
   final bool selected;
   final Function onTapped;
 
-  const TabSelector({Key key, @required this.label, @required this.selected, @required this.onTapped}) : super(key: key);
+  const TabSelector({
+    Key key,
+    @required this.label,
+    @required this.selected,
+    @required this.onTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +20,9 @@ class TabSelector extends StatelessWidget {
       child: TextButton(
         onPressed: onTapped,
         style: TextButton.styleFrom(
-          primary: selected ? whiteColor : greyWhiteColor,
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-          textStyle: TextStyle(fontWeight: FontWeight.w600)
-        ),
+            primary: selected ? whiteColor : greyWhiteColor,
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            textStyle: TextStyle(fontWeight: FontWeight.w600)),
         child: Text(label),
       ),
     );

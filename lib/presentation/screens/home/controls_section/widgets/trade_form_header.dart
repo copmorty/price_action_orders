@@ -11,7 +11,12 @@ class TradeFormHeader extends StatelessWidget {
   final String quoteAsset;
   final BinanceOrderSide side;
 
-  const TradeFormHeader({Key key, @required this.baseAsset, @required this.quoteAsset, @required this.side}) : super(key: key);
+  const TradeFormHeader({
+    Key key,
+    @required this.baseAsset,
+    @required this.quoteAsset,
+    @required this.side,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

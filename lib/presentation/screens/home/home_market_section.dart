@@ -20,18 +20,12 @@ class MarketSection extends StatelessWidget {
               child: Consumer(
                 builder: (context, watch, child) {
                   final bookTickerState = watch(bookTickerNotifierProvider);
-                  if (bookTickerState is BookTickerInitial) {
-                    return Center(child: Text('Please enter Base & Quote assets'));
-                  }
-                  if (bookTickerState is BookTickerLoading) {
-                    return LoadingWidget();
-                  }
-                  if (bookTickerState is BookTickerError) {
-                    return _BookTickerErrorWidget();
-                  }
-                  if (bookTickerState is BookTickerLoaded) {
-                    return BookTickerDisplay(bookTicker: bookTickerState.bookTicker);
-                  }
+                  
+                  if (bookTickerState is BookTickerInitial) return Center(child: Text('Please enter Base & Quote assets'));
+                  if (bookTickerState is BookTickerLoading) return LoadingWidget();
+                  if (bookTickerState is BookTickerError) return _BookTickerErrorWidget();
+                  if (bookTickerState is BookTickerLoaded) return BookTickerDisplay(bookTicker: bookTickerState.bookTicker);
+
                   return SizedBox();
                 },
               ),

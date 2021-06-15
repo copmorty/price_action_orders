@@ -30,6 +30,25 @@ class _MarketSellFormState extends State<MarketSellForm> {
     _controller.dispose();
   }
 
+  void _marketSell() {
+    if (_controller.text == '') return;
+
+    final quantityText = _controller.text.replaceAll(',', '.');
+    final quantity = Decimal.parse(quantityText);
+    final quoteOrderQty = null;
+    final marketOrder = MarketOrderRequest(
+      ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+      side: BinanceOrderSide.SELL,
+      quantity: quantity,
+      quoteOrderQty: quoteOrderQty,
+    );
+    operationId = marketOrder.timestamp;
+
+    _controller.clear();
+    FocusScope.of(context).unfocus();
+    context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -100,24 +119,5 @@ class _MarketSellFormState extends State<MarketSellForm> {
         ],
       ),
     );
-  }
-
-  void _marketSell() {
-    if (_controller.text == '') return;
-
-    final quantityText = _controller.text.replaceAll(',', '.');
-    final quantity = Decimal.parse(quantityText);
-    final quoteOrderQty = null;
-    final marketOrder = MarketOrderRequest(
-      ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-      side: BinanceOrderSide.SELL,
-      quantity: quantity,
-      quoteOrderQty: quoteOrderQty,
-    );
-    operationId = marketOrder.timestamp;
-
-    _controller.clear();
-    FocusScope.of(context).unfocus();
-    context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
   }
 }

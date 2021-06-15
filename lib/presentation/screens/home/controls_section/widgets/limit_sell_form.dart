@@ -41,7 +41,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
     _amountFocus.dispose();
   }
 
-  _setCurrentPrice() {
+  void _setCurrentPrice() {
     final bookTickerState = context.read(bookTickerNotifierProvider);
     if (bookTickerState is BookTickerLoaded) {
       final currentPrice = (bookTickerState.bookTicker.bidPrice + bookTickerState.bookTicker.askPrice) / Decimal.fromInt(2);
@@ -50,7 +50,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
       return;
   }
 
-  _onFormSubmitted() {
+  void _onFormSubmitted() {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
 
