@@ -17,6 +17,7 @@ class CancelOrderRequestModel extends CancelOrderRequest {
           recvWindow: recvWindow,
           timestamp: timestamp,
         );
+
   factory CancelOrderRequestModel.fromCancelOrderRequest(CancelOrderRequest cancelOrderRequest) {
     return CancelOrderRequestModel(
       symbol: cancelOrderRequest.symbol,

@@ -1,0 +1,20 @@
+{
+    "symbol": "BNBUSDT",
+    "orderId": 3543521,
+    "orderListId": -1,
+    "clientOrderId": "",
+    "price": "353.00",
+    "origQty": "1.00",
+    "executedQty": "0.5",
+    "cummulativeQuoteQty": "176.5",
+    "status": "PARTIALLY_FILLED",
+    "timeInForce": "GTC",
+    "type": "LIMIT",
+    "side": "SELL",
+    "stopPrice": "0.00",
+    "icebergQty": "0.00",
+    "time": 1623884531456,
+    "updateTime": 1623884531456,
+    "isWorking": true,
+    "origQuoteOrderQty": "0.00"
+}

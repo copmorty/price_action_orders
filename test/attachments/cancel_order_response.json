@@ -1,0 +1,15 @@
+{
+    "symbol": "BNBUSDT",
+    "origClientOrderId": "",
+    "orderId": 12485,
+    "orderListId": -1,
+    "clientOrderId": "",
+    "price": "353.00",
+    "origQty": "1.00",
+    "executedQty": "0.00",
+    "cummulativeQuoteQty": "0.00",
+    "status": "NEW",
+    "timeInForce": "GTC",
+    "type": "LIMIT",
+    "side": "BUY"
+}

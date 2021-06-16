@@ -46,8 +46,7 @@ class CancelOrderResponseModel extends CancelOrderResponse {
       executedQty: Decimal.parse(parsedJson['executedQty']),
       cummulativeQuoteQty: Decimal.parse(parsedJson['cummulativeQuoteQty']),
       status: BinanceOrderStatus.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['status'], orElse: () => null),
-      timeInForce:
-          BinanceOrderTimeInForce.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['timeInForce'], orElse: () => null),
+      timeInForce: BinanceOrderTimeInForce.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['timeInForce'], orElse: () => null),
       type: BinanceOrderType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['type'], orElse: () => null),
       side: BinanceOrderSide.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['side'], orElse: () => null),
     );
