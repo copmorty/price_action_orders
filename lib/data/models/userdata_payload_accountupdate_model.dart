@@ -17,14 +17,14 @@ class UserDataPayloadAccountUpdateModel extends UserDataPayloadAccountUpdate {
           changedBalances: changedBalances,
         );
 
-  factory UserDataPayloadAccountUpdateModel.fromJson(Map jsonData) {
-    var bList = jsonData['B'] as List;
+  factory UserDataPayloadAccountUpdateModel.fromJson(Map<String, dynamic> parsedJson) {
+    var bList = parsedJson['B'] as List;
     List<Balance> balancesList = bList.map((item) => BalanceModel.fromJsonStream(item)).toList();
 
     return UserDataPayloadAccountUpdateModel(
-      eventType: BinanceUserDataPayloadEventType.values.firstWhere((enumElement) => enumElement.toShortString() == jsonData['e'], orElse: () => null),
-      eventTime: jsonData['E'],
-      lastAccountUpdateTime: jsonData['u'],
+      eventType: BinanceUserDataPayloadEventType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['e'], orElse: () => null),
+      eventTime: parsedJson['E'],
+      lastAccountUpdateTime: parsedJson['u'],
       changedBalances: balancesList,
     );
   }

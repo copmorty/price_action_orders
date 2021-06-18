@@ -35,12 +35,10 @@ class _MarketSellFormState extends State<MarketSellForm> {
 
     final quantityText = _controller.text.replaceAll(',', '.');
     final quantity = Decimal.parse(quantityText);
-    final quoteOrderQty = null;
     final marketOrder = MarketOrderRequest(
       ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
       side: BinanceOrderSide.SELL,
       quantity: quantity,
-      quoteOrderQty: quoteOrderQty,
     );
     operationId = marketOrder.timestamp;
 

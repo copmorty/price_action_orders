@@ -21,14 +21,14 @@ class LimitOrderRequestModel extends LimitOrderRequest {
           timestamp: timestamp,
         );
 
-  factory LimitOrderRequestModel.fromLimitOrderRequest(LimitOrderRequest limiOrder) {
+  factory LimitOrderRequestModel.fromLimitOrderRequest(LimitOrderRequest limitOrderRequest) {
     return LimitOrderRequestModel(
-      ticker: limiOrder.ticker,
-      side: limiOrder.side,
-      timeInForce: limiOrder.timeInForce,
-      quantity: limiOrder.quantity,
-      price: limiOrder.price,
-      timestamp: limiOrder.timestamp,
+      ticker: limitOrderRequest.ticker,
+      side: limitOrderRequest.side,
+      timeInForce: limitOrderRequest.timeInForce,
+      quantity: limitOrderRequest.quantity,
+      price: limitOrderRequest.price,
+      timestamp: limitOrderRequest.timestamp,
     );
   }
 

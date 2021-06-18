@@ -5,30 +5,32 @@ import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class MarketOrderRequestModel extends MarketOrderRequest {
+  /// Creates a market order request model.
+  ///
+  /// The [quantity] or the [quoteOrderQty] must be provided,
+  /// not both and not neither.
   MarketOrderRequestModel({
     @required Ticker ticker,
-    // @required String symbol,
     @required BinanceOrderSide side,
-    @required Decimal quantity,
-    @required Decimal quoteOrderQty,
+    Decimal quantity,
+    Decimal quoteOrderQty,
     int timestamp,
-  })  : assert(quantity == null || quoteOrderQty == null),
+  })  : assert((quantity != null || quoteOrderQty != null) && !(quantity == null && quoteOrderQty == null)),
         super(
           ticker: ticker,
-          // symbol: symbol,
           side: side,
           quantity: quantity,
           quoteOrderQty: quoteOrderQty,
           timestamp: timestamp,
         );
 
-  factory MarketOrderRequestModel.fromMarketOrderRequest(MarketOrderRequest marketOrder) {
+  factory MarketOrderRequestModel.fromMarketOrderRequest(MarketOrderRequest marketOrderRequest) {
     return MarketOrderRequestModel(
-      ticker: marketOrder.ticker,
-      side: marketOrder.side,
-      quantity: marketOrder.quantity,
-      quoteOrderQty: marketOrder.quoteOrderQty,
-      timestamp: marketOrder.timestamp,
+      ticker: marketOrderRequest.ticker,
+      side: marketOrderRequest.side,
+      quantity: marketOrderRequest.quantity,
+      quoteOrderQty: marketOrderRequest.quoteOrderQty,
+      timestamp: marketOrderRequest.timestamp,
     );
   }
 

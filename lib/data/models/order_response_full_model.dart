@@ -63,23 +63,4 @@ class OrderResponseFullModel extends OrderResponseFull {
       fills: fillsList,
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'symbol': symbol,
-      'orderId': orderId,
-      'orderListId': orderListId,
-      'clientOrderId': clientOrderId,
-      'transactTime': transactTime,
-      'price': price,
-      'origQty': origQty,
-      'executedQty': executedQty,
-      'cummulativeQuoteQty': cummulativeQuoteQty,
-      'status': status,
-      'timeInForce': timeInForce,
-      'type': type,
-      'side': side,
-      'fills': fills,
-    };
-  }
 }
