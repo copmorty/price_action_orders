@@ -17,7 +17,7 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 abstract class TradeDataSource {
   Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder);
   Future<OrderResponseFull> postLimitOrder(LimitOrderRequest limitOrder);
-  Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest limitOrder);
+  Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest cancelOrder);
 }
 
 class TradeDataSourceImpl implements TradeDataSource {

@@ -1,0 +1,189 @@
+import 'package:dartz/dartz.dart';
+import 'package:decimal/decimal.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
+import 'package:price_action_orders/core/error/exceptions.dart';
+import 'package:price_action_orders/core/error/failures.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/data/datasources/userdata_datasource.dart';
+import 'package:price_action_orders/data/repositories/userdata_repository_impl.dart';
+import 'package:price_action_orders/domain/entities/balance.dart';
+import 'package:price_action_orders/domain/entities/order.dart' as entity;
+import 'package:price_action_orders/domain/entities/userdata.dart';
+
+class MockUserDataDataSource extends Mock implements UserDataDataSource {}
+
+void main() {
+  UserDataRepositoryImpl repository;
+  MockUserDataDataSource mockUserDataDataSource;
+
+  setUp(() {
+    mockUserDataDataSource = MockUserDataDataSource();
+    repository = UserDataRepositoryImpl(mockUserDataDataSource);
+  });
+
+  group('getAccountInfo', () {
+    final UserData tUserData = UserData(
+      updateTime: 1624137413896,
+      makerCommission: 0,
+      takerCommission: 0,
+      buyerCommission: 0,
+      sellerCommission: 0,
+      canTrade: true,
+      canWithdraw: false,
+      canDeposit: false,
+      accountType: 'SPOT',
+      balances: [
+        Balance(asset: 'BNB', free: Decimal.parse('3206.29000000'), locked: Decimal.parse('0.00000000')),
+        Balance(asset: 'BTC', free: Decimal.parse('1.00000000'), locked: Decimal.parse('0.00000000')),
+        Balance(asset: 'USDT', free: Decimal.parse('802326.89433047'), locked: Decimal.parse('96945.00000000')),
+      ],
+      permissions: ['SPOT'],
+    );
+
+    test(
+      'should return user data when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getAccountInfo()).thenAnswer((_) async => tUserData);
+        //act
+        final result = await repository.getAccountInfo();
+        //assert
+        expect(result, Right(tUserData));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for known reasons',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getAccountInfo()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
+        //act
+        final result = await repository.getAccountInfo();
+        //assert
+        expect(result, Left(ServerFailure(message: "Internal error, unable to process your request. Please try again.")));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for unknown reasons',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getAccountInfo()).thenThrow(BinanceException());
+        //act
+        final result = await repository.getAccountInfo();
+        //assert
+        expect(result, Left(ServerFailure()));
+      },
+    );
+  });
+
+  group('getOpenOrders', () {
+    final List<entity.Order> tOpenOrders = [
+      entity.Order(
+        symbol: 'BNBUSDT',
+        orderId: 3092189,
+        orderListId: -1,
+        clientOrderId: 'KhbCMI9VtpdRlOK5PVJ5JH',
+        price: Decimal.parse('100.00000000'),
+        origQty: Decimal.parse('1000.00000000'),
+        executedQty: Decimal.parse('30.55000000'),
+        cummulativeQuoteQty: Decimal.parse('3055.00000000'),
+        status: BinanceOrderStatus.PARTIALLY_FILLED,
+        timeInForce: BinanceOrderTimeInForce.GTC,
+        type: BinanceOrderType.LIMIT,
+        side: BinanceOrderSide.BUY,
+        stopPrice: Decimal.parse('0.00000000'),
+        icebergQty: Decimal.parse('0.00000000'),
+        time: 1624130594326,
+        updateTime: 1624137245101,
+        isWorking: true,
+        origQuoteOrderQty: Decimal.parse('0.00000000'),
+      ),
+      entity.Order(
+        symbol: 'BNBUSDT',
+        orderId: 3109505,
+        orderListId: -1,
+        clientOrderId: 'jFmEGC3hhNRJ3kX0D0NYWG',
+        price: Decimal.parse('1000.00000000'),
+        origQty: Decimal.parse('1000.00000000'),
+        executedQty: Decimal.parse('0.00000000'),
+        cummulativeQuoteQty: Decimal.parse('0.00000000'),
+        status: BinanceOrderStatus.NEW,
+        timeInForce: BinanceOrderTimeInForce.GTC,
+        type: BinanceOrderType.LIMIT,
+        side: BinanceOrderSide.SELL,
+        stopPrice: Decimal.parse('0.00000000'),
+        icebergQty: Decimal.parse('0.00000000'),
+        time: 1624138983618,
+        updateTime: 1624138983618,
+        isWorking: true,
+        origQuoteOrderQty: Decimal.parse('0.00000000'),
+      ),
+    ];
+
+    test(
+      'should return a list of open orders when the call to data source is succssesful',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getOpenOrders()).thenAnswer((_) async => tOpenOrders);
+        //act
+        final result = await repository.getOpenOrders();
+        //assert
+        expect(result, Right(tOpenOrders));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for known reasons',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getOpenOrders()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
+        //act
+        final result = await repository.getOpenOrders();
+        //assert
+        expect(result, Left(ServerFailure(message: "Internal error, unable to process your request. Please try again.")));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for unknown reasons',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getOpenOrders()).thenThrow(BinanceException());
+        //act
+        final result = await repository.getOpenOrders();
+        //assert
+        expect(result, Left(ServerFailure()));
+      },
+    );
+  });
+
+  group('getUserDataStream', () {
+    Stream<dynamic> tStreamResponse;
+
+    test(
+      'should return a dynamic stream when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getUserDataStream()).thenAnswer((_) async => tStreamResponse);
+        //act
+        final result = await repository.getUserDataStream();
+        //assert
+        expect(result, Right(tStreamResponse));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataDataSource.getUserDataStream()).thenThrow(ServerException(message: "Could not obtain UserData stream."));
+        //act
+        final result = await repository.getUserDataStream();
+        //assert
+        expect(result, Left(ServerFailure(message: "Could not obtain UserData stream.")));
+      },
+    );
+  });
+}

@@ -2,6 +2,10 @@ import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 class CancelOrderRequest extends Equatable {
+  /// Creates a cancel order request.
+  ///
+  /// The [orderId] or the [origClientOrderId] must be provided,
+  /// not both and not neither.
   final String symbol;
   final int orderId;
   final String origClientOrderId;
@@ -16,7 +20,7 @@ class CancelOrderRequest extends Equatable {
     this.newClientOrderId,
     this.recvWindow,
     timestamp,
-  })  : assert(orderId != null || origClientOrderId != null),
+  })  : assert((orderId != null || origClientOrderId != null) && !(orderId == null && origClientOrderId == null)),
         this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
 
   @override
