@@ -39,11 +39,17 @@ Future<void> init() async {
 }
 
 Future<void> loadKeys() async {
-  final location = appMode == AppMode.PRODUCTION ? 'assets/config-prod.json' : 'assets/config-test.json';
+  final location = 'assets/config.json';
   final jsonStr = await rootBundle.loadString(location);
   final data = jsonDecode(jsonStr);
-  apiKey = data['api_key'];
-  apiSecret = data['api_secret'];
+  
+  if (appMode == AppMode.PRODUCTION) {
+    apiKey = data['api_prod_key'];
+    apiSecret = data['api_prod_secret'];
+  } else {
+    apiKey = data['api_test_key'];
+    apiSecret = data['api_test_secret'];
+  }
 }
 
 // Logic
