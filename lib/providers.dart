@@ -3,12 +3,10 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
-import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
-import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/globals/enums.dart';
 import 'core/globals/variables.dart';
+import 'core/utils/datasource_utils.dart';
 import 'data/datasources/market_datasource.dart';
 import 'data/datasources/trade_datasource.dart';
 import 'data/datasources/userdata_datasource.dart';
@@ -20,15 +18,18 @@ import 'domain/repositories/trade_repository.dart';
 import 'domain/repositories/userdata_repository.dart';
 import 'domain/usecases/get_market_last_ticker.dart';
 import 'domain/usecases/get_userdata_accountinfo.dart';
+import 'domain/usecases/get_userdata_openorders.dart';
 import 'domain/usecases/post_trade_cancel_order.dart';
 import 'domain/usecases/post_trade_limit_order.dart';
 import 'domain/usecases/post_trade_market_order.dart';
 import 'domain/usecases/get_market_bookticker_stream.dart';
 import 'domain/usecases/get_userdata_stream.dart';
-import 'presentation/logic/bookticker_state_notifier.dart';
-import 'presentation/logic/trade_state_notifier.dart';
-import 'presentation/logic/orderconfig_state_notifier.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
+import 'presentation/logic/bookticker_state_notifier.dart';
+import 'presentation/logic/orderconfig_state_notifier.dart';
+import 'presentation/logic/orders_state_notifier.dart';
+import 'presentation/logic/trade_state_notifier.dart';
+import 'presentation/logic/userdata_stream.dart';
 
 SharedPreferences sharedPreferencesInstance;
 
@@ -91,9 +92,22 @@ final tradeRepositoryProvider = Provider<TradeRepository>((ref) => TradeReposito
 final userDataRepositoryProvider = Provider<UserDataRepository>((ref) => UserDataRepositoryImpl(ref.watch(userDataSourceProvider)));
 
 // Data Sources
-final marketDataSourceProvider = Provider<MarketDataSource>((ref) => MarketDataSourceImpl(ref.watch(sharedPreferencesProvider)));
+final marketDataSourceProvider = Provider<MarketDataSource>(
+  (ref) => MarketDataSourceImpl(
+    sharedPreferences: ref.watch(sharedPreferencesProvider),
+    dataSourceUtils: ref.watch(dataSourceUtilsProvider),
+  ),
+);
 final tradeDataSourceProvider = Provider<TradeDataSource>((ref) => TradeDataSourceImpl(ref.watch(httpClientProvider)));
-final userDataSourceProvider = Provider<UserDataDataSource>((ref) => UserDataDataSourceImpl(ref.watch(httpClientProvider)));
+final userDataSourceProvider = Provider<UserDataDataSource>(
+  (ref) => UserDataDataSourceImpl(
+    httpClient: ref.watch(httpClientProvider),
+    dataSourceUtils: ref.watch(dataSourceUtilsProvider),
+  ),
+);
+
+// Core
+final dataSourceUtilsProvider = Provider<DataSourceUtils>((ref) => DataSourceUtils());
 
 // External
 final httpClientProvider = Provider<http.Client>((ref) => http.Client());

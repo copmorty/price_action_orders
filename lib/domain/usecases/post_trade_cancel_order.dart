@@ -13,7 +13,7 @@ class PostCancelOrder implements UseCase<CancelOrderResponse, Params> {
 
   @override
   Future<Either<Failure, CancelOrderResponse>> call(Params params) async {
-    return await repository.cancelOrder(params.cancelOrder);
+    return await repository.postCancelOrder(params.cancelOrder);
   }
 }
 

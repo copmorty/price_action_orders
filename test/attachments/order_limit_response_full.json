@@ -1,0 +1,16 @@
+{
+    "symbol": "BNBUSDT",
+    "orderId": 4216025,
+    "orderListId": -1,
+    "clientOrderId": "vrS5zRiFj7dgxOuK9Pr7M4",
+    "transactTime": 1624643274441,
+    "price": "338.00000000",
+    "origQty": "0.50000000",
+    "executedQty": "0.00000000",
+    "cummulativeQuoteQty": "0.00000000",
+    "status": "NEW",
+    "timeInForce": "GTC",
+    "type": "LIMIT",
+    "side": "SELL",
+    "fills": []
+}

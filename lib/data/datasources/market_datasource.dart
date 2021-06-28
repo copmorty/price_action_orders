@@ -1,10 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
+import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
+import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/bookticker_model.dart';
 import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
@@ -18,10 +20,14 @@ abstract class MarketDataSource {
 
 class MarketDataSourceImpl implements MarketDataSource {
   final SharedPreferences sharedPreferences;
+  final DataSourceUtils dataSourceUtils;
   WebSocket _webSocket;
   StreamController<BookTicker> _streamController;
 
-  MarketDataSourceImpl(this.sharedPreferences);
+  MarketDataSourceImpl({
+    @required this.sharedPreferences,
+    @required this.dataSourceUtils,
+  });
 
   @override
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker) async {
@@ -35,7 +41,7 @@ class MarketDataSourceImpl implements MarketDataSource {
     _streamController = StreamController<BookTicker>();
 
     try {
-      _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
+      _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
 
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(

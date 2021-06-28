@@ -172,7 +172,7 @@ void main() {
     );
   });
 
-  group('cancelOrder', () {
+  group('postCancelOrder', () {
     final tCancelOrderRequest = CancelOrderRequest(symbol: 'BNBUSDT', orderId: 391921);
     final tCancelOrderResponse = CancelOrderResponse(
       symbol: 'BNBUSDT',
@@ -196,7 +196,7 @@ void main() {
         //arrange
         when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => tCancelOrderResponse);
         //act
-        final result = await repository.cancelOrder(tCancelOrderRequest);
+        final result = await repository.postCancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Right(tCancelOrderResponse));
       },
@@ -208,7 +208,7 @@ void main() {
         //arrange
         when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenThrow(BinanceException(message: "Too many requests."));
         //act
-        final result = await repository.cancelOrder(tCancelOrderRequest);
+        final result = await repository.postCancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Left(ServerFailure(message: "Too many requests.")));
       },
@@ -220,7 +220,7 @@ void main() {
         //arrange
         when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenThrow(BinanceException());
         //act
-        final result = await repository.cancelOrder(tCancelOrderRequest);
+        final result = await repository.postCancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Left(ServerFailure()));
       },

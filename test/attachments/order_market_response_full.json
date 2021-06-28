@@ -1,0 +1,24 @@
+{
+    "symbol": "BNBUSDT",
+    "orderId": 4226074,
+    "orderListId": -1,
+    "clientOrderId": "Cv8hnooxL2VzBVO9fBRDWv",
+    "transactTime": 1624647959471,
+    "price": "0.00000000",
+    "origQty": "0.35000000",
+    "executedQty": "0.35000000",
+    "cummulativeQuoteQty": "99.02550000",
+    "status": "FILLED",
+    "timeInForce": "GTC",
+    "type": "MARKET",
+    "side": "BUY",
+    "fills": [
+        {
+            "price": "282.93000000",
+            "qty": "0.35000000",
+            "commission": "0.00000000",
+            "commissionAsset": "BNB",
+            "tradeId": 569246
+        }
+    ]
+}

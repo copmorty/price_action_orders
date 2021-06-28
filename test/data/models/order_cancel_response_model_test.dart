@@ -9,18 +9,18 @@ import '../../attachments/attachment_reader.dart';
 void main() {
   final tCancelOrderResponseModel = CancelOrderResponseModel(
     symbol: 'BNBUSDT',
-    origClientOrderId: '',
-    orderId: 12485,
+    origClientOrderId: 'gwwiVwQrlmxPiv4PAh5TT5',
+    orderId: 4201377,
     orderListId: -1,
-    clientOrderId: '',
-    price: Decimal.parse('353'),
-    origQty: Decimal.one,
+    clientOrderId: '8aDxzSltUbLhfEeNGacTz5',
+    price: Decimal.parse('300.00000000'),
+    origQty: Decimal.parse('300.00000000'),
     executedQty: Decimal.zero,
     cummulativeQuoteQty: Decimal.zero,
-    status: BinanceOrderStatus.NEW,
+    status: BinanceOrderStatus.CANCELED,
     timeInForce: BinanceOrderTimeInForce.GTC,
     type: BinanceOrderType.LIMIT,
-    side: BinanceOrderSide.BUY,
+    side: BinanceOrderSide.SELL,
   );
 
   test(

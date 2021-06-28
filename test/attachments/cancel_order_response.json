@@ -1,15 +1,15 @@
 {
     "symbol": "BNBUSDT",
-    "origClientOrderId": "",
-    "orderId": 12485,
+    "origClientOrderId": "gwwiVwQrlmxPiv4PAh5TT5",
+    "orderId": 4201377,
     "orderListId": -1,
-    "clientOrderId": "",
-    "price": "353.00",
-    "origQty": "1.00",
-    "executedQty": "0.00",
-    "cummulativeQuoteQty": "0.00",
-    "status": "NEW",
+    "clientOrderId": "8aDxzSltUbLhfEeNGacTz5",
+    "price": "300.00000000",
+    "origQty": "300.00000000",
+    "executedQty": "0.00000000",
+    "cummulativeQuoteQty": "0.00000000",
+    "status": "CANCELED",
     "timeInForce": "GTC",
     "type": "LIMIT",
-    "side": "BUY"
+    "side": "SELL"
 }

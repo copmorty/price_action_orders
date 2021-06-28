@@ -9,5 +9,5 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 abstract class TradeRepository {
   Future<Either<ServerFailure, OrderResponseFull>> postMarketOrder(MarketOrderRequest marketOrder);
   Future<Either<ServerFailure, OrderResponseFull>> postLimitOrder(LimitOrderRequest limitOrder);
-  Future<Either<ServerFailure, CancelOrderResponse>> cancelOrder(CancelOrderRequest cancelOrder);
+  Future<Either<ServerFailure, CancelOrderResponse>> postCancelOrder(CancelOrderRequest cancelOrder);
 }

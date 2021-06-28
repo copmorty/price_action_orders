@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:price_action_orders/core/utils/datasource_util.dart';
+import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/order_cancel_request_model.dart';
 import 'package:price_action_orders/data/models/order_cancel_response_model.dart';
 import 'package:price_action_orders/data/models/order_request_limit_model.dart';
@@ -30,7 +30,7 @@ class TradeDataSourceImpl implements TradeDataSource {
   Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder) async {
     final params = MarketOrderRequestModel.fromMarketOrderRequest(marketOrder).toJson();
 
-    String url = generatetUrl(path: path, params: params);
+    String url = DataSourceUtils.generatetUrl(path, params);
 
     final uri = Uri.parse(url);
 
@@ -48,7 +48,7 @@ class TradeDataSourceImpl implements TradeDataSource {
       final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, marketOrder.ticker);
       return orderResponseFullModel;
     } else {
-      print(jsonData);
+      // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
   }
@@ -57,7 +57,7 @@ class TradeDataSourceImpl implements TradeDataSource {
   Future<OrderResponseFull> postLimitOrder(LimitOrderRequest limitOrder) async {
     final params = LimitOrderRequestModel.fromLimitOrderRequest(limitOrder).toJson();
 
-    String url = generatetUrl(path: path, params: params);
+    String url = DataSourceUtils.generatetUrl(path, params);
 
     final uri = Uri.parse(url);
 
@@ -75,7 +75,7 @@ class TradeDataSourceImpl implements TradeDataSource {
       final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, limitOrder.ticker);
       return orderResponseFullModel;
     } else {
-      print(jsonData);
+      // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
   }
@@ -83,7 +83,7 @@ class TradeDataSourceImpl implements TradeDataSource {
   Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest cancelOrderRequest) async {
     final params = CancelOrderRequestModel.fromCancelOrderRequest(cancelOrderRequest).toJson();
 
-    String url = generatetUrl(path: path, params: params);
+    String url = DataSourceUtils.generatetUrl(path, params);
     final uri = Uri.parse(url);
 
     final response = await client.delete(
@@ -100,7 +100,7 @@ class TradeDataSourceImpl implements TradeDataSource {
       final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);
       return cancelOrderResponse;
     } else {
-      print(jsonData);
+      // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
   }

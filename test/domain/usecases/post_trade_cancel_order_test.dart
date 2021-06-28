@@ -41,11 +41,11 @@ void main() {
     'should return a cancel order response when the call to the repository is successful',
     () async {
       //arrange
-      when(mockTradeRepository.cancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Right(tCancelOrderResponse));
+      when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Right(tCancelOrderResponse));
       //act
       final result = await usecase(Params(tCancelOrderRequest));
       //assert
-      verify(mockTradeRepository.cancelOrder(tCancelOrderRequest));
+      verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Right(tCancelOrderResponse));
     },
@@ -55,11 +55,11 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockTradeRepository.cancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Left(ServerFailure()));
       //act
       final result = await usecase(Params(tCancelOrderRequest));
       //assert
-      verify(mockTradeRepository.cancelOrder(tCancelOrderRequest));
+      verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Left(ServerFailure()));
     },

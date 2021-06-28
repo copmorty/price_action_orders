@@ -4,7 +4,7 @@ import 'dart:io' show WebSocket;
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
-import 'package:price_action_orders/core/utils/datasource_util.dart';
+import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
@@ -19,19 +19,23 @@ abstract class UserDataDataSource {
 }
 
 class UserDataDataSourceImpl implements UserDataDataSource {
-  final http.Client client;
+  final http.Client httpClient;
+  final DataSourceUtils dataSourceUtils;
   WebSocket _webSocket;
   StreamController<dynamic> _streamController;
   Timer _timer;
 
-  UserDataDataSourceImpl(this.client);
+  UserDataDataSourceImpl({
+    this.httpClient,
+    this.dataSourceUtils,
+  });
 
   _extendListenKeyValidity(String listenKey) async {
     const pathListenKey = '/api/v3/userDataStream';
     final queryParams = 'listenKey=' + listenKey;
     final uri = Uri.parse(binanceUrl + pathListenKey + '?' + queryParams);
 
-    final response = await client.put(
+    final response = await httpClient.put(
       uri,
       headers: {
         'Content-Type': 'application/json',
@@ -51,23 +55,24 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       'timestamp': timestamp.toString(),
     };
 
-    String url = generatetUrl(path: path, params: params);
+    String url = DataSourceUtils.generatetUrl(path, params);
 
     final uri = Uri.parse(url);
 
-    final response = await client.get(
+    final response = await httpClient.get(
       uri,
       headers: {
         'Content-Type': 'application/json',
         'X-MBX-APIKEY': apiKey,
       },
     );
+
     final jsonData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
       return UserDataModel.fromJson(jsonData);
     } else {
-      print(jsonData);
+      // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
   }
@@ -81,11 +86,11 @@ class UserDataDataSourceImpl implements UserDataDataSource {
       'timestamp': timestamp.toString(),
     };
 
-    String url = generatetUrl(path: pathOpenOrders, params: params);
+    String url = DataSourceUtils.generatetUrl(pathOpenOrders, params);
 
     final uri = Uri.parse(url);
 
-    final response = await client.get(
+    final response = await httpClient.get(
       uri,
       headers: {
         'Content-Type': 'application/json',
@@ -104,7 +109,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
       return openOrders;
     } else {
-      print(jsonData);
+      // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
   }
@@ -116,7 +121,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
 
     final uri = Uri.parse(binanceUrl + pathListenKey);
 
-    final response = await client.post(
+    final response = await httpClient.post(
       uri,
       headers: {
         'Content-Type': 'application/json',
@@ -129,20 +134,23 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     Map keyData = jsonDecode(response.body);
     final listenKey = keyData['listenKey'];
 
-    _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
-      final int statusCode = await _extendListenKeyValidity(listenKey);
-      if (statusCode != 200) {
-        _streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));
-        timer.cancel();
-      }
-    });
+    // _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
+    //   final int statusCode = await _extendListenKeyValidity(listenKey);
+    //   if (statusCode != 200) {
+    //     _streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));
+    //     timer.cancel();
+    //   }
+    // });
+
+    _timer = dataSourceUtils.periodicValidityExpander(() => _extendListenKeyValidity(listenKey), _streamController);
 
     _webSocket?.close();
     _streamController?.close();
     _streamController = StreamController<dynamic>();
 
     try {
-      _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + listenKey);
+      _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + listenKey);
+      // _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + listenKey);
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
@@ -168,7 +176,7 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     } catch (err) {
       _webSocket?.close();
       _streamController.close();
-      if (_timer.isActive) _timer.cancel();
+      if (_timer?.isActive ?? false) _timer.cancel();
       throw ServerException(message: "Could not obtain UserData stream.");
     }
 
