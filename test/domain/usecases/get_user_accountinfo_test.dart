@@ -6,18 +6,18 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
-import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata_accountinfo.dart';
+import 'package:price_action_orders/domain/repositories/user_repository.dart';
+import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
 
-class MockUserDataRepository extends Mock implements UserDataRepository {}
+class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
   GetAccountInfo usecase;
-  MockUserDataRepository mockUserDataRepository;
+  MockUserRepository mockUserRepository;
 
   setUp(() {
-    mockUserDataRepository = MockUserDataRepository();
-    usecase = GetAccountInfo(mockUserDataRepository);
+    mockUserRepository = MockUserRepository();
+    usecase = GetAccountInfo(mockUserRepository);
   });
 
   final UserData tUserData = UserData(
@@ -41,12 +41,12 @@ void main() {
     'should return user data when the call to the repository is successful',
     () async {
       //arrange
-      when(mockUserDataRepository.getAccountInfo()).thenAnswer((_) async => Right(tUserData));
+      when(mockUserRepository.getAccountInfo()).thenAnswer((_) async => Right(tUserData));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getAccountInfo());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getAccountInfo());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Right(tUserData));
     },
   );
@@ -55,12 +55,12 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockUserDataRepository.getAccountInfo()).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockUserRepository.getAccountInfo()).thenAnswer((_) async => Left(ServerFailure()));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getAccountInfo());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getAccountInfo());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Left(ServerFailure()));
     },
   );

@@ -7,7 +7,7 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/trade.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_orderupdate.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
+import 'package:price_action_orders/domain/usecases/get_user_openorders.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 
 part 'orders_state.dart';

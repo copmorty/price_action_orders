@@ -9,21 +9,21 @@ import 'core/globals/variables.dart';
 import 'core/utils/datasource_utils.dart';
 import 'data/datasources/market_datasource.dart';
 import 'data/datasources/trade_datasource.dart';
-import 'data/datasources/userdata_datasource.dart';
+import 'data/datasources/user_datasource.dart';
 import 'data/repositories/market_repository_impl.dart';
 import 'data/repositories/trade_repository_impl.dart';
-import 'data/repositories/userdata_repository_impl.dart';
+import 'data/repositories/user_repository_impl.dart';
 import 'domain/repositories/market_respository.dart';
 import 'domain/repositories/trade_repository.dart';
-import 'domain/repositories/userdata_repository.dart';
+import 'domain/repositories/user_repository.dart';
 import 'domain/usecases/get_market_last_ticker.dart';
-import 'domain/usecases/get_userdata_accountinfo.dart';
-import 'domain/usecases/get_userdata_openorders.dart';
+import 'domain/usecases/get_user_accountinfo.dart';
+import 'domain/usecases/get_user_datastream.dart';
+import 'domain/usecases/get_user_openorders.dart';
 import 'domain/usecases/post_trade_cancel_order.dart';
 import 'domain/usecases/post_trade_limit_order.dart';
 import 'domain/usecases/post_trade_market_order.dart';
 import 'domain/usecases/get_market_bookticker_stream.dart';
-import 'domain/usecases/get_userdata_stream.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
 import 'presentation/logic/orderconfig_state_notifier.dart';
@@ -85,9 +85,9 @@ final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserD
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(marketRepositoryProvider)));
 final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref.watch(marketRepositoryProvider)));
-final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userDataRepositoryProvider)));
-final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userDataRepositoryProvider)));
-final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userDataRepositoryProvider)));
+final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userRepositoryProvider)));
+final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userRepositoryProvider)));
+final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
 final postLimitOder = Provider<PostLimitOrder>((ref) => PostLimitOrder(ref.watch(tradeRepositoryProvider)));
 final postMarketOrder = Provider<PostMarketOrder>((ref) => PostMarketOrder(ref.watch(tradeRepositoryProvider)));
 final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(tradeRepositoryProvider)));
@@ -95,7 +95,7 @@ final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.w
 // Repositories
 final marketRepositoryProvider = Provider<MarketRepository>((ref) => MarketRepositoryImpl(ref.watch(marketDataSourceProvider)));
 final tradeRepositoryProvider = Provider<TradeRepository>((ref) => TradeRepositoryImpl(ref.watch(tradeDataSourceProvider)));
-final userDataRepositoryProvider = Provider<UserDataRepository>((ref) => UserDataRepositoryImpl(ref.watch(userDataSourceProvider)));
+final userRepositoryProvider = Provider<UserRepository>((ref) => UserRepositoryImpl(ref.watch(userDataSourceProvider)));
 
 // Data Sources
 final marketDataSourceProvider = Provider<MarketDataSource>(
@@ -105,8 +105,8 @@ final marketDataSourceProvider = Provider<MarketDataSource>(
   ),
 );
 final tradeDataSourceProvider = Provider<TradeDataSource>((ref) => TradeDataSourceImpl(ref.watch(httpClientProvider)));
-final userDataSourceProvider = Provider<UserDataDataSource>(
-  (ref) => UserDataDataSourceImpl(
+final userDataSourceProvider = Provider<UserDataSource>(
+  (ref) => UserDataSourceImpl(
     httpClient: ref.watch(httpClientProvider),
     dataSourceUtils: ref.watch(dataSourceUtilsProvider),
   ),

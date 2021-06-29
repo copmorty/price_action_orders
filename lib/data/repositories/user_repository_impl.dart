@@ -1,14 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
-import 'package:price_action_orders/data/datasources/userdata_datasource.dart';
+import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
-import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
+import 'package:price_action_orders/domain/repositories/user_repository.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 
-class UserDataRepositoryImpl implements UserDataRepository {
-  final UserDataDataSource dataSource;
+class UserRepositoryImpl implements UserRepository {
+  final UserDataSource dataSource;
 
-  UserDataRepositoryImpl(this.dataSource);
+  UserRepositoryImpl(this.dataSource);
 
   @override
   Future<Either<Failure, UserData>> getAccountInfo() async {

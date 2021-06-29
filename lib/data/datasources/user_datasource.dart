@@ -12,20 +12,20 @@ import 'package:price_action_orders/data/models/userdata_payload_orderupdate_mod
 import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 
-abstract class UserDataDataSource {
+abstract class UserDataSource {
   Future<UserData> getAccountInfo();
   Future<List<Order>> getOpenOrders();
   Future<Stream<dynamic>> getUserDataStream();
 }
 
-class UserDataDataSourceImpl implements UserDataDataSource {
+class UserDataSourceImpl implements UserDataSource {
   final http.Client httpClient;
   final DataSourceUtils dataSourceUtils;
   WebSocket _webSocket;
   StreamController<dynamic> _streamController;
   Timer _timer;
 
-  UserDataDataSourceImpl({
+  UserDataSourceImpl({
     this.httpClient,
     this.dataSourceUtils,
   });
@@ -134,23 +134,16 @@ class UserDataDataSourceImpl implements UserDataDataSource {
     Map keyData = jsonDecode(response.body);
     final listenKey = keyData['listenKey'];
 
-    // _timer = Timer.periodic(Duration(minutes: 30), (timer) async {
-    //   final int statusCode = await _extendListenKeyValidity(listenKey);
-    //   if (statusCode != 200) {
-    //     _streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));
-    //     timer.cancel();
-    //   }
-    // });
-
-    _timer = dataSourceUtils.periodicValidityExpander(() => _extendListenKeyValidity(listenKey), _streamController);
-
+    if (_timer?.isActive ?? false) _timer.cancel();
     _webSocket?.close();
     _streamController?.close();
     _streamController = StreamController<dynamic>();
 
+    _timer = dataSourceUtils.periodicValidityExpander(() => _extendListenKeyValidity(listenKey), _streamController);
+
     try {
       _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + listenKey);
-      // _webSocket = await WebSocket.connect(binanceWebSocketUrl + pathWS + listenKey);
+      
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {

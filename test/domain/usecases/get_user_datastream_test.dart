@@ -3,18 +3,18 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
-import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata_stream.dart';
+import 'package:price_action_orders/domain/repositories/user_repository.dart';
+import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
 
-class MockUserDataRepository extends Mock implements UserDataRepository {}
+class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
   GetUserDataStream usecase;
-  MockUserDataRepository mockUserDataRepository;
+  MockUserRepository mockUserRepository;
 
   setUp(() {
-    mockUserDataRepository = MockUserDataRepository();
-    usecase = GetUserDataStream(mockUserDataRepository);
+    mockUserRepository = MockUserRepository();
+    usecase = GetUserDataStream(mockUserRepository);
   });
 
   Stream<dynamic> tStreamResponse;
@@ -23,12 +23,12 @@ void main() {
     'should return a dynamic stream when the call to the repository is successful',
     () async {
       //arrange
-      when(mockUserDataRepository.getUserDataStream()).thenAnswer((_) async => Right(tStreamResponse));
+      when(mockUserRepository.getUserDataStream()).thenAnswer((_) async => Right(tStreamResponse));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getUserDataStream());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getUserDataStream());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Right(tStreamResponse));
     },
   );
@@ -37,12 +37,12 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockUserDataRepository.getUserDataStream()).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockUserRepository.getUserDataStream()).thenAnswer((_) async => Left(ServerFailure()));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getUserDataStream());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getUserDataStream());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Left(ServerFailure()));
     },
   );

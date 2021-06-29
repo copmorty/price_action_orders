@@ -6,18 +6,18 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
-import 'package:price_action_orders/domain/repositories/userdata_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata_openorders.dart';
+import 'package:price_action_orders/domain/repositories/user_repository.dart';
+import 'package:price_action_orders/domain/usecases/get_user_openorders.dart';
 
-class MockUserDataRepository extends Mock implements UserDataRepository {}
+class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
   GetOpenOrders usecase;
-  MockUserDataRepository mockUserDataRepository;
+  MockUserRepository mockUserRepository;
 
   setUp(() {
-    mockUserDataRepository = MockUserDataRepository();
-    usecase = GetOpenOrders(mockUserDataRepository);
+    mockUserRepository = MockUserRepository();
+    usecase = GetOpenOrders(mockUserRepository);
   });
 
   final List<entity.Order> tOpenOrders = [
@@ -67,12 +67,12 @@ void main() {
     'should return an (open) order list when the call to the repository is successful',
     () async {
       //arrange
-      when(mockUserDataRepository.getOpenOrders()).thenAnswer((_) async => Right(tOpenOrders));
+      when(mockUserRepository.getOpenOrders()).thenAnswer((_) async => Right(tOpenOrders));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getOpenOrders());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getOpenOrders());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Right(tOpenOrders));
     },
   );
@@ -81,12 +81,12 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockUserDataRepository.getOpenOrders()).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockUserRepository.getOpenOrders()).thenAnswer((_) async => Left(ServerFailure()));
       //act
       final result = await usecase(NoParams());
       //assert
-      verify(mockUserDataRepository.getOpenOrders());
-      verifyNoMoreInteractions(mockUserDataRepository);
+      verify(mockUserRepository.getOpenOrders());
+      verifyNoMoreInteractions(mockUserRepository);
       expect(result, Left(ServerFailure()));
     },
   );

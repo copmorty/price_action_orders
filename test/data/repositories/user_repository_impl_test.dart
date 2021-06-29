@@ -5,21 +5,21 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/data/datasources/userdata_datasource.dart';
-import 'package:price_action_orders/data/repositories/userdata_repository_impl.dart';
+import 'package:price_action_orders/data/datasources/user_datasource.dart';
+import 'package:price_action_orders/data/repositories/user_repository_impl.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/userdata.dart';
 
-class MockUserDataDataSource extends Mock implements UserDataDataSource {}
+class MockUserDataSource extends Mock implements UserDataSource {}
 
 void main() {
-  UserDataRepositoryImpl repository;
-  MockUserDataDataSource mockUserDataDataSource;
+  UserRepositoryImpl repository;
+  MockUserDataSource mockUserDataSource;
 
   setUp(() {
-    mockUserDataDataSource = MockUserDataDataSource();
-    repository = UserDataRepositoryImpl(mockUserDataDataSource);
+    mockUserDataSource = MockUserDataSource();
+    repository = UserRepositoryImpl(mockUserDataSource);
   });
 
   group('getAccountInfo', () {
@@ -45,7 +45,7 @@ void main() {
       'should return user data when the call to data source is successful',
       () async {
         //arrange
-        when(mockUserDataDataSource.getAccountInfo()).thenAnswer((_) async => tUserData);
+        when(mockUserDataSource.getAccountInfo()).thenAnswer((_) async => tUserData);
         //act
         final result = await repository.getAccountInfo();
         //assert
@@ -57,7 +57,7 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for known reasons',
       () async {
         //arrange
-        when(mockUserDataDataSource.getAccountInfo()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
+        when(mockUserDataSource.getAccountInfo()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
         //act
         final result = await repository.getAccountInfo();
         //assert
@@ -69,7 +69,7 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for unknown reasons',
       () async {
         //arrange
-        when(mockUserDataDataSource.getAccountInfo()).thenThrow(BinanceException());
+        when(mockUserDataSource.getAccountInfo()).thenThrow(BinanceException());
         //act
         final result = await repository.getAccountInfo();
         //assert
@@ -126,7 +126,7 @@ void main() {
       'should return a list of open orders when the call to data source is succssesful',
       () async {
         //arrange
-        when(mockUserDataDataSource.getOpenOrders()).thenAnswer((_) async => tOpenOrders);
+        when(mockUserDataSource.getOpenOrders()).thenAnswer((_) async => tOpenOrders);
         //act
         final result = await repository.getOpenOrders();
         //assert
@@ -138,7 +138,7 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for known reasons',
       () async {
         //arrange
-        when(mockUserDataDataSource.getOpenOrders()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
+        when(mockUserDataSource.getOpenOrders()).thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
         //act
         final result = await repository.getOpenOrders();
         //assert
@@ -150,7 +150,7 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for unknown reasons',
       () async {
         //arrange
-        when(mockUserDataDataSource.getOpenOrders()).thenThrow(BinanceException());
+        when(mockUserDataSource.getOpenOrders()).thenThrow(BinanceException());
         //act
         final result = await repository.getOpenOrders();
         //assert
@@ -166,7 +166,7 @@ void main() {
       'should return a dynamic stream when the call to data source is successful',
       () async {
         //arrange
-        when(mockUserDataDataSource.getUserDataStream()).thenAnswer((_) async => tStreamResponse);
+        when(mockUserDataSource.getUserDataStream()).thenAnswer((_) async => tStreamResponse);
         //act
         final result = await repository.getUserDataStream();
         //assert
@@ -178,7 +178,7 @@ void main() {
       'should return server failure when the call to data source is unsuccessful',
       () async {
         //arrange
-        when(mockUserDataDataSource.getUserDataStream()).thenThrow(ServerException(message: "Could not obtain UserData stream."));
+        when(mockUserDataSource.getUserDataStream()).thenThrow(ServerException(message: "Could not obtain UserData stream."));
         //act
         final result = await repository.getUserDataStream();
         //assert

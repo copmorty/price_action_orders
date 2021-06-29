@@ -6,7 +6,7 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
-import 'package:price_action_orders/domain/usecases/get_userdata_accountinfo.dart';
+import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
 import 'userdata_stream.dart';
 
 part 'accountinfo_state.dart';
