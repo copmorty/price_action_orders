@@ -51,7 +51,10 @@ class MarketDataSourceImpl implements MarketDataSource {
             _streamController.add(bookTickerModel);
           },
           onDone: () => print('[+] BookTicker stream done.'),
-          onError: (err) => print('[!] Error: ${err.toString()}'),
+          onError: (err) {
+            print('[!] Error: ${err.toString()}');
+            _streamController.addError(Error());
+          },
           cancelOnError: true,
         );
       } else {

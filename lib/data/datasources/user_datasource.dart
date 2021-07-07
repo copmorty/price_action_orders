@@ -143,7 +143,7 @@ class UserDataSourceImpl implements UserDataSource {
 
     try {
       _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + listenKey);
-      
+
       if (_webSocket.readyState == WebSocket.open) {
         _webSocket.listen(
           (data) {
@@ -160,7 +160,10 @@ class UserDataSourceImpl implements UserDataSource {
             if (finalData != null) _streamController.add(finalData);
           },
           onDone: () => print('[+] UserDataStream done.'),
-          onError: (err) => print('[!] Error: ${err.toString()}'),
+          onError: (err) {
+            print('[!] Error: ${err.toString()}');
+            _streamController.addError(Error());
+          },
           cancelOnError: true,
         );
       } else {
@@ -170,7 +173,7 @@ class UserDataSourceImpl implements UserDataSource {
       _webSocket?.close();
       _streamController.close();
       if (_timer?.isActive ?? false) _timer.cancel();
-      throw ServerException(message: "Could not obtain UserData stream.");
+      throw ServerException(message: "Could not obtain user data stream.");
     }
 
     return _streamController.stream;

@@ -14,7 +14,7 @@ class BookTickerLoading extends BookTickerState {}
 class BookTickerLoaded extends BookTickerState {
   final BookTicker bookTicker;
 
-  BookTickerLoaded({@required this.bookTicker});
+  BookTickerLoaded(this.bookTicker);
 
   @override
   List<Object> get props => [bookTicker];

@@ -37,7 +37,7 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
         state = AccountInfoLoaded(userData);
         _subscription = _userDataStream.stream().listen(
               (data) => _checkForUpdate(data),
-              onError: (error) => state = AccountInfoError(error?.message ?? 'Account info not available right now.'),
+              onError: (error) => state = AccountInfoError('Account info not available right now.'),
               cancelOnError: true,
             );
       },
@@ -46,14 +46,14 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
 
   void _checkForUpdate(dynamic data) {
     if (data is UserDataPayloadAccountUpdate) {
-      _updateUserDataBalances(data.changedBalances);
+      _updateUserDataBalances(data.lastAccountUpdateTime, data.changedBalances);
     }
     // if (data is --balanceUpdate--) {
     // NEEDS LATER IMPLEMENTATION
     // }
   }
 
-  void _updateUserDataBalances(List<Balance> changedBalances) {
+  void _updateUserDataBalances(int lastAccountUpdateTime, List<Balance> changedBalances) {
     if (!(state is AccountInfoLoaded)) return;
 
     final currentUserData = (state as AccountInfoLoaded).userData;
@@ -76,7 +76,7 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
       makerCommission: currentUserData.makerCommission,
       sellerCommission: currentUserData.sellerCommission,
       takerCommission: currentUserData.takerCommission,
-      updateTime: DateTime.now().millisecondsSinceEpoch,
+      updateTime: lastAccountUpdateTime,
       permissions: currentUserData.permissions,
       balances: updatedBalances,
     );

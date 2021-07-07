@@ -32,7 +32,7 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
   Future<void> initialization() async {
     final failureOrTicker = await _getLastTicker(NoParams());
     failureOrTicker.fold(
-      (failure) => print('No ticker cached yet.'),
+      (failure) => null, // No ticker cached yet
       (ticker) => streamBookTicker(ticker),
     );
   }
@@ -47,9 +47,9 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
       (stream) {
         _orderConfigNotifier.setState(ticker);
         _subscription = stream.listen(
-          (event) => state = BookTickerLoaded(bookTicker: event),
+          (bookTicker) => state = BookTickerLoaded(bookTicker),
           onError: (error) {
-            state = BookTickerError(error?.message ?? 'Market data not available right now.');
+            state = BookTickerError('Market data not available right now.');
           },
           cancelOnError: true,
         );
