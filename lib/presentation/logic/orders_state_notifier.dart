@@ -37,11 +37,11 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
       (openOrderModels) {
         final List<Order> openOrders = openOrderModels.map((o) => o).toList();
         openOrders.sort((a, b) => b.time.compareTo(a.time));
-        
+
         state = OrdersLoaded(openOrders: openOrders);
 
         _subscription = _userDataStream.stream().listen(
-              (data) => _checkForUpdate(data),
+              (data) => _updateOrders(data),
               onError: (error) => state = OrdersError('Something went wrong.'),
               cancelOnError: true,
             );
@@ -49,14 +49,11 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
     );
   }
 
-  void _checkForUpdate(dynamic data) {
-    if (data is UserDataPayloadOrderUpdate) {
-      _updateOrders(data);
-    }
-  }
-
-  void _updateOrders(UserDataPayloadOrderUpdate report) {
+  void _updateOrders(dynamic data) {
+    if (!(data is UserDataPayloadOrderUpdate)) return;
     if (!(state is OrdersLoaded)) return;
+
+    final report = data as UserDataPayloadOrderUpdate;
     final List<Order> openOrders = (state as OrdersLoaded).openOrders;
     final List<Order> orderHistory = (state as OrdersLoaded).orderHistory.isEmpty ? [] : (state as OrdersLoaded).orderHistory;
     final List<Trade> tradeHistory = (state as OrdersLoaded).tradeHistory.isEmpty ? [] : (state as OrdersLoaded).tradeHistory;

@@ -10,18 +10,25 @@ class OrdersInitial extends OrdersState {}
 class OrdersLoading extends OrdersState {}
 
 class OrdersLoaded extends OrdersState {
-  final List<Order> openOrders;
-  final List<Order> orderHistory;
-  final List<Trade> tradeHistory;
+  final List<Order> _openOrders;
+  final List<Order> _orderHistory;
+  final List<Trade> _tradeHistory;
 
   OrdersLoaded({
-    @required this.openOrders,
-    this.orderHistory = const [],
-    this.tradeHistory = const [],
-  });
+    @required List<Order> openOrders,
+    List<Order> orderHistory = const [],
+    List<Trade> tradeHistory = const [],
+  })  : _openOrders = openOrders,
+        _orderHistory = orderHistory,
+        _tradeHistory = tradeHistory;
+
+  // In this way the lists are immutable
+  get openOrders => List.of(_openOrders);
+  get orderHistory => List.of(_orderHistory);
+  get tradeHistory => List.of(_tradeHistory);
 
   @override
-  List<Object> get props => [openOrders, orderHistory, tradeHistory];
+  List<Object> get props => [_openOrders, _orderHistory, _tradeHistory];
 }
 
 class OrdersError extends OrdersState {
