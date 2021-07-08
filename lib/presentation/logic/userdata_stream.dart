@@ -10,9 +10,9 @@ class UserDataStream {
 
   UserDataStream({
     @required GetUserDataStream getUserDataStream,
-    bool start = true,
+    bool init = true,
   }) : _getUserDataStream = getUserDataStream {
-    if (start) initialization();
+    if (init) initialization();
   }
 
   Future<void> initialization() async {

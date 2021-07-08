@@ -19,11 +19,11 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
   AccountInfoNotifier({
     @required getAccountInfo,
     @required userDataStream,
-    bool start = true,
+    bool init = true,
   })  : _getAccountInfo = getAccountInfo,
         _userDataStream = userDataStream,
         super(AccountInfoInitial()) {
-    if (start) this.getAccountInfo();
+    if (init) this.getAccountInfo();
   }
 
   Future<void> getAccountInfo() async {

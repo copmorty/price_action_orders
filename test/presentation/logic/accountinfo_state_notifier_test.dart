@@ -25,7 +25,7 @@ void main() {
   setUp(() {
     mockGetAccountInfo = MockGetAccountInfo();
     mockUserDataStream = MockUserDataStream();
-    notifier = AccountInfoNotifier(getAccountInfo: mockGetAccountInfo, userDataStream: mockUserDataStream, start: false);
+    notifier = AccountInfoNotifier(getAccountInfo: mockGetAccountInfo, userDataStream: mockUserDataStream, init: false);
   });
 
   group('getAccountInfo', () {

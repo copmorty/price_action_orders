@@ -21,12 +21,12 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
     @required GetLastTicker getLastTicker,
     @required GetBookTickerStream getBookTickerStream,
     @required OrderConfigNotifier orderConfigNotifier,
-    bool start = true,
+    bool init = true,
   })  : _getLastTicker = getLastTicker,
         _getBookTickerStream = getBookTickerStream,
         _orderConfigNotifier = orderConfigNotifier,
         super(BookTickerInitial()) {
-    if (start) initialization();
+    if (init) initialization();
   }
 
   Future<void> initialization() async {

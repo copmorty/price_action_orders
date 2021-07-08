@@ -29,7 +29,7 @@ void main() {
     mockGetBookTickerStream = MockGetBookTickerStream();
     mockOrderConfigNotifier = MockOrderConfigNotifier();
     notifier = BookTickerNotifier(
-        getLastTicker: mockGetLastTicker, getBookTickerStream: mockGetBookTickerStream, orderConfigNotifier: mockOrderConfigNotifier, start: false);
+        getLastTicker: mockGetLastTicker, getBookTickerStream: mockGetBookTickerStream, orderConfigNotifier: mockOrderConfigNotifier, init: false);
   });
 
   group('initialization', () {

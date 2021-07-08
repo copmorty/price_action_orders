@@ -25,7 +25,7 @@ void main() {
   setUp(() {
     mockGetOpenOrders = MockGetOpenOrders();
     mockUserDataStream = MockUserDataStream();
-    notifier = OrdersNotifier(getOpenOrders: mockGetOpenOrders, userDataStream: mockUserDataStream, start: false);
+    notifier = OrdersNotifier(getOpenOrders: mockGetOpenOrders, userDataStream: mockUserDataStream, init: false);
   });
 
   group('getOpenOrders', () {

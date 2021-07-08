@@ -20,11 +20,11 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
   OrdersNotifier({
     @required GetOpenOrders getOpenOrders,
     @required UserDataStream userDataStream,
-    bool start = true,
+    bool init = true,
   })  : _getOpenOrders = getOpenOrders,
         _userDataStream = userDataStream,
         super(OrdersInitial()) {
-    if (start) this.getOpenOrders();
+    if (init) this.getOpenOrders();
   }
 
   Future<void> getOpenOrders() async {
