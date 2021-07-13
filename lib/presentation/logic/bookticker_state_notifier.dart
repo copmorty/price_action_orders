@@ -39,13 +39,14 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
 
   Future<void> streamBookTicker(Ticker ticker) async {
     state = BookTickerLoading();
+    _orderConfigNotifier.setLoading();
 
     await _subscription?.cancel();
     final failureOrStream = await _getBookTickerStream(Params(ticker));
     failureOrStream.fold(
       (failure) => state = BookTickerError(failure.message),
       (stream) {
-        _orderConfigNotifier.setState(ticker);
+        _orderConfigNotifier.setLoaded(ticker);
         _subscription = stream.listen(
           (bookTicker) => state = BookTickerLoaded(bookTicker),
           onError: (error) {

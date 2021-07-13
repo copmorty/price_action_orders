@@ -9,7 +9,26 @@ void main() {
     notifier = OrderConfigNotifier();
   });
 
-  group('setState', () {
+  group('setLoading', () {
+    test(
+      'should state OrderConfigInitial and OrderConfigLoading after first time call',
+      () async {
+        //arrange
+        final List<OrderConfigState> tStates = [
+          OrderConfigInitial(),
+          OrderConfigLoading(),
+        ];
+        final List<OrderConfigState> actualStates = [];
+        notifier.addListener((state) => actualStates.add(state));
+        //act
+        notifier.setLoading();
+        //assert
+        expect(actualStates, tStates);
+      },
+    );
+  });
+
+  group('setLoaded', () {
     final tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
 
     test(
@@ -23,10 +42,10 @@ void main() {
         final List<OrderConfigState> actualStates = [];
         notifier.addListener((state) => actualStates.add(state));
         //act
-        notifier.setState(tTicker);
+        notifier.setLoaded(tTicker);
         //assert
         expect(actualStates, tStates);
       },
-    );     
+    );
   });
 }

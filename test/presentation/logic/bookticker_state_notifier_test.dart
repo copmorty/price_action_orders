@@ -104,8 +104,9 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
+        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
-        verify(mockOrderConfigNotifier.setState(tTicker));
+        verify(mockOrderConfigNotifier.setLoaded(tTicker));
         verifyNoMoreInteractions(mockGetBookTickerStream);
         verifyNoMoreInteractions(mockOrderConfigNotifier);
         expect(actualStates, tStates);
@@ -128,9 +129,10 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
+        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
+        verifyNoMoreInteractions(mockOrderConfigNotifier);
         verifyNoMoreInteractions(mockGetBookTickerStream);
-        verifyZeroInteractions(mockOrderConfigNotifier);
         expect(actualStates, tStates);
       },
     );
@@ -151,8 +153,9 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
+        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
-        verify(mockOrderConfigNotifier.setState(tTicker));
+        verify(mockOrderConfigNotifier.setLoaded(tTicker));
         verifyNoMoreInteractions(mockGetBookTickerStream);
         verifyNoMoreInteractions(mockOrderConfigNotifier);
         expect(actualStates, tStates);

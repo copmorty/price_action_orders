@@ -9,6 +9,8 @@ abstract class OrderConfigState extends Equatable {
 
 class OrderConfigInitial extends OrderConfigState {}
 
+class OrderConfigLoading extends OrderConfigState {}
+
 class OrderConfigLoaded extends OrderConfigState {
   final Ticker ticker;
 

@@ -7,7 +7,11 @@ part 'orderconfig_state.dart';
 class OrderConfigNotifier extends StateNotifier<OrderConfigState> {
   OrderConfigNotifier() : super(OrderConfigInitial());
 
-  void setState(Ticker ticker) {
+  void setLoading() {
+    state = OrderConfigLoading();
+  }
+
+  void setLoaded(Ticker ticker) {
     state = OrderConfigLoaded(ticker);
   }
 }
