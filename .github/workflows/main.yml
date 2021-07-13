@@ -1,0 +1,40 @@
+name: build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Run flutter analyze and flutter test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "2.0.4"
+          channel: "stable"
+      - name: Write config.json
+        run: echo '{{ secrets.CONFIG_JSON }}' > assets/config.json
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+
+  build_windows:
+    name: Build flutter app for windows
+    needs: [test]
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "2.0.4"
+          channel: "stable"
+      - name: Write config.json
+        run: echo '{{ secrets.CONFIG_JSON }}' > assets/config.json
+      - run: flutter config --enable-windows-desktop
+      - run: flutter build windows
