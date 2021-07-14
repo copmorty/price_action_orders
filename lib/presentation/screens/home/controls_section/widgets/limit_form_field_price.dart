@@ -37,6 +37,12 @@ class PriceFormField extends StatelessWidget {
       submitForm();
   }
 
+  String _validator(String strPrice) {
+    if (strPrice.isEmpty) return 'Please input price';
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTradeFormField(
@@ -45,6 +51,7 @@ class PriceFormField extends StatelessWidget {
       controller: priceController,
       onChanged: _onChanged,
       onFieldSubmitted: _onFieldSubmitted,
+      validator: _validator,
     );
   }
 }

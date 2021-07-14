@@ -18,7 +18,7 @@ class MarketBoard extends StatelessWidget {
           child: Column(
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.BUY),
-              SizedBox(height: 10),
+              SizedBox(height: 13),
               MarketBuyForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
@@ -28,7 +28,7 @@ class MarketBoard extends StatelessWidget {
           child: Column(
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.SELL),
-              SizedBox(height: 10),
+              SizedBox(height: 13),
               MarketSellForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),

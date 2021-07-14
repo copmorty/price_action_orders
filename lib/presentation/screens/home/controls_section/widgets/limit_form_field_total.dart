@@ -24,7 +24,7 @@ class TotalFormField extends StatelessWidget {
     if (priceController.text.isEmpty) setCurrentPrice();
     if (strTotal.isEmpty) {
       amountController.text = '';
-    } else {
+    } else if (priceController.text.isNotEmpty) {
       final price = Decimal.parse(priceController.text);
       final total = Decimal.parse(strTotal);
       amountController.text = (total / price).toString();

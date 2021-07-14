@@ -21,7 +21,9 @@ class MarketBuyForm extends StatefulWidget {
 }
 
 class _MarketBuyFormState extends State<MarketBuyForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
+  AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   int operationId;
 
   @override
@@ -30,26 +32,44 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
     _controller.dispose();
   }
 
-  void _marketBuy() {
-    if (_controller.text == '') return;
+  void _onFormSubmitted() {
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
 
-    final quoteOrderQtyText = _controller.text.replaceAll(',', '.');
-    final quoteOrderQty = Decimal.parse(quoteOrderQtyText);
-    final marketOrder = MarketOrderRequest(
-      ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-      side: BinanceOrderSide.BUY,
-      quoteOrderQty: quoteOrderQty,
-    );
-    operationId = marketOrder.timestamp;
+      final quoteOrderQty = Decimal.parse(_controller.text);
+      final marketOrder = MarketOrderRequest(
+        ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+        side: BinanceOrderSide.BUY,
+        quoteOrderQty: quoteOrderQty,
+      );
+      operationId = marketOrder.timestamp;
 
-    _controller.clear();
-    FocusScope.of(context).unfocus();
-    context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
+      _controller.clear();
+      FocusScope.of(context).unfocus();
+      context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
+
+      setState(() {
+        _autovalidateMode = AutovalidateMode.disabled;
+      });
+    } else {
+      setState(() {
+        _autovalidateMode = AutovalidateMode.always;
+      });
+    }
+  }
+
+  String _validator(String strTotal) {
+    print('_validator');
+    if (strTotal.isEmpty) return 'Please input total';
+
+    return null;
   }
 
   @override
   Widget build(BuildContext context) {
     return Form(
+      key: _formKey,
+      autovalidateMode: _autovalidateMode,
       child: Column(
         children: [
           Container(
@@ -85,7 +105,8 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
             hintText: 'Total',
             suffixText: widget.quoteAsset,
             controller: _controller,
-            onFieldSubmitted: (_) => _marketBuy(),
+            onFieldSubmitted: (_) => _onFormSubmitted(),
+            validator: _validator,
           ),
           SizedBox(height: 10),
           SizedBox(
@@ -104,7 +125,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
                 }
 
                 return ElevatedButton(
-                  onPressed: _marketBuy,
+                  onPressed: _onFormSubmitted,
                   child: Text(
                     'Buy ${widget.baseAsset}',
                     style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),

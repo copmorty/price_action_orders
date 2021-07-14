@@ -71,6 +71,10 @@ class _LimitSellFormState extends State<LimitSellForm> {
       _totalController.clear();
       FocusScope.of(context).unfocus();
       context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
+
+      setState(() {
+        _autovalidateMode = AutovalidateMode.disabled;
+      });
     } else {
       setState(() {
         _autovalidateMode = AutovalidateMode.always;

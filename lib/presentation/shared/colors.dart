@@ -4,10 +4,12 @@ final Color mainColor = Colors.indigo.shade300;
 final Color mainColorDark = Colors.indigo.shade400;
 final Color mainColorDarkOp10 = Colors.indigo.shade400.withOpacity(0.1);
 
-final Color productionTextColor = Colors.black;
-final Color productionBackgroundColor = Colors.yellow;
-final Color testTextColor = Colors.white;
-final Color testBackgroundColor = Colors.blue;
+final Color errorColor = Colors.red.shade400;
+
+final Color badgeProductionTextColor = Colors.black;
+final Color badgeProductionBackgroundColor = Colors.yellow;
+final Color badgeTestTextColor = Colors.white;
+final Color badgeTestBackgroundColor = Colors.blue;
 
 final Color buyColor = Colors.green;
 final Color sellColor = Colors.red;
@@ -23,6 +25,7 @@ final Color whiteColorOp30 = Colors.white.withOpacity(0.3);
 final Color whiteColorOp10 = Colors.white.withOpacity(0.1);
 
 final Color greyColor = Colors.grey;
+final Color greyColor700 = Colors.grey.shade700;
 final Color greyWhiteColor = Colors.white54;
 
 final Color blackColor = Colors.black;

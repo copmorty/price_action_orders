@@ -26,11 +26,17 @@ class AmountFormField extends StatelessWidget {
     if (priceController.text.isEmpty) setCurrentPrice();
     if (strAmount.isEmpty) {
       totalController.text = '';
-    } else {
+    } else if (priceController.text.isNotEmpty) {
       final price = Decimal.parse(priceController.text);
       final amount = Decimal.parse(strAmount);
       totalController.text = (price * amount).toString();
     }
+  }
+
+  String _validator(String strAmount) {
+    if (strAmount.isEmpty) return 'Please input amount';
+
+    return null;
   }
 
   @override
@@ -42,6 +48,7 @@ class AmountFormField extends StatelessWidget {
       controller: amountController,
       onChanged: _onChanged,
       onFieldSubmitted: (strVal) => submitForm,
+      validator: _validator,
     );
   }
 }

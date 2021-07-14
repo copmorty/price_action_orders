@@ -29,6 +29,7 @@ class DefaultTradeFormField extends StatefulWidget {
 class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
   bool _textFieldHasFocus = false;
   bool _textFieldHasDecorator = false;
+  String validatorResponse;
 
   void _onHover(bool isHovered) {
     setState(() {
@@ -45,51 +46,75 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
 
   @override
   Widget build(BuildContext context) {
-    return MouseRegion(
-      onEnter: (_) => _onHover(true),
-      onExit: (_) => _onHover(false),
-      child: AnimatedContainer(
-        padding: const EdgeInsets.symmetric(horizontal: 12),
-        duration: Duration(milliseconds: 150),
-        decoration: BoxDecoration(
-          color: whiteColorOp10,
-          border: Border.all(color: _textFieldHasDecorator ? whiteColorOp90 : transparentColor),
-          borderRadius: BorderRadius.all(Radius.circular(4)),
-        ),
-        child: Row(
-          children: [
-            Text(
-              widget.hintText,
-              style: TextStyle(fontSize: 16, color: whiteColorOp60),
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        MouseRegion(
+          onEnter: (_) => _onHover(true),
+          onExit: (_) => _onHover(false),
+          child: AnimatedContainer(
+            padding: const EdgeInsets.symmetric(horizontal: 12),
+            duration: Duration(milliseconds: 150),
+            decoration: BoxDecoration(
+              color: whiteColorOp10,
+              borderRadius: BorderRadius.all(Radius.circular(4)),
+              border: Border.all(color: validatorResponse == null ? (_textFieldHasDecorator ? whiteColorOp90 : transparentColor) : errorColor),
             ),
-            Expanded(
-              child: FocusScope(
-                onFocusChange: (isFocused) => _onFocus(isFocused),
-                child: TextFormField(
-                  focusNode: widget.focusNode,
-                  controller: widget.controller,
-                  textAlign: TextAlign.end,
-                  cursorColor: whiteColor,
-                  inputFormatters: [
-                    ValidatorInputFormatter(
-                      editingValidator: DotCurrencyEditingRegexValidator(),
-                    )
-                  ],
-                  decoration: InputDecoration(border: InputBorder.none),
-                  onChanged: widget.onChanged,
-                  onFieldSubmitted: widget.onFieldSubmitted,
-                  validator: widget.validator,
+            child: Row(
+              children: [
+                Text(
+                  widget.hintText,
+                  style: TextStyle(fontSize: 16, color: whiteColorOp60),
                 ),
-              ),
+                Expanded(
+                  child: FocusScope(
+                    onFocusChange: (isFocused) => _onFocus(isFocused),
+                    child: TextFormField(
+                      focusNode: widget.focusNode,
+                      controller: widget.controller,
+                      textAlign: TextAlign.end,
+                      cursorColor: whiteColor,
+                      inputFormatters: [ValidatorInputFormatter(editingValidator: DotCurrencyEditingRegexValidator())],
+                      decoration: InputDecoration(
+                        border: InputBorder.none,
+                        errorStyle: TextStyle(height: 0, color: transparentColor),
+                      ),
+                      onChanged: widget.onChanged,
+                      onFieldSubmitted: widget.onFieldSubmitted,
+                      validator: (strValue) {
+                        if (widget.validator == null) return null;
+                        setState(() {
+                          validatorResponse = widget.validator(strValue);
+                        });
+                        return validatorResponse;
+                      },
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Text(
+                  widget.suffixText,
+                  style: TextStyle(fontSize: 16, color: whiteColorOp60),
+                ),
+              ],
             ),
-            SizedBox(width: 10),
-            Text(
-              widget.suffixText,
-              style: TextStyle(fontSize: 16, color: whiteColorOp60),
-            ),
-          ],
+          ),
         ),
-      ),
+        Positioned(
+          right: 0,
+          top: -35,
+          child: validatorResponse == null
+              ? SizedBox.shrink()
+              : Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
+                    color: greyColor700,
+                  ),
+                  child: Text(validatorResponse),
+                ),
+        ),
+      ],
     );
   }
 }

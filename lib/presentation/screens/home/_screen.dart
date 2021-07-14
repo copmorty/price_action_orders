@@ -32,14 +32,14 @@ class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
           Container(
             padding: const EdgeInsets.all(5),
             decoration: BoxDecoration(
-              color: appMode == AppMode.PRODUCTION ? productionBackgroundColor : testBackgroundColor,
+              color: appMode == AppMode.PRODUCTION ? badgeProductionBackgroundColor : badgeTestBackgroundColor,
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: Text(
               appMode.toShortString(),
               style: TextStyle(
                 fontWeight: FontWeight.w600,
-                color: appMode == AppMode.PRODUCTION ? productionTextColor : testTextColor,
+                color: appMode == AppMode.PRODUCTION ? badgeProductionTextColor : badgeTestTextColor,
               ),
             ),
           ),
