@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -18,8 +17,8 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
   StreamSubscription _subscription;
 
   OrdersNotifier({
-    @required GetOpenOrders getOpenOrders,
-    @required UserDataStream userDataStream,
+    GetOpenOrders/*!*/ getOpenOrders,
+    UserDataStream/*!*/ userDataStream,
     bool init = true,
   })  : _getOpenOrders = getOpenOrders,
         _userDataStream = userDataStream,

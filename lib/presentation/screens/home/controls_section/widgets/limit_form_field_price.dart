@@ -3,21 +3,21 @@ import 'package:decimal/decimal.dart';
 import 'default_trade_form_field.dart';
 
 class PriceFormField extends StatelessWidget {
-  final String quoteAsset;
-  final TextEditingController priceController;
-  final TextEditingController amountController;
-  final TextEditingController totalController;
-  final Function focusNext;
-  final Function submitForm;
+  final String/*!*/ quoteAsset;
+  final TextEditingController/*!*/ priceController;
+  final TextEditingController/*!*/ amountController;
+  final TextEditingController/*!*/ totalController;
+  final Function/*!*/ focusNext;
+  final Function/*!*/ submitForm;
 
   const PriceFormField({
     Key key,
-    @required this.quoteAsset,
-    @required this.priceController,
-    @required this.amountController,
-    @required this.totalController,
-    @required this.focusNext,
-    @required this.submitForm,
+    this.quoteAsset,
+    this.priceController,
+    this.amountController,
+    this.totalController,
+    this.focusNext,
+    this.submitForm,
   }) : super(key: key);
 
   void _onChanged(String strPrice) {

@@ -11,10 +11,14 @@ import 'package:price_action_orders/presentation/shared/widgets/loading_widget.d
 import 'default_trade_form_field.dart';
 
 class MarketBuyForm extends StatefulWidget {
-  final String baseAsset;
-  final String quoteAsset;
+  final String/*!*/ baseAsset;
+  final String/*!*/ quoteAsset;
 
-  const MarketBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const MarketBuyForm({
+    Key key,
+    this.baseAsset,
+    this.quoteAsset,
+  }) : super(key: key);
 
   @override
   _MarketBuyFormState createState() => _MarketBuyFormState();

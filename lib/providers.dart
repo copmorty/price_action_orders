@@ -31,7 +31,7 @@ import 'presentation/logic/orders_state_notifier.dart';
 import 'presentation/logic/trade_state_notifier.dart';
 import 'presentation/logic/userdata_stream.dart';
 
-SharedPreferences sharedPreferencesInstance;
+SharedPreferences/*!*/ sharedPreferencesInstance;
 
 Future<void> init() async {
   await loadKeys();

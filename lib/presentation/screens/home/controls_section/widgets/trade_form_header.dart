@@ -7,15 +7,15 @@ import 'package:price_action_orders/presentation/logic/accountinfo_state_notifie
 import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class TradeFormHeader extends StatelessWidget {
-  final String baseAsset;
-  final String quoteAsset;
-  final BinanceOrderSide side;
+  final String /*!*/ baseAsset;
+  final String /*!*/ quoteAsset;
+  final BinanceOrderSide /*!*/ side;
 
   const TradeFormHeader({
     Key key,
-    @required this.baseAsset,
-    @required this.quoteAsset,
-    @required this.side,
+    this.baseAsset,
+    this.quoteAsset,
+    this.side,
   }) : super(key: key);
 
   @override
@@ -50,10 +50,14 @@ class TradeFormHeader extends StatelessWidget {
 }
 
 class _BalanceForOrder extends StatelessWidget {
-  final List<Balance> balances;
-  final String asset;
+  final List<Balance>/*!*/ balances;
+  final String/*!*/ asset;
 
-  const _BalanceForOrder({Key key, @required this.balances, @required this.asset}) : super(key: key);
+  const _BalanceForOrder({
+    Key key,
+    this.balances,
+    this.asset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

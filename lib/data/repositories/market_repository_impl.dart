@@ -6,7 +6,7 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
 
 class MarketRepositoryImpl implements MarketRepository {
-  final MarketDataSource dataSource;
+  final MarketDataSource/*!*/ dataSource;
 
   MarketRepositoryImpl(this.dataSource);
 

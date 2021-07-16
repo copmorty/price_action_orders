@@ -128,11 +128,11 @@ class __WallDataState extends State<_WallData> {
 }
 
 class _CancelOrderButton extends StatefulWidget {
-  final Order order;
+  final Order/*!*/ order;
 
   const _CancelOrderButton({
-    @required Key key,
-    @required this.order,
+    Key/*!*/ key,
+    this.order,
   }) : super(key: key);
 
   @override

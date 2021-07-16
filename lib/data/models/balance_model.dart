@@ -1,12 +1,11 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 
 class BalanceModel extends Balance {
   BalanceModel({
-    @required String asset,
-    @required Decimal free,
-    @required Decimal locked,
+    String/*!*/ asset,
+    Decimal/*!*/ free,
+    Decimal/*!*/ locked,
   }) : super(
           asset: asset,
           free: free,

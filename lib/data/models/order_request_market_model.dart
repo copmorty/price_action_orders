@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
@@ -10,8 +9,8 @@ class MarketOrderRequestModel extends MarketOrderRequest {
   /// The [quantity] or the [quoteOrderQty] must be provided,
   /// not both and not neither.
   MarketOrderRequestModel({
-    @required Ticker ticker,
-    @required BinanceOrderSide side,
+    Ticker/*!*/ ticker,
+    BinanceOrderSide/*!*/ side,
     Decimal quantity,
     Decimal quoteOrderQty,
     int timestamp,

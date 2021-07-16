@@ -4,11 +4,11 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class BookTickerDisplay extends StatelessWidget {
-  final BookTicker bookTicker;
+  final BookTicker /*!*/ bookTicker;
 
   const BookTickerDisplay({
     Key key,
-    @required this.bookTicker,
+    this.bookTicker,
   }) : super(key: key);
 
   @override
@@ -42,9 +42,12 @@ class BookTickerDisplay extends StatelessWidget {
 }
 
 class _TableBookTicker extends StatelessWidget {
-  final BookTicker bookTicker;
+  final BookTicker /*!*/ bookTicker;
 
-  const _TableBookTicker({Key key, @required this.bookTicker}) : super(key: key);
+  const _TableBookTicker({
+    Key key,
+    this.bookTicker,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Table(
@@ -75,9 +78,9 @@ class _TableBookTicker extends StatelessWidget {
   }
 
   TableRow _buildBookRow({
-    @required Color rowColor,
-    @required Decimal price,
-    @required Decimal qty,
+    Color/*!*/ rowColor,
+    Decimal/*!*/ price,
+    Decimal/*!*/ qty,
   }) {
     return TableRow(
       children: [

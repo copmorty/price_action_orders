@@ -1,10 +1,9 @@
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class TickerModel extends Ticker {
   TickerModel({
-    @required String baseAsset,
-    @required String quoteAsset,
+    String/*!*/ baseAsset,
+    String/*!*/ quoteAsset,
   }) : super(
           baseAsset: baseAsset,
           quoteAsset: quoteAsset,

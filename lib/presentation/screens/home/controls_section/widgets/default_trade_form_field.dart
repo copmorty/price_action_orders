@@ -3,9 +3,9 @@ import 'package:price_action_orders/core/utils/formatters.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class DefaultTradeFormField extends StatefulWidget {
-  final String hintText;
-  final String suffixText;
-  final TextEditingController controller;
+  final String/*!*/ hintText;
+  final String/*!*/ suffixText;
+  final TextEditingController/*!*/ controller;
   final FocusNode focusNode;
   final ValueChanged<String> onChanged;
   final ValueChanged<String> onFieldSubmitted;
@@ -13,9 +13,9 @@ class DefaultTradeFormField extends StatefulWidget {
 
   const DefaultTradeFormField({
     Key key,
-    @required this.hintText,
-    @required this.suffixText,
-    @required this.controller,
+    this.hintText,
+    this.suffixText,
+    this.controller,
     this.focusNode,
     this.onChanged,
     this.onFieldSubmitted,

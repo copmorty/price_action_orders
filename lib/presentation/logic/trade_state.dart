@@ -28,10 +28,13 @@ class TradeLoaded extends TradeState {
 }
 
 class TradeError extends TradeState {
-  final int orderTimestamp;
-  final String message;
+  final int/*!*/ orderTimestamp;
+  final String/*!*/ message;
 
-  TradeError({@required this.orderTimestamp, @required this.message});
+  TradeError({
+    this.orderTimestamp,
+    this.message,
+  });
 
   @override
   List<Object> get props => [orderTimestamp, message];

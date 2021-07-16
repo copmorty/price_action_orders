@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 
 class ReloadWidget extends StatelessWidget {
-  final Function callback;
+  final void Function() callback;
 
   const ReloadWidget(this.callback, {Key key}) : super(key: key);
 

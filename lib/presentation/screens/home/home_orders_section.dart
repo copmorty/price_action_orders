@@ -69,10 +69,14 @@ class _OrdersSectionState extends State<OrdersSection> {
 }
 
 class _OpenOrdersTab extends ConsumerWidget {
-  final bool selected;
-  final Function onTapped;
+  final bool /*!*/ selected;
+  final void Function()/*!*/ onTapped;
 
-  const _OpenOrdersTab({Key key, this.selected, this.onTapped}) : super(key: key);
+  const _OpenOrdersTab({
+    Key key,
+    this.selected,
+    this.onTapped,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {

@@ -5,10 +5,14 @@ import 'market_buy_form.dart';
 import 'market_sell_form.dart';
 
 class MarketBoard extends StatelessWidget {
-  final String baseAsset;
-  final String quoteAsset;
+  final String/*!*/ baseAsset;
+  final String/*!*/ quoteAsset;
 
-  const MarketBoard({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const MarketBoard({
+    Key key,
+    this.baseAsset,
+    this.quoteAsset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -21,11 +21,11 @@ class _PopupManagerState extends State<PopupManager> {
   @override
   Widget build(BuildContext buildContext) {
     return ProviderListener(
-      onChange: (context, state) {
+      provider: tradeNotifierProvider,
+      onChange: (context, TradeState state) {
         if (state is TradeError) _showOrderErrorDialog(state.message);
         if (state is TradeLoaded) _showOrderLoadedDialog(state.orderResponse);
       },
-      provider: tradeNotifierProvider,
       child: SizedBox(),
     );
   }

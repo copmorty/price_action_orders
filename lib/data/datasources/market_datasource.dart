@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
-import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
@@ -19,14 +18,14 @@ abstract class MarketDataSource {
 }
 
 class MarketDataSourceImpl implements MarketDataSource {
-  final SharedPreferences sharedPreferences;
-  final DataSourceUtils dataSourceUtils;
+  final SharedPreferences/*!*/ sharedPreferences;
+  final DataSourceUtils/*!*/ dataSourceUtils;
   WebSocket _webSocket;
   StreamController<BookTicker> _streamController;
 
   MarketDataSourceImpl({
-    @required this.sharedPreferences,
-    @required this.dataSourceUtils,
+    this.sharedPreferences,
+    this.dataSourceUtils,
   });
 
   @override

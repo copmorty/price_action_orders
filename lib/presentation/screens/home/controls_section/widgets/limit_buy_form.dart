@@ -14,10 +14,14 @@ import 'limit_form_field_price.dart';
 import 'limit_form_field_total.dart';
 
 class LimitBuyForm extends StatefulWidget {
-  final String baseAsset;
-  final String quoteAsset;
+  final String/*!*/ baseAsset;
+  final String/*!*/ quoteAsset;
 
-  const LimitBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const LimitBuyForm({
+    Key key,
+    this.baseAsset,
+    this.quoteAsset,
+  }) : super(key: key);
 
   @override
   _LimitBuyFormState createState() => _LimitBuyFormState();

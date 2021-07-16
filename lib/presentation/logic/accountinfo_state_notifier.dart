@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -17,8 +16,8 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
   StreamSubscription _subscription;
 
   AccountInfoNotifier({
-    @required getAccountInfo,
-    @required userDataStream,
+    GetAccountInfo/*!*/ getAccountInfo,
+    UserDataStream/*!*/ userDataStream,
     bool init = true,
   })  : _getAccountInfo = getAccountInfo,
         _userDataStream = userDataStream,

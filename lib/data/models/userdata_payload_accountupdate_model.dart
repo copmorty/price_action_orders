@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/models/balance_model.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
@@ -6,10 +5,10 @@ import 'package:price_action_orders/domain/entities/userdata_payload_accountupda
 
 class UserDataPayloadAccountUpdateModel extends UserDataPayloadAccountUpdate {
   UserDataPayloadAccountUpdateModel({
-    @required BinanceUserDataPayloadEventType eventType,
-    @required int eventTime,
-    @required int lastAccountUpdateTime,
-    @required List<Balance> changedBalances,
+    BinanceUserDataPayloadEventType/*!*/ eventType,
+    int/*!*/ eventTime,
+    int/*!*/ lastAccountUpdateTime,
+    List<Balance>/*!*/ changedBalances,
   }) : super(
           eventType: eventType,
           eventTime: eventTime,

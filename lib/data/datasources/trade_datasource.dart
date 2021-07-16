@@ -22,7 +22,7 @@ abstract class TradeDataSource {
 
 class TradeDataSourceImpl implements TradeDataSource {
   static const path = '/api/v3/order';
-  final http.Client client;
+  final http.Client/*!*/ client;
 
   TradeDataSourceImpl(this.client);
 

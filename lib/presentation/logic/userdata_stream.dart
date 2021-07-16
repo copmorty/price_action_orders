@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
 
@@ -9,7 +8,7 @@ class UserDataStream {
   StreamController<dynamic> _streamController = StreamController<dynamic>.broadcast();
 
   UserDataStream({
-    @required GetUserDataStream getUserDataStream,
+    GetUserDataStream/*!*/ getUserDataStream,
     bool init = true,
   }) : _getUserDataStream = getUserDataStream {
     if (init) initialization();

@@ -6,7 +6,7 @@ import 'package:price_action_orders/domain/repositories/user_repository.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 
 class UserRepositoryImpl implements UserRepository {
-  final UserDataSource dataSource;
+  final UserDataSource/*!*/ dataSource;
 
   UserRepositoryImpl(this.dataSource);
 

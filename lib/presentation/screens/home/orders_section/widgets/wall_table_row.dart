@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'wall_table_cell.dart';
 
 class WallTableRow extends StatelessWidget {
-  final List<WallTableCell> cells;
+  final List<WallTableCell>/*!*/ cells;
   final double opacity;
 
   const WallTableRow({
     Key key,
-    @required this.cells,
+    this.cells,
     this.opacity = 1,
   }) : super(key: key);
 

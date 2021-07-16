@@ -1,42 +1,41 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_orderupdate.dart';
 
 class UserDataPayloadOrderUpdateModel extends UserDataPayloadOrderUpdate {
   UserDataPayloadOrderUpdateModel({
-    @required BinanceUserDataPayloadEventType eventType,
-    @required int eventTime,
-    @required String symbol,
-    @required String clientOrderId,
-    @required BinanceOrderSide side,
-    @required BinanceOrderType orderType,
-    @required BinanceOrderTimeInForce timeInForce,
-    @required Decimal orderQuantity,
-    @required Decimal orderPrice,
-    @required Decimal stopPrice,
-    @required Decimal icebergQuantity,
-    @required int orderListId,
-    @required String originalClientOrderId,
-    @required BinanceOrderExecutionType currentExecutionType,
-    @required BinanceOrderStatus currentOrderStatus,
-    @required String orderRejectReason,
-    @required int orderId,
-    @required Decimal lastExecutedQuantity,
-    @required Decimal cumulativeFilledQuantity,
-    @required Decimal lastExecutedPrice,
-    @required Decimal commisionAmount,
-    @required String commisionAsset,
-    @required int transactionTime,
-    @required int tradeId,
-    // @required int ignore,//"I"
-    @required bool orderIsOnTheBook,
-    @required bool tradeIsTheMakerSide,
-    // @required bool ignore,//"M"
-    @required int orderCreationTime,
-    @required Decimal cumulativeQuoteAssetTransactedQuantity,
-    @required Decimal lastQuoteAssetTransactedQuantity,
-    @required Decimal quoteOrderQuantity,
+    BinanceUserDataPayloadEventType/*!*/ eventType,
+    int/*!*/ eventTime,
+    String/*!*/ symbol,
+    String/*!*/ clientOrderId,
+    BinanceOrderSide/*!*/ side,
+    BinanceOrderType/*!*/ orderType,
+    BinanceOrderTimeInForce/*!*/ timeInForce,
+    Decimal/*!*/ orderQuantity,
+    Decimal/*!*/ orderPrice,
+    Decimal/*!*/ stopPrice,
+    Decimal/*!*/ icebergQuantity,
+    int/*!*/ orderListId,
+    String/*!*/ originalClientOrderId,
+    BinanceOrderExecutionType/*!*/ currentExecutionType,
+    BinanceOrderStatus/*!*/ currentOrderStatus,
+    String/*!*/ orderRejectReason,
+    int/*!*/ orderId,
+    Decimal/*!*/ lastExecutedQuantity,
+    Decimal/*!*/ cumulativeFilledQuantity,
+    Decimal/*!*/ lastExecutedPrice,
+    Decimal/*!*/ commisionAmount,
+    String/*!*/ commisionAsset,
+    int/*!*/ transactionTime,
+    int/*!*/ tradeId,
+    // required int ignore,//"I"
+    bool/*!*/ orderIsOnTheBook,
+    bool/*!*/ tradeIsTheMakerSide,
+    // required bool ignore,//"M"
+    int/*!*/ orderCreationTime,
+    Decimal/*!*/ cumulativeQuoteAssetTransactedQuantity,
+    Decimal/*!*/ lastQuoteAssetTransactedQuantity,
+    Decimal/*!*/ quoteOrderQuantity,
   }) : super(
           eventType: eventType,
           eventTime: eventTime,
@@ -72,8 +71,7 @@ class UserDataPayloadOrderUpdateModel extends UserDataPayloadOrderUpdate {
 
   factory UserDataPayloadOrderUpdateModel.fromJson(Map<String, dynamic> parsedJson) {
     return UserDataPayloadOrderUpdateModel(
-      eventType:
-          BinanceUserDataPayloadEventType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['e'], orElse: () => null),
+      eventType: BinanceUserDataPayloadEventType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['e'], orElse: () => null),
       eventTime: parsedJson['E'],
       symbol: parsedJson['s'],
       clientOrderId: parsedJson['c'],
@@ -86,8 +84,7 @@ class UserDataPayloadOrderUpdateModel extends UserDataPayloadOrderUpdate {
       icebergQuantity: Decimal.parse(parsedJson['F']),
       orderListId: parsedJson['g'],
       originalClientOrderId: parsedJson['C'],
-      currentExecutionType:
-          BinanceOrderExecutionType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['x'], orElse: () => null),
+      currentExecutionType: BinanceOrderExecutionType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['x'], orElse: () => null),
       currentOrderStatus: BinanceOrderStatus.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['X'], orElse: () => null),
       orderRejectReason: parsedJson['r'],
       orderId: parsedJson['i'],

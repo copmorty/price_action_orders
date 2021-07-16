@@ -14,7 +14,7 @@ class MarketOrderPopupDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     Decimal weightedAveragePrice;
     if (orderResponse.executedQty > Decimal.zero) {
-      final sum = orderResponse.fills.fold(Decimal.zero, (prev, el) => prev + el.price * el.quantity);
+      final Decimal sum = orderResponse.fills.fold(Decimal.zero, (Decimal prev, el) => prev + el.price * el.quantity);
       weightedAveragePrice = sum / orderResponse.executedQty;
     }
 

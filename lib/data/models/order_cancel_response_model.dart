@@ -1,23 +1,22 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 
 class CancelOrderResponseModel extends CancelOrderResponse {
   CancelOrderResponseModel({
-    @required String symbol,
-    @required String origClientOrderId,
-    @required int orderId,
-    @required int orderListId,
-    @required String clientOrderId,
-    @required Decimal price,
-    @required Decimal origQty,
-    @required Decimal executedQty,
-    @required Decimal cummulativeQuoteQty,
-    @required BinanceOrderStatus status,
-    @required BinanceOrderTimeInForce timeInForce,
-    @required BinanceOrderType type,
-    @required BinanceOrderSide side,
+    String/*!*/ symbol,
+    String/*!*/ origClientOrderId,
+    int/*!*/ orderId,
+    int/*!*/ orderListId,
+    String/*!*/ clientOrderId,
+    Decimal/*!*/ price,
+    Decimal/*!*/ origQty,
+    Decimal/*!*/ executedQty,
+    Decimal/*!*/ cummulativeQuoteQty,
+    BinanceOrderStatus/*!*/ status,
+    BinanceOrderTimeInForce/*!*/ timeInForce,
+    BinanceOrderType/*!*/ type,
+    BinanceOrderSide/*!*/ side,
   }) : super(
           symbol: symbol,
           origClientOrderId: origClientOrderId,

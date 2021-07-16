@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -18,9 +17,9 @@ class BookTickerNotifier extends StateNotifier<BookTickerState> {
   StreamSubscription _subscription;
 
   BookTickerNotifier({
-    @required GetLastTicker getLastTicker,
-    @required GetBookTickerStream getBookTickerStream,
-    @required OrderConfigNotifier orderConfigNotifier,
+    GetLastTicker/*!*/ getLastTicker,
+    GetBookTickerStream/*!*/ getBookTickerStream,
+    OrderConfigNotifier/*!*/ orderConfigNotifier,
     bool init = true,
   })  : _getLastTicker = getLastTicker,
         _getBookTickerStream = getBookTickerStream,
