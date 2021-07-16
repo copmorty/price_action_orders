@@ -1,32 +1,31 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'balance.dart';
 
 class UserData extends Equatable {
-  final int updateTime;
-  final int makerCommission;
-  final int takerCommission;
-  final int buyerCommission;
-  final int sellerCommission;
-  final bool canTrade;
-  final bool canWithdraw;
-  final bool canDeposit;
-  final String accountType;
-  final List<Balance> balances;
-  final List<String> permissions;
+  final int/*!*/ updateTime;
+  final int/*!*/ makerCommission;
+  final int/*!*/ takerCommission;
+  final int/*!*/ buyerCommission;
+  final int/*!*/ sellerCommission;
+  final bool/*!*/ canTrade;
+  final bool/*!*/ canWithdraw;
+  final bool/*!*/ canDeposit;
+  final String/*!*/ accountType;
+  final List<Balance>/*!*/ balances;
+  final List<String>/*!*/ permissions;
 
   UserData({
-    @required this.updateTime,
-    @required this.makerCommission,
-    @required this.takerCommission,
-    @required this.buyerCommission,
-    @required this.sellerCommission,
-    @required this.canTrade,
-    @required this.canWithdraw,
-    @required this.canDeposit,
-    @required this.accountType,
-    @required this.balances,
-    @required this.permissions,
+    this.updateTime,
+    this.makerCommission,
+    this.takerCommission,
+    this.buyerCommission,
+    this.sellerCommission,
+    this.canTrade,
+    this.canWithdraw,
+    this.canDeposit,
+    this.accountType,
+    this.balances,
+    this.permissions,
   });
 
   @override

@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 class CancelOrderRequest extends Equatable {
@@ -6,7 +5,7 @@ class CancelOrderRequest extends Equatable {
   ///
   /// The [orderId] or the [origClientOrderId] must be provided,
   /// not both and not neither.
-  final String symbol;
+  final String/*!*/ symbol;
   final int orderId;
   final String origClientOrderId;
   final String newClientOrderId;
@@ -14,7 +13,7 @@ class CancelOrderRequest extends Equatable {
   final int timestamp;
 
   CancelOrderRequest({
-    @required this.symbol,
+    this.symbol,
     this.orderId,
     this.origClientOrderId,
     this.newClientOrderId,

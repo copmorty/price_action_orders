@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'order_request.dart';
@@ -6,11 +5,11 @@ import 'ticker.dart';
 
 class LimitOrderRequest extends OrderRequest {
   LimitOrderRequest({
-    @required Ticker ticker,
-    @required BinanceOrderSide side,
-    @required BinanceOrderTimeInForce timeInForce,
-    @required Decimal quantity,
-    @required Decimal price,
+    Ticker/*!*/ ticker,
+    BinanceOrderSide/*!*/ side,
+    BinanceOrderTimeInForce/*!*/ timeInForce,
+    Decimal/*!*/ quantity,
+    Decimal/*!*/ price,
     int timestamp,
   }) : super(
           ticker: ticker,
