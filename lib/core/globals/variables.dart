@@ -6,5 +6,5 @@ AppMode appMode = AppMode.TEST;
 String binanceUrl = appMode == AppMode.PRODUCTION ? BINANCE_REAL_URL : BINANCE_TEST_URL;
 String binanceWebSocketUrl = appMode == AppMode.PRODUCTION ? BINANCE_REAL_WEBSOCKET_URL : BINANCE_TEST_WEBSOCKET_URL;
 
-String apiKey = 'YOUR-API-KEY-HERE';
-String apiSecret = 'YOUR-API-SECRET-HERE';
+String/*!*/ apiKey = 'YOUR-API-KEY-HERE';
+String/*!*/ apiSecret = 'YOUR-API-SECRET-HERE';

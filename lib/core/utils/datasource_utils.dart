@@ -29,7 +29,7 @@ class DataSourceUtils {
   }
 
   Timer periodicValidityExpander(Function listenKeyValidityExpander, StreamController<dynamic> streamController) =>
-      Timer.periodic(Duration(minutes: 1), (timer) async {
+      Timer.periodic(Duration(minutes: 30), (timer) async {
         final int statusCode = await listenKeyValidityExpander();
         if (statusCode != 200) {
           streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));

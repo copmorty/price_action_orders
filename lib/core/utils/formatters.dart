@@ -2,10 +2,11 @@ import 'package:flutter/services.dart';
 
 class ValidatorInputFormatter implements TextInputFormatter {
   final StringValidator editingValidator;
-  ValidatorInputFormatter({this.editingValidator});
 
-  TextEditingValue formatEditUpdate(
-      TextEditingValue oldValue, TextEditingValue newValue) {
+  ValidatorInputFormatter(this.editingValidator);
+
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     final oldValueValid = editingValidator.isValid(oldValue.text);
     final newValueValid = editingValidator.isValid(newValue.text);
     if (oldValueValid && !newValueValid) {
@@ -20,8 +21,9 @@ abstract class StringValidator {
 }
 
 class RegexValidator implements StringValidator {
+  final String/*!*/ regexSource;
+
   RegexValidator({this.regexSource});
-  final String regexSource;
 
   /// value: the input string
   /// returns: true if the input string is a full match for regexSource
@@ -44,10 +46,9 @@ class RegexValidator implements StringValidator {
 }
 
 class DotCurrencyEditingRegexValidator extends RegexValidator {
-  DotCurrencyEditingRegexValidator()
-      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\.[0-9]{0,20})?\$");
+  DotCurrencyEditingRegexValidator() : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\.[0-9]{0,20})?\$");
 }
+
 class CommaCurrencyEditingRegexValidator extends RegexValidator {
-  CommaCurrencyEditingRegexValidator()
-      : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\,[0-9]{0,20})?\$");
+  CommaCurrencyEditingRegexValidator() : super(regexSource: "^\$|^(0|([1-9][0-9]{0,20}))(\\,[0-9]{0,20})?\$");
 }

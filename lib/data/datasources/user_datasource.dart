@@ -19,8 +19,8 @@ abstract class UserDataSource {
 }
 
 class UserDataSourceImpl implements UserDataSource {
-  final http.Client httpClient;
-  final DataSourceUtils dataSourceUtils;
+  final http.Client/*!*/ httpClient;
+  final DataSourceUtils/*!*/ dataSourceUtils;
   WebSocket _webSocket;
   StreamController<dynamic> _streamController;
   Timer _timer;

@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
   decimal: ^1.0.0+1
-  dartz: ^0.9.2
+  dartz: ^0.10.0-nullsafety.2
   convert: ^3.0.0
   crypto: ^3.0.1
   http: ^0.13.1

@@ -74,7 +74,7 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
                       controller: widget.controller,
                       textAlign: TextAlign.end,
                       cursorColor: whiteColor,
-                      inputFormatters: [ValidatorInputFormatter(editingValidator: DotCurrencyEditingRegexValidator())],
+                      inputFormatters: [ValidatorInputFormatter(DotCurrencyEditingRegexValidator())],
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         errorStyle: TextStyle(height: 0, color: transparentColor),

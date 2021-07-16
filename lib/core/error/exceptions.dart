@@ -14,7 +14,7 @@ class ServerException extends Equatable implements Exception {
 }
 
 class BinanceException extends ServerException {
-  BinanceException({message}) : super(message: message);
+  BinanceException({String message}) : super(message: message);
 
   factory BinanceException.fromJson(Map<String, dynamic> jsonData) {
     switch (jsonData['code']) {
