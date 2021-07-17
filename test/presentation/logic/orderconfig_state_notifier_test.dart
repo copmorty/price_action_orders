@@ -3,7 +3,7 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
 
 void main() {
-  OrderConfigNotifier notifier;
+  OrderConfigNotifier/*!*/ notifier;
 
   setUp(() {
     notifier = OrderConfigNotifier();

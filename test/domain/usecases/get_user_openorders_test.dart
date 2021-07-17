@@ -12,8 +12,8 @@ import 'package:price_action_orders/domain/usecases/get_user_openorders.dart';
 class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
-  GetOpenOrders usecase;
-  MockUserRepository mockUserRepository;
+  GetOpenOrders/*!*/ usecase;
+  MockUserRepository/*!*/ mockUserRepository;
 
   setUp(() {
     mockUserRepository = MockUserRepository();

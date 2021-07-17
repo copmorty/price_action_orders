@@ -18,6 +18,7 @@ class MockDataSourceUtils extends Mock implements DataSourceUtils {}
 
 class FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<BookTicker> _streamSubscription;
+
   @override
   int get readyState => WebSocket.open;
   @override
@@ -27,9 +28,9 @@ class FakeWebSocket extends Fake implements WebSocket {
 }
 
 void main() {
-  MarketDataSourceImpl dataSource;
-  MockSharedPreferences mockSharedPreferences;
-  MockDataSourceUtils mockDataSourceUtils;
+  MarketDataSourceImpl /*!*/ dataSource;
+  MockSharedPreferences /*!*/ mockSharedPreferences;
+  MockDataSourceUtils /*!*/ mockDataSourceUtils;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();

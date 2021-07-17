@@ -14,8 +14,8 @@ import 'package:price_action_orders/domain/entities/userdata.dart';
 class MockUserDataSource extends Mock implements UserDataSource {}
 
 void main() {
-  UserRepositoryImpl repository;
-  MockUserDataSource mockUserDataSource;
+  UserRepositoryImpl/*!*/ repository;
+  MockUserDataSource/*!*/ mockUserDataSource;
 
   setUp(() {
     mockUserDataSource = MockUserDataSource();

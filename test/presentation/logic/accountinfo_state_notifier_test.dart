@@ -18,9 +18,9 @@ class MockGetAccountInfo extends Mock implements GetAccountInfo {}
 class MockUserDataStream extends Mock implements UserDataStream {}
 
 void main() {
-  AccountInfoNotifier notifier;
-  MockGetAccountInfo mockGetAccountInfo;
-  MockUserDataStream mockUserDataStream;
+  AccountInfoNotifier/*!*/ notifier;
+  MockGetAccountInfo/*!*/ mockGetAccountInfo;
+  MockUserDataStream/*!*/ mockUserDataStream;
 
   setUp(() {
     mockGetAccountInfo = MockGetAccountInfo();

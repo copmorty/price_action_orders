@@ -14,8 +14,8 @@ import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart'
 class MockTradeRepository extends Mock implements TradeRepository {}
 
 void main() {
-  PostLimitOrder usecase;
-  MockTradeRepository mockTradeRepository;
+  PostLimitOrder/*!*/ usecase;
+  MockTradeRepository/*!*/ mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();

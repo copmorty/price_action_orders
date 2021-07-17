@@ -19,10 +19,10 @@ class MockGetBookTickerStream extends Mock implements GetBookTickerStream {}
 class MockOrderConfigNotifier extends Mock implements OrderConfigNotifier {}
 
 void main() {
-  BookTickerNotifier notifier;
-  MockGetLastTicker mockGetLastTicker;
-  MockGetBookTickerStream mockGetBookTickerStream;
-  MockOrderConfigNotifier mockOrderConfigNotifier;
+  BookTickerNotifier/*!*/ notifier;
+  MockGetLastTicker/*!*/ mockGetLastTicker;
+  MockGetBookTickerStream/*!*/ mockGetBookTickerStream;
+  MockOrderConfigNotifier/*!*/ mockOrderConfigNotifier;
 
   setUp(() {
     mockGetLastTicker = MockGetLastTicker();

@@ -12,8 +12,8 @@ import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart
 class MockTradeRepository extends Mock implements TradeRepository {}
 
 void main() {
-  PostCancelOrder usecase;
-  MockTradeRepository mockTradeRepository;
+  PostCancelOrder/*!*/ usecase;
+  MockTradeRepository/*!*/ mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();

@@ -12,8 +12,8 @@ import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
 class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
-  GetAccountInfo usecase;
-  MockUserRepository mockUserRepository;
+  GetAccountInfo/*!*/ usecase;
+  MockUserRepository/*!*/ mockUserRepository;
 
   setUp(() {
     mockUserRepository = MockUserRepository();

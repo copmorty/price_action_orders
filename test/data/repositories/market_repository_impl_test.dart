@@ -33,8 +33,8 @@ final _bookTickers = [
 class MockMarketDataSource extends Mock implements MarketDataSource {}
 
 void main() {
-  MarketRepositoryImpl repository;
-  MockMarketDataSource mockMarketDataSource;
+  MarketRepositoryImpl/*!*/ repository;
+  MockMarketDataSource/*!*/ mockMarketDataSource;
 
   setUp(() {
     mockMarketDataSource = MockMarketDataSource();

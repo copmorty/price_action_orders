@@ -9,8 +9,8 @@ import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
 class MockUserRepository extends Mock implements UserRepository {}
 
 void main() {
-  GetUserDataStream usecase;
-  MockUserRepository mockUserRepository;
+  GetUserDataStream/*!*/ usecase;
+  MockUserRepository/*!*/ mockUserRepository;
 
   setUp(() {
     mockUserRepository = MockUserRepository();

@@ -32,8 +32,8 @@ final _bookTickers = [
 class MockMarketRepository extends Mock implements MarketRepository {}
 
 void main() {
-  GetBookTickerStream usecase;
-  MockMarketRepository mockMarketRepository;
+  GetBookTickerStream/*!*/ usecase;
+  MockMarketRepository/*!*/ mockMarketRepository;
 
   setUp(() {
     mockMarketRepository = MockMarketRepository();

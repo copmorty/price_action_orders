@@ -18,9 +18,9 @@ class MockGetOpenOrders extends Mock implements GetOpenOrders {}
 class MockUserDataStream extends Mock implements UserDataStream {}
 
 void main() {
-  OrdersNotifier notifier;
-  MockGetOpenOrders mockGetOpenOrders;
-  MockUserDataStream mockUserDataStream;
+  OrdersNotifier /*!*/ notifier;
+  MockGetOpenOrders /*!*/ mockGetOpenOrders;
+  MockUserDataStream /*!*/ mockUserDataStream;
 
   setUp(() {
     mockGetOpenOrders = MockGetOpenOrders();
@@ -145,7 +145,7 @@ void main() {
       originalClientOrderId: 'KhbCMI9VtpdRlOK5PVJ5JH',
       currentExecutionType: BinanceOrderExecutionType.TRADE,
       currentOrderStatus: BinanceOrderStatus.FILLED,
-      orderRejectReason: null,
+      orderRejectReason: 'NONE',
       orderId: 3092189,
       lastExecutedQuantity: Decimal.parse('100.00000000'),
       cumulativeFilledQuantity: Decimal.parse('100.00000000'),

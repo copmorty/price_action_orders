@@ -21,6 +21,7 @@ class MockDataSourceUtils extends Mock implements DataSourceUtils {}
 
 class FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<dynamic> _streamSubscription;
+
   @override
   int get readyState => WebSocket.open;
   @override
@@ -30,9 +31,9 @@ class FakeWebSocket extends Fake implements WebSocket {
 }
 
 void main() {
-  UserDataSourceImpl dataSource;
-  MockHttpClient mockHttpClient;
-  MockDataSourceUtils mockDataSourceUtils;
+  UserDataSourceImpl/*!*/ dataSource;
+  MockHttpClient/*!*/ mockHttpClient;
+  MockDataSourceUtils/*!*/ mockDataSourceUtils;
 
   setUp(() {
     mockHttpClient = MockHttpClient();

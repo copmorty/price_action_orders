@@ -13,8 +13,8 @@ import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 class MockGetUserDataStream extends Mock implements GetUserDataStream {}
 
 void main() {
-  UserDataStream userDataStream;
-  MockGetUserDataStream mockGetUserDataStream;
+  UserDataStream /*!*/ userDataStream;
+  MockGetUserDataStream /*!*/ mockGetUserDataStream;
 
   setUp(() {
     mockGetUserDataStream = MockGetUserDataStream();
@@ -38,7 +38,7 @@ void main() {
       originalClientOrderId: 'KhbCMI9VtpdRlOK5PVJ5JH',
       currentExecutionType: BinanceOrderExecutionType.TRADE,
       currentOrderStatus: BinanceOrderStatus.FILLED,
-      orderRejectReason: null,
+      orderRejectReason: 'NONE',
       orderId: 3092189,
       lastExecutedQuantity: Decimal.parse('100.00000000'),
       cumulativeFilledQuantity: Decimal.parse('100.00000000'),

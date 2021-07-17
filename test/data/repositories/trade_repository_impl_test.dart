@@ -18,8 +18,8 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 class MockTradeDataSource extends Mock implements TradeDataSource {}
 
 void main() {
-  TradeRepositoryImpl repository;
-  MockTradeDataSource mockTradeDataSource;
+  TradeRepositoryImpl/*!*/ repository;
+  MockTradeDataSource/*!*/ mockTradeDataSource;
 
   setUp(() {
     mockTradeDataSource = MockTradeDataSource();

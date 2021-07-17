@@ -19,8 +19,8 @@ import '../../attachments/attachment_reader.dart';
 class MockHttpClient extends Mock implements http.Client {}
 
 void main() {
-  TradeDataSourceImpl dataSource;
-  MockHttpClient mockHttpClient;
+  TradeDataSourceImpl/*!*/ dataSource;
+  MockHttpClient/*!*/ mockHttpClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();

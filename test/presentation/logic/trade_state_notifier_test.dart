@@ -23,10 +23,10 @@ class MockPostMarketOrder extends Mock implements pmo.PostMarketOrder {}
 class MockPostCancelOrder extends Mock implements pco.PostCancelOrder {}
 
 void main() {
-  TradeNotifier notifier;
-  MockPostLimitOrder mockPostLimitOrder;
-  MockPostMarketOrder mockPostMarketOrder;
-  MockPostCancelOrder mockPostCancelOrder;
+  TradeNotifier/*!*/ notifier;
+  MockPostLimitOrder/*!*/ mockPostLimitOrder;
+  MockPostMarketOrder/*!*/ mockPostMarketOrder;
+  MockPostCancelOrder/*!*/ mockPostCancelOrder;
 
   setUp(() {
     mockPostLimitOrder = MockPostLimitOrder();

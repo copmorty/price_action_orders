@@ -10,8 +10,8 @@ import 'package:price_action_orders/domain/usecases/get_market_last_ticker.dart'
 class MockMarketRepository extends Mock implements MarketRepository {}
 
 void main() {
-  GetLastTicker usecase;
-  MockMarketRepository mockMarketRepository;
+  GetLastTicker/*!*/ usecase;
+  MockMarketRepository/*!*/ mockMarketRepository;
 
   setUp(() {
     mockMarketRepository = MockMarketRepository();
