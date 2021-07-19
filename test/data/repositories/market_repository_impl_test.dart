@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
@@ -8,6 +9,7 @@ import 'package:price_action_orders/data/datasources/market_datasource.dart';
 import 'package:price_action_orders/data/repositories/market_repository_impl.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'market_repository_impl_test.mocks.dart';
 
 final _bookTickers = [
   BookTicker(
@@ -30,11 +32,10 @@ final _bookTickers = [
   ),
 ];
 
-class MockMarketDataSource extends Mock implements MarketDataSource {}
-
+@GenerateMocks([MarketDataSource])
 void main() {
-  MarketRepositoryImpl/*!*/ repository;
-  MockMarketDataSource/*!*/ mockMarketDataSource;
+  late MarketRepositoryImpl repository;
+  late MockMarketDataSource mockMarketDataSource;
 
   setUp(() {
     mockMarketDataSource = MockMarketDataSource();

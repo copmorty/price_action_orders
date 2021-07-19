@@ -12,7 +12,7 @@ class LimitOrderPopupDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Decimal weightedAveragePrice;
+    Decimal? weightedAveragePrice;
     if (orderResponse.executedQty > Decimal.zero) {
       final Decimal sum = orderResponse.fills.fold(Decimal.zero, (Decimal prev, el) => prev + el.price * el.quantity);
       weightedAveragePrice = sum / orderResponse.executedQty;

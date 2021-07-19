@@ -19,15 +19,15 @@ abstract class UserDataSource {
 }
 
 class UserDataSourceImpl implements UserDataSource {
-  final http.Client/*!*/ httpClient;
-  final DataSourceUtils/*!*/ dataSourceUtils;
-  WebSocket _webSocket;
-  StreamController<dynamic> _streamController;
-  Timer _timer;
+  final http.Client httpClient;
+  final DataSourceUtils dataSourceUtils;
+  WebSocket? _webSocket;
+  StreamController<dynamic>? _streamController;
+  Timer? _timer;
 
   UserDataSourceImpl({
-    this.httpClient,
-    this.dataSourceUtils,
+    required this.httpClient,
+    required this.dataSourceUtils,
   });
 
   _extendListenKeyValidity(String listenKey) async {
@@ -134,7 +134,7 @@ class UserDataSourceImpl implements UserDataSource {
     Map keyData = jsonDecode(response.body);
     final listenKey = keyData['listenKey'];
 
-    if (_timer?.isActive ?? false) _timer.cancel();
+    if (_timer?.isActive ?? false) _timer!.cancel();
     _webSocket?.close();
     _streamController?.close();
     _streamController = StreamController<dynamic>();
@@ -144,25 +144,25 @@ class UserDataSourceImpl implements UserDataSource {
     try {
       _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + listenKey);
 
-      if (_webSocket.readyState == WebSocket.open) {
-        _webSocket.listen(
+      if (_webSocket!.readyState == WebSocket.open) {
+        _webSocket!.listen(
           (data) {
             final Map jsonData = jsonDecode(data);
             dynamic finalData;
 
             if (jsonData['e'] == 'outboundAccountPosition') {
-              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
+              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData as Map<String, dynamic>);
             } else if (jsonData['e'] == 'balanceUpdate') {
             } else if (jsonData['e'] == 'executionReport') {
-              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData);
+              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData as Map<String, dynamic>);
             }
 
-            if (finalData != null) _streamController.add(finalData);
+            if (finalData != null) _streamController!.add(finalData);
           },
           onDone: () => print('[+] UserDataStream done.'),
           onError: (err) {
             print('[!] Error: ${err.toString()}');
-            _streamController.addError(Error());
+            _streamController!.addError(Error());
           },
           cancelOnError: true,
         );
@@ -171,11 +171,11 @@ class UserDataSourceImpl implements UserDataSource {
       }
     } catch (err) {
       _webSocket?.close();
-      _streamController.close();
-      if (_timer?.isActive ?? false) _timer.cancel();
+      _streamController!.close();
+      if (_timer?.isActive ?? false) _timer!.cancel();
       throw ServerException(message: "Could not obtain user data stream.");
     }
 
-    return _streamController.stream;
+    return _streamController!.stream;
   }
 }

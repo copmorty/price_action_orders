@@ -16,9 +16,9 @@ class TradeNotifier extends StateNotifier<TradeState> {
   final pco.PostCancelOrder _postCancelOrder;
 
   TradeNotifier({
-    plo.PostLimitOrder/*!*/ postLimitOrder,
-    pmo.PostMarketOrder/*!*/ postMarketOrder,
-    pco.PostCancelOrder/*!*/ postCancelOrder,
+    required plo.PostLimitOrder postLimitOrder,
+    required pmo.PostMarketOrder postMarketOrder,
+    required pco.PostCancelOrder postCancelOrder,
   })  : _postLimitOrder = postLimitOrder,
         _postMarketOrder = postMarketOrder,
         _postCancelOrder = postCancelOrder,

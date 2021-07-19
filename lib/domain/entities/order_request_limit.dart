@@ -5,12 +5,12 @@ import 'ticker.dart';
 
 class LimitOrderRequest extends OrderRequest {
   LimitOrderRequest({
-    Ticker/*!*/ ticker,
-    BinanceOrderSide/*!*/ side,
-    BinanceOrderTimeInForce/*!*/ timeInForce,
-    Decimal/*!*/ quantity,
-    Decimal/*!*/ price,
-    int timestamp,
+    required Ticker ticker,
+    required BinanceOrderSide side,
+    required BinanceOrderTimeInForce timeInForce,
+    required Decimal quantity,
+    required Decimal price,
+    int? timestamp,
   }) : super(
           ticker: ticker,
           side: side,

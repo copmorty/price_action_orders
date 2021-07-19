@@ -4,11 +4,11 @@ import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
 
 class UserDataStream {
   final GetUserDataStream _getUserDataStream;
-  StreamSubscription _subscription;
+  StreamSubscription? _subscription;
   StreamController<dynamic> _streamController = StreamController<dynamic>.broadcast();
 
   UserDataStream({
-    GetUserDataStream/*!*/ getUserDataStream,
+    required GetUserDataStream getUserDataStream,
     bool init = true,
   }) : _getUserDataStream = getUserDataStream {
     if (init) initialization();

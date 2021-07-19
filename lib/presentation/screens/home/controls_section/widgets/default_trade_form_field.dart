@@ -3,19 +3,19 @@ import 'package:price_action_orders/core/utils/formatters.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class DefaultTradeFormField extends StatefulWidget {
-  final String/*!*/ hintText;
-  final String/*!*/ suffixText;
-  final TextEditingController/*!*/ controller;
-  final FocusNode focusNode;
-  final ValueChanged<String> onChanged;
-  final ValueChanged<String> onFieldSubmitted;
-  final FormFieldValidator<String> validator;
+  final String hintText;
+  final String suffixText;
+  final TextEditingController controller;
+  final FocusNode? focusNode;
+  final ValueChanged<String>? onChanged;
+  final ValueChanged<String>? onFieldSubmitted;
+  final FormFieldValidator<String>? validator;
 
   const DefaultTradeFormField({
-    Key key,
-    this.hintText,
-    this.suffixText,
-    this.controller,
+    Key? key,
+    required this.hintText,
+    required this.suffixText,
+    required this.controller,
     this.focusNode,
     this.onChanged,
     this.onFieldSubmitted,
@@ -29,7 +29,7 @@ class DefaultTradeFormField extends StatefulWidget {
 class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
   bool _textFieldHasFocus = false;
   bool _textFieldHasDecorator = false;
-  String validatorResponse;
+  String? validatorResponse;
 
   void _onHover(bool isHovered) {
     setState(() {
@@ -84,7 +84,7 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
                       validator: (strValue) {
                         if (widget.validator == null) return null;
                         setState(() {
-                          validatorResponse = widget.validator(strValue);
+                          validatorResponse = widget.validator!(strValue);
                         });
                         return validatorResponse;
                       },
@@ -111,7 +111,7 @@ class _DefaultTradeFormFieldState extends State<DefaultTradeFormField> {
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8), bottomLeft: Radius.circular(8)),
                     color: greyColor700,
                   ),
-                  child: Text(validatorResponse),
+                  child: Text(validatorResponse!),
                 ),
         ),
       ],

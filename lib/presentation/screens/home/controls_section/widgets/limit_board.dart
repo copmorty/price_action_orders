@@ -5,13 +5,13 @@ import 'limit_buy_form.dart';
 import 'limit_sell_form.dart';
 
 class LimitBoard extends StatelessWidget {
-  final String/*!*/ baseAsset;
-  final String/*!*/ quoteAsset;
+  final String baseAsset;
+  final String quoteAsset;
 
   const LimitBoard({
-    Key key,
-    this.baseAsset,
-    this.quoteAsset,
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
   }) : super(key: key);
 
   @override

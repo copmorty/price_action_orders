@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import '../colors.dart';
 
 class TabSelector extends StatelessWidget {
-  final String/*!*/ label;
-  final bool/*!*/ selected;
-  final void Function()/*!*/ onTapped;
+  final String label;
+  final bool selected;
+  final void Function() onTapped;
 
   const TabSelector({
-    Key key,
-    this.label,
-    this.selected,
-    this.onTapped,
+    Key? key,
+    required this.label,
+    required this.selected,
+    required this.onTapped,
   }) : super(key: key);
 
   @override

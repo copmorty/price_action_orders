@@ -4,7 +4,7 @@ class RowDivision extends StatelessWidget {
   final String leftText;
   final String rightText;
 
-  const RowDivision(this.leftText, this.rightText, {Key key}) : super(key: key);
+  const RowDivision(this.leftText, this.rightText, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

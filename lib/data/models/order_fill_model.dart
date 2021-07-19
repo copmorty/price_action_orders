@@ -3,11 +3,11 @@ import 'package:price_action_orders/domain/entities/order_fill.dart';
 
 class OrderFillModel extends OrderFill {
   OrderFillModel({
-    Decimal/*!*/ price,
-    Decimal/*!*/ quantity,
-    Decimal/*!*/ commission,
-    String/*!*/ commissionAsset,
-    int/*!*/ tradeId,
+    required Decimal price,
+    required Decimal quantity,
+    required Decimal commission,
+    required String commissionAsset,
+    required int tradeId,
   }) : super(
           price: price,
           quantity: quantity,

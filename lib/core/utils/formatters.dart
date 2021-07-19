@@ -21,9 +21,9 @@ abstract class StringValidator {
 }
 
 class RegexValidator implements StringValidator {
-  final String/*!*/ regexSource;
+  final String regexSource;
 
-  RegexValidator({this.regexSource});
+  RegexValidator({required this.regexSource});
 
   /// value: the input string
   /// returns: true if the input string is a full match for regexSource

@@ -69,19 +69,19 @@ class _OrdersSectionState extends State<OrdersSection> {
 }
 
 class _OpenOrdersTab extends ConsumerWidget {
-  final bool /*!*/ selected;
-  final void Function()/*!*/ onTapped;
+  final bool selected;
+  final void Function() onTapped;
 
   const _OpenOrdersTab({
-    Key key,
-    this.selected,
-    this.onTapped,
+    Key? key,
+    required this.selected,
+    required this.onTapped,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final ordersState = watch(ordersNotifierProvider);
-    int openOrdersQty = 0;
+    int? openOrdersQty = 0;
     if (ordersState is OrdersLoaded) openOrdersQty = ordersState.openOrders.length;
 
     return TabSelector(label: 'Open Orders($openOrdersQty)', selected: selected, onTapped: onTapped);

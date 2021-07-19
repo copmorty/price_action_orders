@@ -3,9 +3,9 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 
 class BalanceModel extends Balance {
   BalanceModel({
-    String/*!*/ asset,
-    Decimal/*!*/ free,
-    Decimal/*!*/ locked,
+    required String asset,
+    required Decimal free,
+    required Decimal locked,
   }) : super(
           asset: asset,
           free: free,

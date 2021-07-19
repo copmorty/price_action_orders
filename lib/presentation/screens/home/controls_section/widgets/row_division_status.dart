@@ -7,7 +7,7 @@ class RowDivisionStatus extends StatelessWidget {
   final BinanceOrderStatus status;
   final BinanceOrderSide side;
 
-  const RowDivisionStatus(this.status, this.side, {Key key}) : super(key: key);
+  const RowDivisionStatus(this.status, this.side, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

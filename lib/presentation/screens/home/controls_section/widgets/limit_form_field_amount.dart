@@ -3,23 +3,23 @@ import 'package:decimal/decimal.dart';
 import 'default_trade_form_field.dart';
 
 class AmountFormField extends StatelessWidget {
-  final String/*!*/ baseAsset;
-  final FocusNode/*!*/ amountFocus;
-  final TextEditingController/*!*/ priceController;
-  final TextEditingController/*!*/ amountController;
-  final TextEditingController/*!*/ totalController;
-  final Function/*!*/ setCurrentPrice;
-  final Function/*!*/ submitForm;
+  final String baseAsset;
+  final FocusNode amountFocus;
+  final TextEditingController priceController;
+  final TextEditingController amountController;
+  final TextEditingController totalController;
+  final Function setCurrentPrice;
+  final Function submitForm;
 
   const AmountFormField({
-    Key key,
-    this.baseAsset,
-    this.amountFocus,
-    this.priceController,
-    this.amountController,
-    this.totalController,
-    this.setCurrentPrice,
-    this.submitForm,
+    Key? key,
+    required this.baseAsset,
+    required this.amountFocus,
+    required this.priceController,
+    required this.amountController,
+    required this.totalController,
+    required this.setCurrentPrice,
+    required this.submitForm,
   }) : super(key: key);
 
   void _onChanged(strAmount) {
@@ -33,7 +33,8 @@ class AmountFormField extends StatelessWidget {
     }
   }
 
-  String _validator(String strAmount) {
+  String? _validator(String? strAmount) {
+    if (!(strAmount is String)) return 'Invalid input';
     if (strAmount.isEmpty) return 'Please input amount';
 
     return null;

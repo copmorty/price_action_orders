@@ -2,12 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 
 class UserDataPayload extends Equatable {
-  final BinanceUserDataPayloadEventType/*!*/ eventType;
-  final int/*!*/ eventTime;
+  final BinanceUserDataPayloadEventType eventType;
+  final int eventTime;
 
   UserDataPayload({
-    this.eventType,
-    this.eventTime,
+    required this.eventType,
+    required this.eventTime,
   });
 
   @override

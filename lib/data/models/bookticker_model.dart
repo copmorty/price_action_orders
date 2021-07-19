@@ -4,13 +4,13 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class BookTickerModel extends BookTicker {
   BookTickerModel({
-    int/*!*/ updatedId,
-    String/*!*/ symbol,
-    Ticker/*!*/ ticker,
-    Decimal/*!*/ bidPrice,
-    Decimal/*!*/ bidQty,
-    Decimal/*!*/ askPrice,
-    Decimal/*!*/ askQty,
+    required int updatedId,
+    required String symbol,
+    required Ticker ticker,
+    required Decimal bidPrice,
+    required Decimal bidQty,
+    required Decimal askPrice,
+    required Decimal askQty,
   }) : super(
           updatedId: updatedId,
           symbol: symbol,

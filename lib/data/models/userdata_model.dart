@@ -5,17 +5,17 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 
 class UserDataModel extends UserData {
   UserDataModel({
-    int/*!*/ updateTime,
-    int/*!*/ makerCommission,
-    int/*!*/ takerCommission,
-    int/*!*/ buyerCommission,
-    int/*!*/ sellerCommission,
-    bool/*!*/ canTrade,
-    bool/*!*/ canWithdraw,
-    bool/*!*/ canDeposit,
-    String/*!*/ accountType,
-    List<Balance>/*!*/ balances,
-    List<String>/*!*/ permissions,
+    required int updateTime,
+    required int makerCommission,
+    required int takerCommission,
+    required int buyerCommission,
+    required int sellerCommission,
+    required bool canTrade,
+    required bool canWithdraw,
+    required bool canDeposit,
+    required String accountType,
+    required List<Balance> balances,
+    required List<String> permissions,
   }) : super(
           updateTime: updateTime,
           makerCommission: makerCommission,

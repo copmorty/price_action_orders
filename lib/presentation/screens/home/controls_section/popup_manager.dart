@@ -16,7 +16,7 @@ class PopupManager extends StatefulWidget {
 }
 
 class _PopupManagerState extends State<PopupManager> {
-  Timer _timer;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext buildContext) {
@@ -117,7 +117,7 @@ class _PopupManagerState extends State<PopupManager> {
     ).then(
       (_) {
         if (_timer?.isActive ?? false) {
-          _timer.cancel();
+          _timer!.cancel();
         }
       },
     );

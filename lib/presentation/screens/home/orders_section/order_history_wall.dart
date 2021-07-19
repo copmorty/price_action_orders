@@ -15,7 +15,7 @@ import 'package:price_action_orders/presentation/shared/widgets/reload_widget.da
 import 'widgets/wall_table_cell.dart';
 
 class OrderHistoryWall extends StatelessWidget {
-  const OrderHistoryWall({Key key}) : super(key: key);
+  const OrderHistoryWall({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +63,7 @@ class OrderHistoryWall extends StatelessWidget {
 class _WallData extends StatefulWidget {
   final List<Order> orderHistory;
 
-  const _WallData(this.orderHistory, {Key key}) : super(key: key);
+  const _WallData(this.orderHistory, {Key? key}) : super(key: key);
 
   @override
   __WallDataState createState() => __WallDataState();

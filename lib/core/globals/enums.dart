@@ -13,23 +13,23 @@ extension AppModeExtension on AppMode {
   String toShortString() => enumToShortString(this);
 }
 
-extension BinanceOrderSideExtension on BinanceOrderSide/*!*/ {
+extension BinanceOrderSideExtension on BinanceOrderSide {
   String toShortString() => enumToShortString(this);
   String capitalize() => enumToCapitalizedSentenceString(this);
 }
 
-extension BinanceOrderTypeExtension on BinanceOrderType/*!*/ {
+extension BinanceOrderTypeExtension on BinanceOrderType {
   String toShortString() => enumToShortString(this);
   String capitalizeWords() => enumToCapitalizedWordsString(this);
 }
 
-extension BinanceOrderStatusExtension on BinanceOrderStatus/*!*/ {
+extension BinanceOrderStatusExtension on BinanceOrderStatus {
   String toShortString() => enumToShortString(this);
   String capitalizeWords() => enumToCapitalizedWordsString(this);
   String capitalizeCharacters() => enumToCapitalizedCharactersString(this);
 }
 
-extension BinanceOrderTimeInForceExtension on BinanceOrderTimeInForce/*!*/ {
+extension BinanceOrderTimeInForceExtension on BinanceOrderTimeInForce {
   String toShortString() => enumToShortString(this);
 }
 

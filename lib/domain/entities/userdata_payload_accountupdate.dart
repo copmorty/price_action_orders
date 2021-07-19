@@ -3,14 +3,14 @@ import 'balance.dart';
 import 'userdata_payload.dart';
 
 class UserDataPayloadAccountUpdate extends UserDataPayload {
-  final int/*!*/ lastAccountUpdateTime;
-  final List<Balance>/*!*/ changedBalances;
+  final int lastAccountUpdateTime;
+  final List<Balance> changedBalances;
 
   UserDataPayloadAccountUpdate({
-    BinanceUserDataPayloadEventType/*!*/ eventType,
-    int/*!*/ eventTime,
-    this.lastAccountUpdateTime,
-    this.changedBalances,
+    required BinanceUserDataPayloadEventType eventType,
+    required int eventTime,
+    required this.lastAccountUpdateTime,
+    required this.changedBalances,
   }) : super(eventType: eventType, eventTime: eventTime);
 
   @override

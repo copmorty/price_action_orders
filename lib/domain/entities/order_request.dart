@@ -4,26 +4,26 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'ticker.dart';
 
 abstract class OrderRequest extends Equatable {
-  final Ticker/*!*/ ticker;
+  final Ticker ticker;
   final String symbol;
-  final BinanceOrderSide/*!*/ side;
-  final BinanceOrderType/*!*/ type;
-  final BinanceOrderTimeInForce timeInForce;
-  final Decimal quantity;
-  final Decimal quoteOrderQty;
-  final Decimal price;
-  final String newClientOrderId;
-  final Decimal stopPrice;
-  final Decimal icebergQty;
-  final BinanceOrderResponseType newOrderRespType;
-  final int recvWindow;
-  final int/*!*/ timestamp;
+  final BinanceOrderSide side;
+  final BinanceOrderType type;
+  final BinanceOrderTimeInForce? timeInForce;
+  final Decimal? quantity;
+  final Decimal? quoteOrderQty;
+  final Decimal? price;
+  final String? newClientOrderId;
+  final Decimal? stopPrice;
+  final Decimal? icebergQty;
+  final BinanceOrderResponseType? newOrderRespType;
+  final int? recvWindow;
+  final int timestamp;
 
   OrderRequest({
-    this.ticker,
+    required this.ticker,
     // required this.symbol,
-    this.side,
-    this.type,
+    required this.side,
+    required this.type,
     this.timeInForce,
     this.quantity,
     this.quoteOrderQty,
@@ -33,7 +33,7 @@ abstract class OrderRequest extends Equatable {
     this.icebergQty,
     this.newOrderRespType,
     this.recvWindow,
-    this.timestamp,
+    required this.timestamp,
   }) : this.symbol = ticker.baseAsset + ticker.quoteAsset;
 
   @override

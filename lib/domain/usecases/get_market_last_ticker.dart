@@ -5,7 +5,7 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
 
 class GetLastTicker implements UseCase<Ticker, NoParams> {
-  final MarketRepository/*!*/ repository;
+  final MarketRepository repository;
 
   GetLastTicker(this.repository);
 

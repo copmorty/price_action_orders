@@ -9,11 +9,11 @@ class MarketOrderRequest extends OrderRequest {
   /// The [quantity] or the [quoteOrderQty] must be provided,
   /// not both and not neither.
   MarketOrderRequest({
-    Ticker/*!*/ ticker,
-    BinanceOrderSide/*!*/ side,
-    Decimal quantity,
-    Decimal quoteOrderQty,
-    int timestamp,
+    required Ticker ticker,
+    required BinanceOrderSide side,
+    Decimal? quantity,
+    Decimal? quoteOrderQty,
+    int? timestamp,
   })  : assert((quantity != null || quoteOrderQty != null) && !(quantity == null && quoteOrderQty == null)),
         super(
           ticker: ticker,

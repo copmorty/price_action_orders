@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -11,18 +12,14 @@ import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream
 import 'package:price_action_orders/domain/usecases/get_market_last_ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
+import 'bookticker_state_notifier_test.mocks.dart';
 
-class MockGetLastTicker extends Mock implements GetLastTicker {}
-
-class MockGetBookTickerStream extends Mock implements GetBookTickerStream {}
-
-class MockOrderConfigNotifier extends Mock implements OrderConfigNotifier {}
-
+@GenerateMocks([GetLastTicker, GetBookTickerStream, OrderConfigNotifier])
 void main() {
-  BookTickerNotifier/*!*/ notifier;
-  MockGetLastTicker/*!*/ mockGetLastTicker;
-  MockGetBookTickerStream/*!*/ mockGetBookTickerStream;
-  MockOrderConfigNotifier/*!*/ mockOrderConfigNotifier;
+  late BookTickerNotifier notifier;
+  late MockGetLastTicker mockGetLastTicker;
+  late MockGetBookTickerStream mockGetBookTickerStream;
+  late MockOrderConfigNotifier mockOrderConfigNotifier;
 
   setUp(() {
     mockGetLastTicker = MockGetLastTicker();

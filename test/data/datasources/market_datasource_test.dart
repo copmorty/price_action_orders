@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io' show WebSocket;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
@@ -11,26 +12,24 @@ import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../attachments/attachment_reader.dart';
-
-class MockSharedPreferences extends Mock implements SharedPreferences {}
-
-class MockDataSourceUtils extends Mock implements DataSourceUtils {}
+import 'market_datasource_test.mocks.dart';
 
 class FakeWebSocket extends Fake implements WebSocket {
-  StreamSubscription<BookTicker> _streamSubscription;
+  StreamSubscription<BookTicker> _streamSubscription = Stream<BookTicker>.empty().listen((event) {});
 
   @override
   int get readyState => WebSocket.open;
   @override
-  Future close([int code, String reason]) => _streamSubscription?.cancel();
+  Future<void> close([int? code, String? reason]) => _streamSubscription.cancel();
   @override
-  StreamSubscription<BookTicker> listen(void onData(BookTicker event), {Function onError, void onDone(), bool cancelOnError}) => _streamSubscription;
+  StreamSubscription<BookTicker> listen(void onData(BookTicker event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
 }
 
+@GenerateMocks([SharedPreferences, DataSourceUtils])
 void main() {
-  MarketDataSourceImpl /*!*/ dataSource;
-  MockSharedPreferences /*!*/ mockSharedPreferences;
-  MockDataSourceUtils /*!*/ mockDataSourceUtils;
+  late MarketDataSourceImpl dataSource;
+  late MockSharedPreferences mockSharedPreferences;
+  late MockDataSourceUtils mockDataSourceUtils;
 
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
@@ -75,7 +74,7 @@ void main() {
       'should call shared preferences to save the ticker',
       () async {
         //arrange
-        when(mockSharedPreferences.setString(LAST_TICKER, any)).thenAnswer((_) async => null);
+        when(mockSharedPreferences.setString(LAST_TICKER, any)).thenAnswer((_) async => true);
         //act
         await dataSource.cacheLastTicker(tTicker);
         //assert

@@ -4,7 +4,7 @@ import '../colors.dart';
 class ReloadWidget extends StatelessWidget {
   final void Function() callback;
 
-  const ReloadWidget(this.callback, {Key key}) : super(key: key);
+  const ReloadWidget(this.callback, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

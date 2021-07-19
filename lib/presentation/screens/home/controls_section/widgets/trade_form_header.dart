@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
@@ -7,15 +8,15 @@ import 'package:price_action_orders/presentation/logic/accountinfo_state_notifie
 import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class TradeFormHeader extends StatelessWidget {
-  final String /*!*/ baseAsset;
-  final String /*!*/ quoteAsset;
-  final BinanceOrderSide /*!*/ side;
+  final String baseAsset;
+  final String quoteAsset;
+  final BinanceOrderSide side;
 
   const TradeFormHeader({
-    Key key,
-    this.baseAsset,
-    this.quoteAsset,
-    this.side,
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
+    required this.side,
   }) : super(key: key);
 
   @override
@@ -50,18 +51,18 @@ class TradeFormHeader extends StatelessWidget {
 }
 
 class _BalanceForOrder extends StatelessWidget {
-  final List<Balance>/*!*/ balances;
-  final String/*!*/ asset;
+  final List<Balance> balances;
+  final String asset;
 
   const _BalanceForOrder({
-    Key key,
-    this.balances,
-    this.asset,
+    Key? key,
+    required this.balances,
+    required this.asset,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final balance = balances.firstWhere((element) => element.asset == asset, orElse: () => null);
+    final balance = balances.firstWhereOrNull((element) => element.asset == asset);
     final strBalance = balance == null ? '0' : balance.free.toString();
 
     return Text(strBalance + ' ' + asset, style: TextStyle(color: whiteColorOp60));

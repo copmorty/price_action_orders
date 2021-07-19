@@ -7,7 +7,7 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
 
 class GetBookTickerStream implements UseCase<Stream<BookTicker>, Params> {
-  final MarketRepository/*!*/ repository;
+  final MarketRepository repository;
 
   GetBookTickerStream(this.repository);
 

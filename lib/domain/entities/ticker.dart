@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 
 class Ticker extends Equatable {
-  final String/*!*/ baseAsset;
-  final String/*!*/ quoteAsset;
+  final String baseAsset;
+  final String quoteAsset;
 
   Ticker({
-    this.baseAsset,
-    this.quoteAsset,
+    required this.baseAsset,
+    required this.quoteAsset,
   });
 
   @override

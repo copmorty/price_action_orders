@@ -28,12 +28,12 @@ class TradeLoaded extends TradeState {
 }
 
 class TradeError extends TradeState {
-  final int/*!*/ orderTimestamp;
-  final String/*!*/ message;
+  final int orderTimestamp;
+  final String message;
 
   TradeError({
-    this.orderTimestamp,
-    this.message,
+    required this.orderTimestamp,
+    required this.message,
   });
 
   @override

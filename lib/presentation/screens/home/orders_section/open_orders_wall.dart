@@ -17,7 +17,7 @@ import 'widgets/wall_table_cell.dart';
 import 'widgets/wall_table_row.dart';
 
 class OpenOrdersWall extends StatelessWidget {
-  const OpenOrdersWall({Key key}) : super(key: key);
+  const OpenOrdersWall({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +64,7 @@ class OpenOrdersWall extends StatelessWidget {
 class _WallData extends StatefulWidget {
   final List<Order> openOrders;
 
-  const _WallData(this.openOrders, {Key key}) : super(key: key);
+  const _WallData(this.openOrders, {Key? key}) : super(key: key);
 
   @override
   __WallDataState createState() => __WallDataState();
@@ -128,11 +128,11 @@ class __WallDataState extends State<_WallData> {
 }
 
 class _CancelOrderButton extends StatefulWidget {
-  final Order/*!*/ order;
+  final Order order;
 
   const _CancelOrderButton({
-    Key/*!*/ key,
-    this.order,
+    required Key key,
+    required this.order,
   }) : super(key: key);
 
   @override
@@ -140,7 +140,7 @@ class _CancelOrderButton extends StatefulWidget {
 }
 
 class __CancelOrderButtonState extends State<_CancelOrderButton> {
-  int operationId;
+  int? operationId;
 
   void _cancelOrder() {
     final cancelOrderRequest = CancelOrderRequest(symbol: widget.order.symbol, orderId: widget.order.orderId);

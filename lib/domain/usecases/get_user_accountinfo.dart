@@ -5,7 +5,7 @@ import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
 
 class GetAccountInfo implements UseCase<UserData, NoParams> {
-  final UserRepository/*!*/ repository;
+  final UserRepository repository;
 
   GetAccountInfo(this.repository);
 

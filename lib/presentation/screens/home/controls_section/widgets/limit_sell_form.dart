@@ -14,13 +14,13 @@ import 'limit_form_field_price.dart';
 import 'limit_form_field_total.dart';
 
 class LimitSellForm extends StatefulWidget {
-  final String/*!*/ baseAsset;
-  final String/*!*/ quoteAsset;
+  final String baseAsset;
+  final String quoteAsset;
 
   const LimitSellForm({
-    Key key,
-    this.baseAsset,
-    this.quoteAsset,
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
   }) : super(key: key);
 
   @override
@@ -34,7 +34,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
   final TextEditingController _totalController = TextEditingController();
   final FocusNode _amountFocus = FocusNode();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  int operationId;
+  int? operationId;
 
   @override
   void dispose() {
@@ -55,8 +55,8 @@ class _LimitSellFormState extends State<LimitSellForm> {
   }
 
   void _onFormSubmitted() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       final price = Decimal.parse(_priceController.text);
       final quantity = Decimal.parse(_amountController.text);

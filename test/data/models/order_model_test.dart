@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
-
 import '../../attachments/attachment_reader.dart';
 
 void main() {

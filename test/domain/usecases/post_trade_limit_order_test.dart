@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -10,12 +11,12 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
 import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart';
+import 'post_trade_limit_order_test.mocks.dart';
 
-class MockTradeRepository extends Mock implements TradeRepository {}
-
+@GenerateMocks([TradeRepository])
 void main() {
-  PostLimitOrder/*!*/ usecase;
-  MockTradeRepository/*!*/ mockTradeRepository;
+  late PostLimitOrder usecase;
+  late MockTradeRepository mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();
@@ -62,7 +63,7 @@ void main() {
       //arrange
       when(mockTradeRepository.postLimitOrder(tLimitOrder)).thenAnswer((_) async => Right(tOrderResponseFull));
       //act
-      final result = await usecase(Params(tLimitOrder));
+      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tLimitOrder));
       //assert
       verify(mockTradeRepository.postLimitOrder(tLimitOrder));
       verifyNoMoreInteractions(mockTradeRepository);
@@ -76,7 +77,7 @@ void main() {
       //arrange
       when(mockTradeRepository.postLimitOrder(tLimitOrder)).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final result = await usecase(Params(tLimitOrder));
+      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tLimitOrder));
       //assert
       verify(mockTradeRepository.postLimitOrder(tLimitOrder));
       verifyNoMoreInteractions(mockTradeRepository);

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -8,12 +9,12 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
 import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
+import 'get_user_accountinfo_test.mocks.dart';
 
-class MockUserRepository extends Mock implements UserRepository {}
-
+@GenerateMocks([UserRepository])
 void main() {
-  GetAccountInfo/*!*/ usecase;
-  MockUserRepository/*!*/ mockUserRepository;
+  late GetAccountInfo usecase;
+  late MockUserRepository mockUserRepository;
 
   setUp(() {
     mockUserRepository = MockUserRepository();
@@ -43,7 +44,7 @@ void main() {
       //arrange
       when(mockUserRepository.getAccountInfo()).thenAnswer((_) async => Right(tUserData));
       //act
-      final result = await usecase(NoParams());
+      final Either<Failure, UserData>? result = await usecase(NoParams());
       //assert
       verify(mockUserRepository.getAccountInfo());
       verifyNoMoreInteractions(mockUserRepository);
@@ -57,7 +58,7 @@ void main() {
       //arrange
       when(mockUserRepository.getAccountInfo()).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final result = await usecase(NoParams());
+      final Either<Failure, UserData>? result = await usecase(NoParams());
       //assert
       verify(mockUserRepository.getAccountInfo());
       verifyNoMoreInteractions(mockUserRepository);

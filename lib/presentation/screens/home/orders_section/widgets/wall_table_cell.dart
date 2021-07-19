@@ -6,14 +6,14 @@ const FontWeight CELL_FONT_WEIGHT = FontWeight.w600;
 const FontWeight CELL_FONT_WEIGHT_LIGHT =FontWeight.normal;
 
 class WallTableCell extends StatelessWidget {
-  final String label;
-  final Widget child;
+  final String? label;
+  final Widget? child;
   final bool isHeader;
-  final TextStyle style;
+  final TextStyle? style;
   final TextStyle greyStyle = TextStyle(fontSize: CELL_FONT_SIZE, color: greyColor, fontWeight: CELL_FONT_WEIGHT_LIGHT);
   final TextStyle whiteStyle = TextStyle(fontSize: CELL_FONT_SIZE, color: whiteColorOp90, fontWeight: CELL_FONT_WEIGHT);
 
-  WallTableCell({Key key, this.label, this.child, this.isHeader = false, this.style})
+  WallTableCell({Key? key, this.label, this.child, this.isHeader = false, this.style})
       : assert((label != null || child != null) && !(label != null && child != null)),
         super(key: key);
 
@@ -25,7 +25,7 @@ class WallTableCell extends StatelessWidget {
           ? FittedBox(
               fit: BoxFit.scaleDown,
               child: Text(
-                label,
+                label!,
                 style: isHeader ? greyStyle : style ?? whiteStyle,
               ),
             )

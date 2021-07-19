@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'wall_table_cell.dart';
 
 class WallTable extends StatelessWidget {
-  final List<WallTableCell>/*!*/ headerCells;
-  final Widget/*!*/ content;
+  final List<WallTableCell> headerCells;
+  final Widget content;
 
   const WallTable({
-    Key key,
-    this.headerCells,
-    this.content,
+    Key? key,
+    required this.headerCells,
+    required this.content,
   }) : super(key: key);
 
   @override

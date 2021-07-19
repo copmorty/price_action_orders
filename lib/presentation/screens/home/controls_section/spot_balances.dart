@@ -40,7 +40,7 @@ class SpotBalances extends StatelessWidget {
 class _BalancesList extends StatelessWidget {
   final List<Balance> balances;
 
-  const _BalancesList(this.balances, {Key key}) : super(key: key);
+  const _BalancesList(this.balances, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
