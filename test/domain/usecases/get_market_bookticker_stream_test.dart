@@ -1,12 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
 import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream.dart';
+import 'get_market_bookticker_stream_test.mocks.dart';
 
 final _bookTickers = [
   BookTicker(
@@ -29,11 +31,10 @@ final _bookTickers = [
   ),
 ];
 
-class MockMarketRepository extends Mock implements MarketRepository {}
-
+@GenerateMocks([MarketRepository])
 void main() {
-  GetBookTickerStream usecase;
-  MockMarketRepository mockMarketRepository;
+  late GetBookTickerStream usecase;
+  late MockMarketRepository mockMarketRepository;
 
   setUp(() {
     mockMarketRepository = MockMarketRepository();
@@ -50,7 +51,7 @@ void main() {
       //arrange
       when(mockMarketRepository.getBookTickerStream(tTicker)).thenAnswer((_) async => Right(tBookTickerStream));
       //act
-      final result = await usecase(tParams);
+      final Either<Failure, Stream<BookTicker>>? result = await usecase(tParams);
       //assert
       verify(mockMarketRepository.getBookTickerStream(tTicker));
       verifyNoMoreInteractions(mockMarketRepository);
@@ -64,7 +65,7 @@ void main() {
       //arrange
       when(mockMarketRepository.getBookTickerStream(tTicker)).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final result = await usecase(tParams);
+      final Either<Failure, Stream<BookTicker>>? result = await usecase(tParams);
       //assert
       verify(mockMarketRepository.getBookTickerStream(tTicker));
       verifyNoMoreInteractions(mockMarketRepository);

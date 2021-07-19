@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
 import 'ticker.dart';
@@ -13,13 +12,13 @@ class BookTicker extends Equatable {
   final Decimal askQty; // best ask qty
 
   BookTicker({
-    @required this.updatedId,
-    @required this.symbol,
-    @required this.ticker,
-    @required this.bidPrice,
-    @required this.bidQty,
-    @required this.askPrice,
-    @required this.askQty,
+    required this.updatedId,
+    required this.symbol,
+    required this.ticker,
+    required this.bidPrice,
+    required this.bidQty,
+    required this.askPrice,
+    required this.askQty,
   });
 
   @override

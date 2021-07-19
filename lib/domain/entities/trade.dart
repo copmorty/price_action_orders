@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -16,16 +15,16 @@ class Trade extends Equatable {
   final String commisionAsset;
 
   Trade({
-    @required this.symbol,
-    @required this.orderId,
-    @required this.price,
-    @required this.executedQty,
-    @required this.quoteQty,
-    @required this.side,
-    @required this.time,
-    @required this.tradeId,
-    @required this.commisionAmount,
-    @required this.commisionAsset,
+    required this.symbol,
+    required this.orderId,
+    required this.price,
+    required this.executedQty,
+    required this.quoteQty,
+    required this.side,
+    required this.time,
+    required this.tradeId,
+    required this.commisionAmount,
+    required this.commisionAsset,
   });
 
   @override

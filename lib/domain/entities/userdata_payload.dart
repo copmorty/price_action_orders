@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 
@@ -7,8 +6,8 @@ class UserDataPayload extends Equatable {
   final int eventTime;
 
   UserDataPayload({
-    @required this.eventType,
-    @required this.eventTime,
+    required this.eventType,
+    required this.eventTime,
   });
 
   @override

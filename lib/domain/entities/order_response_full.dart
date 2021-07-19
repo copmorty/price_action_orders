@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'order_fill.dart';
@@ -17,21 +16,21 @@ class OrderResponseFull extends OrderResponse {
   final List<OrderFill> fills;
 
   OrderResponseFull({
-    @required Ticker ticker,
-    @required String symbol,
-    @required int orderId,
-    @required int orderListId,
-    @required String clientOrderId,
-    @required int transactTime,
-    @required this.price,
-    @required this.origQty,
-    @required this.executedQty,
-    @required this.cummulativeQuoteQty,
-    @required this.status,
-    @required this.timeInForce,
-    @required this.type,
-    @required this.side,
-    @required this.fills,
+    required Ticker ticker,
+    required String symbol,
+    required int orderId,
+    required int orderListId,
+    required String clientOrderId,
+    required int transactTime,
+    required this.price,
+    required this.origQty,
+    required this.executedQty,
+    required this.cummulativeQuoteQty,
+    required this.status,
+    required this.timeInForce,
+    required this.type,
+    required this.side,
+    required this.fills,
   }) : super(
           ticker: ticker,
           symbol: symbol,

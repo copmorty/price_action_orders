@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 class CancelOrderRequest extends Equatable {
@@ -7,14 +6,14 @@ class CancelOrderRequest extends Equatable {
   /// The [orderId] or the [origClientOrderId] must be provided,
   /// not both and not neither.
   final String symbol;
-  final int orderId;
-  final String origClientOrderId;
-  final String newClientOrderId;
-  final int recvWindow;
+  final int? orderId;
+  final String? origClientOrderId;
+  final String? newClientOrderId;
+  final int? recvWindow;
   final int timestamp;
 
   CancelOrderRequest({
-    @required this.symbol,
+    required this.symbol,
     this.orderId,
     this.origClientOrderId,
     this.newClientOrderId,
@@ -24,5 +23,5 @@ class CancelOrderRequest extends Equatable {
         this.timestamp = timestamp ?? DateTime.now().millisecondsSinceEpoch;
 
   @override
-  List<Object> get props => [symbol, orderId];
+  List<Object?> get props => [symbol, orderId];
 }

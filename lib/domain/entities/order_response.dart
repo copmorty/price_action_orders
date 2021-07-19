@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'ticker.dart';
 
@@ -11,12 +10,12 @@ class OrderResponse extends Equatable {
   final int transactTime;
 
   OrderResponse({
-    @required this.ticker,
-    @required this.symbol,
-    @required this.orderId,
-    @required this.orderListId,
-    @required this.clientOrderId,
-    @required this.transactTime,
+    required this.ticker,
+    required this.symbol,
+    required this.orderId,
+    required this.orderListId,
+    required this.clientOrderId,
+    required this.transactTime,
   });
 
   @override

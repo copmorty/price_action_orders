@@ -14,7 +14,11 @@ class MarketSellForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const MarketSellForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const MarketSellForm({
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
+  }) : super(key: key);
 
   @override
   _MarketSellFormState createState() => _MarketSellFormState();
@@ -24,7 +28,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  int operationId;
+  int? operationId;
 
   @override
   void dispose() {
@@ -33,8 +37,8 @@ class _MarketSellFormState extends State<MarketSellForm> {
   }
 
   void _onFormSubmitted() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       final quantity = Decimal.parse(_controller.text);
       final marketOrder = MarketOrderRequest(
@@ -58,8 +62,8 @@ class _MarketSellFormState extends State<MarketSellForm> {
     }
   }
 
-  String _validator(String strAmount) {
-    print('_validator');
+  String? _validator(String? strAmount) {
+    if (!(strAmount is String)) return 'Invalid input';
     if (strAmount.isEmpty) return 'Please input amount';
 
     return null;

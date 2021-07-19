@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -9,12 +10,12 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_orderupdate.dart';
 import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
+import 'userdata_stream_test.mocks.dart';
 
-class MockGetUserDataStream extends Mock implements GetUserDataStream {}
-
+@GenerateMocks([GetUserDataStream])
 void main() {
-  UserDataStream userDataStream;
-  MockGetUserDataStream mockGetUserDataStream;
+  late UserDataStream userDataStream;
+  late MockGetUserDataStream mockGetUserDataStream;
 
   setUp(() {
     mockGetUserDataStream = MockGetUserDataStream();
@@ -38,7 +39,7 @@ void main() {
       originalClientOrderId: 'KhbCMI9VtpdRlOK5PVJ5JH',
       currentExecutionType: BinanceOrderExecutionType.TRADE,
       currentOrderStatus: BinanceOrderStatus.FILLED,
-      orderRejectReason: null,
+      orderRejectReason: 'NONE',
       orderId: 3092189,
       lastExecutedQuantity: Decimal.parse('100.00000000'),
       cumulativeFilledQuantity: Decimal.parse('100.00000000'),

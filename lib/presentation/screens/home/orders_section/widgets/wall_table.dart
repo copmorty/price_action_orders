@@ -6,9 +6,9 @@ class WallTable extends StatelessWidget {
   final Widget content;
 
   const WallTable({
-    Key key,
-    @required this.headerCells,
-    @required this.content,
+    Key? key,
+    required this.headerCells,
+    required this.content,
   }) : super(key: key);
 
   @override

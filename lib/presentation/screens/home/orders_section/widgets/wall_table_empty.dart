@@ -4,7 +4,7 @@ import 'package:price_action_orders/presentation/shared/colors.dart';
 class WallTableEmpty extends StatelessWidget {
   final String message;
 
-  const WallTableEmpty(this.message, {Key key}) : super(key: key);
+  const WallTableEmpty(this.message, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

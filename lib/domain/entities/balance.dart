@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
 
@@ -8,9 +7,9 @@ class Balance extends Equatable {
   final Decimal locked;
 
   Balance({
-    @required this.asset,
-    @required this.free,
-    @required this.locked,
+    required this.asset,
+    required this.free,
+    required this.locked,
   });
 
   @override

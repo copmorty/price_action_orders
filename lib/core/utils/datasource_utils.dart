@@ -28,9 +28,9 @@ class DataSourceUtils {
     return url;
   }
 
-  Timer periodicValidityExpander(Function listenKeyValidityExpander, StreamController<dynamic> streamController) =>
-      Timer.periodic(Duration(minutes: 1), (timer) async {
-        final int statusCode = await listenKeyValidityExpander();
+  Timer periodicValidityExpander(Function listenKeyValidityExpander, StreamController<dynamic>? streamController) =>
+      Timer.periodic(Duration(minutes: 30), (timer) async {
+        final int? statusCode = await listenKeyValidityExpander();
         if (statusCode != 200) {
           streamController?.addError(ServerException(message: 'The UserData stream is not longer available.'));
           timer.cancel();
@@ -39,8 +39,8 @@ class DataSourceUtils {
 
   Future<WebSocket> webSocketConnect(
     String url, {
-    Iterable<String> protocols,
-    Map<String, dynamic> headers,
+    Iterable<String>? protocols,
+    Map<String, dynamic>? headers,
     CompressionOptions compression = CompressionOptions.compressionDefault,
   }) =>
       WebSocket.connect(url, protocols: protocols, headers: headers, compression: compression);

@@ -12,14 +12,14 @@ class AmountFormField extends StatelessWidget {
   final Function submitForm;
 
   const AmountFormField({
-    Key key,
-    @required this.baseAsset,
-    @required this.amountFocus,
-    @required this.priceController,
-    @required this.amountController,
-    @required this.totalController,
-    @required this.setCurrentPrice,
-    @required this.submitForm,
+    Key? key,
+    required this.baseAsset,
+    required this.amountFocus,
+    required this.priceController,
+    required this.amountController,
+    required this.totalController,
+    required this.setCurrentPrice,
+    required this.submitForm,
   }) : super(key: key);
 
   void _onChanged(strAmount) {
@@ -33,7 +33,8 @@ class AmountFormField extends StatelessWidget {
     }
   }
 
-  String _validator(String strAmount) {
+  String? _validator(String? strAmount) {
+    if (!(strAmount is String)) return 'Invalid input';
     if (strAmount.isEmpty) return 'Please input amount';
 
     return null;

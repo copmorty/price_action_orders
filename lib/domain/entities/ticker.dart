@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 
 class Ticker extends Equatable {
@@ -6,8 +5,8 @@ class Ticker extends Equatable {
   final String quoteAsset;
 
   Ticker({
-    @required this.baseAsset,
-    @required this.quoteAsset,
+    required this.baseAsset,
+    required this.quoteAsset,
   });
 
   @override

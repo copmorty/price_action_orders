@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -14,25 +15,24 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import '../../attachments/attachment_reader.dart';
-
-class MockHttpClient extends Mock implements http.Client {}
-
-class MockDataSourceUtils extends Mock implements DataSourceUtils {}
+import 'user_datasource_test.mocks.dart';
 
 class FakeWebSocket extends Fake implements WebSocket {
-  StreamSubscription<dynamic> _streamSubscription;
+  StreamSubscription<dynamic> _streamSubscription = Stream<dynamic>.empty().listen((event) {});
+
   @override
   int get readyState => WebSocket.open;
   @override
-  Future close([int code, String reason]) => _streamSubscription?.cancel();
+  Future close([int? code, String? reason]) => _streamSubscription.cancel();
   @override
-  StreamSubscription<dynamic> listen(void onData(dynamic event), {Function onError, void onDone(), bool cancelOnError}) => _streamSubscription;
+  StreamSubscription<dynamic> listen(void onData(dynamic event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
 }
 
+@GenerateMocks([DataSourceUtils], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
 void main() {
-  UserDataSourceImpl dataSource;
-  MockHttpClient mockHttpClient;
-  MockDataSourceUtils mockDataSourceUtils;
+  late UserDataSourceImpl dataSource;
+  late MockHttpClient mockHttpClient;
+  late MockDataSourceUtils mockDataSourceUtils;
 
   setUp(() {
     mockHttpClient = MockHttpClient();

@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -31,7 +30,7 @@ import 'presentation/logic/orders_state_notifier.dart';
 import 'presentation/logic/trade_state_notifier.dart';
 import 'presentation/logic/userdata_stream.dart';
 
-SharedPreferences sharedPreferencesInstance;
+late SharedPreferences sharedPreferencesInstance;
 
 Future<void> init() async {
   await loadKeys();

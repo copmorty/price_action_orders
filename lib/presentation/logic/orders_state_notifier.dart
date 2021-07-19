@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -15,11 +14,11 @@ part 'orders_state.dart';
 class OrdersNotifier extends StateNotifier<OrdersState> {
   final GetOpenOrders _getOpenOrders;
   final UserDataStream _userDataStream;
-  StreamSubscription _subscription;
+  StreamSubscription? _subscription;
 
   OrdersNotifier({
-    @required GetOpenOrders getOpenOrders,
-    @required UserDataStream userDataStream,
+    required GetOpenOrders getOpenOrders,
+    required UserDataStream userDataStream,
     bool init = true,
   })  : _getOpenOrders = getOpenOrders,
         _userDataStream = userDataStream,
@@ -53,7 +52,7 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
     if (!(data is UserDataPayloadOrderUpdate)) return;
     if (!(state is OrdersLoaded)) return;
 
-    final report = data as UserDataPayloadOrderUpdate;
+    final report = data;
     final List<Order> openOrders = (state as OrdersLoaded).openOrders;
     final List<Order> orderHistory = (state as OrdersLoaded).orderHistory.isEmpty ? [] : (state as OrdersLoaded).orderHistory;
     final List<Trade> tradeHistory = (state as OrdersLoaded).tradeHistory.isEmpty ? [] : (state as OrdersLoaded).tradeHistory;
@@ -132,7 +131,7 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
           time: report.transactionTime,
           tradeId: report.tradeId,
           commisionAmount: report.commisionAmount,
-          commisionAsset: report.commisionAsset,
+          commisionAsset: report.commisionAsset ?? '',
         ),
       );
     }

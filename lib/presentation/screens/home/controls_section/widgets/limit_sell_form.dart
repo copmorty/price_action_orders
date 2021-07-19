@@ -17,7 +17,11 @@ class LimitSellForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const LimitSellForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const LimitSellForm({
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
+  }) : super(key: key);
 
   @override
   _LimitSellFormState createState() => _LimitSellFormState();
@@ -30,7 +34,7 @@ class _LimitSellFormState extends State<LimitSellForm> {
   final TextEditingController _totalController = TextEditingController();
   final FocusNode _amountFocus = FocusNode();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  int operationId;
+  int? operationId;
 
   @override
   void dispose() {
@@ -51,8 +55,8 @@ class _LimitSellFormState extends State<LimitSellForm> {
   }
 
   void _onFormSubmitted() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       final price = Decimal.parse(_priceController.text);
       final quantity = Decimal.parse(_amountController.text);

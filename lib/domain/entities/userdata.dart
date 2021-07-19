@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'balance.dart';
 
@@ -16,17 +15,17 @@ class UserData extends Equatable {
   final List<String> permissions;
 
   UserData({
-    @required this.updateTime,
-    @required this.makerCommission,
-    @required this.takerCommission,
-    @required this.buyerCommission,
-    @required this.sellerCommission,
-    @required this.canTrade,
-    @required this.canWithdraw,
-    @required this.canDeposit,
-    @required this.accountType,
-    @required this.balances,
-    @required this.permissions,
+    required this.updateTime,
+    required this.makerCommission,
+    required this.takerCommission,
+    required this.buyerCommission,
+    required this.sellerCommission,
+    required this.canTrade,
+    required this.canWithdraw,
+    required this.canDeposit,
+    required this.accountType,
+    required this.balances,
+    required this.permissions,
   });
 
   @override

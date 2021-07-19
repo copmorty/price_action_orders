@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:meta/meta.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
@@ -14,11 +14,11 @@ part 'accountinfo_state.dart';
 class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
   final GetAccountInfo _getAccountInfo;
   final UserDataStream _userDataStream;
-  StreamSubscription _subscription;
+  StreamSubscription? _subscription;
 
   AccountInfoNotifier({
-    @required getAccountInfo,
-    @required userDataStream,
+    required GetAccountInfo getAccountInfo,
+    required UserDataStream userDataStream,
     bool init = true,
   })  : _getAccountInfo = getAccountInfo,
         _userDataStream = userDataStream,
@@ -60,7 +60,7 @@ class AccountInfoNotifier extends StateNotifier<AccountInfoState> {
     final List<Balance> oldBalances = currentUserData.balances;
     final List<Balance> updatedBalances = [];
 
-    oldBalances.retainWhere((oldElement) => changedBalances.firstWhere((element) => oldElement.asset == element.asset, orElse: () => null) == null);
+    oldBalances.retainWhere((oldElement) => changedBalances.firstWhereOrNull((element) => oldElement.asset == element.asset) == null);
 
     updatedBalances.addAll(oldBalances);
     updatedBalances.addAll(changedBalances);

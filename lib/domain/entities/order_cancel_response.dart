@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -19,19 +18,19 @@ class CancelOrderResponse extends Equatable {
   final BinanceOrderSide side;
 
   CancelOrderResponse({
-    @required this.symbol,
-    @required this.origClientOrderId,
-    @required this.orderId,
-    @required this.orderListId,
-    @required this.clientOrderId,
-    @required this.price,
-    @required this.origQty,
-    @required this.executedQty,
-    @required this.cummulativeQuoteQty,
-    @required this.status,
-    @required this.timeInForce,
-    @required this.type,
-    @required this.side,
+    required this.symbol,
+    required this.origClientOrderId,
+    required this.orderId,
+    required this.orderListId,
+    required this.clientOrderId,
+    required this.price,
+    required this.origQty,
+    required this.executedQty,
+    required this.cummulativeQuoteQty,
+    required this.status,
+    required this.timeInForce,
+    required this.type,
+    required this.side,
   });
 
   @override

@@ -11,13 +11,13 @@ class PriceFormField extends StatelessWidget {
   final Function submitForm;
 
   const PriceFormField({
-    Key key,
-    @required this.quoteAsset,
-    @required this.priceController,
-    @required this.amountController,
-    @required this.totalController,
-    @required this.focusNext,
-    @required this.submitForm,
+    Key? key,
+    required this.quoteAsset,
+    required this.priceController,
+    required this.amountController,
+    required this.totalController,
+    required this.focusNext,
+    required this.submitForm,
   }) : super(key: key);
 
   void _onChanged(String strPrice) {
@@ -37,7 +37,8 @@ class PriceFormField extends StatelessWidget {
       submitForm();
   }
 
-  String _validator(String strPrice) {
+  String? _validator(String? strPrice) {
+    if (!(strPrice is String)) return 'Invalid input';
     if (strPrice.isEmpty) return 'Please input price';
 
     return null;

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -15,18 +16,18 @@ import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart
 import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart' as plo;
 import 'package:price_action_orders/domain/usecases/post_trade_market_order.dart' as pmo;
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
+import 'trade_state_notifier_test.mocks.dart';
 
-class MockPostLimitOrder extends Mock implements plo.PostLimitOrder {}
-
-class MockPostMarketOrder extends Mock implements pmo.PostMarketOrder {}
-
-class MockPostCancelOrder extends Mock implements pco.PostCancelOrder {}
-
+@GenerateMocks([], customMocks: [
+  MockSpec<plo.PostLimitOrder>(as: #MockPostLimitOrder),
+  MockSpec<pmo.PostMarketOrder>(as: #MockPostMarketOrder),
+  MockSpec<pco.PostCancelOrder>(as: #MockPostCancelOrder),
+])
 void main() {
-  TradeNotifier notifier;
-  MockPostLimitOrder mockPostLimitOrder;
-  MockPostMarketOrder mockPostMarketOrder;
-  MockPostCancelOrder mockPostCancelOrder;
+  late TradeNotifier notifier;
+  late MockPostLimitOrder mockPostLimitOrder;
+  late MockPostMarketOrder mockPostMarketOrder;
+  late MockPostCancelOrder mockPostCancelOrder;
 
   setUp(() {
     mockPostLimitOrder = MockPostLimitOrder();

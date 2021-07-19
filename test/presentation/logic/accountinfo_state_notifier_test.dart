@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -12,15 +13,13 @@ import 'package:price_action_orders/domain/entities/userdata_payload_accountupda
 import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
+import 'accountinfo_state_notifier_test.mocks.dart';
 
-class MockGetAccountInfo extends Mock implements GetAccountInfo {}
-
-class MockUserDataStream extends Mock implements UserDataStream {}
-
+@GenerateMocks([GetAccountInfo, UserDataStream])
 void main() {
-  AccountInfoNotifier notifier;
-  MockGetAccountInfo mockGetAccountInfo;
-  MockUserDataStream mockUserDataStream;
+  late AccountInfoNotifier notifier;
+  late MockGetAccountInfo mockGetAccountInfo;
+  late MockUserDataStream mockUserDataStream;
 
   setUp(() {
     mockGetAccountInfo = MockGetAccountInfo();

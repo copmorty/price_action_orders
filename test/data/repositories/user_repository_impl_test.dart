@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/error/failures.dart';
@@ -10,12 +11,12 @@ import 'package:price_action_orders/data/repositories/user_repository_impl.dart'
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/userdata.dart';
+import 'user_repository_impl_test.mocks.dart';
 
-class MockUserDataSource extends Mock implements UserDataSource {}
-
+@GenerateMocks([UserDataSource])
 void main() {
-  UserRepositoryImpl repository;
-  MockUserDataSource mockUserDataSource;
+  late UserRepositoryImpl repository;
+  late MockUserDataSource mockUserDataSource;
 
   setUp(() {
     mockUserDataSource = MockUserDataSource();
@@ -160,13 +161,13 @@ void main() {
   });
 
   group('getUserDataStream', () {
-    Stream<dynamic> tStreamResponse;
+    Stream<dynamic> tStreamResponse = Stream<dynamic>.empty();
 
     test(
       'should return a dynamic stream when the call to data source is successful',
       () async {
         //arrange
-        when(mockUserDataSource.getUserDataStream()).thenAnswer((_) async => tStreamResponse);
+        when(mockUserDataSource.getUserDataStream()).thenAnswer(((_) async => tStreamResponse));
         //act
         final result = await repository.getUserDataStream();
         //assert

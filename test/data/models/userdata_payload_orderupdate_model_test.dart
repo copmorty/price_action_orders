@@ -29,7 +29,7 @@ void main() {
     cumulativeFilledQuantity: Decimal.parse('0.00000000'),
     lastExecutedPrice: Decimal.parse('0.00000000'),
     commisionAmount: Decimal.zero,
-    commisionAsset: null,
+    commisionAsset: 'ETH',
     transactionTime: 1499405658657,
     tradeId: -1,
     orderIsOnTheBook: true,

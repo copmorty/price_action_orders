@@ -14,7 +14,11 @@ class MarketBuyForm extends StatefulWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const MarketBuyForm({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const MarketBuyForm({
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
+  }) : super(key: key);
 
   @override
   _MarketBuyFormState createState() => _MarketBuyFormState();
@@ -24,7 +28,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
-  int operationId;
+  int? operationId;
 
   @override
   void dispose() {
@@ -33,8 +37,8 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
   }
 
   void _onFormSubmitted() {
-    if (_formKey.currentState.validate()) {
-      _formKey.currentState.save();
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
 
       final quoteOrderQty = Decimal.parse(_controller.text);
       final marketOrder = MarketOrderRequest(
@@ -58,8 +62,8 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
     }
   }
 
-  String _validator(String strTotal) {
-    print('_validator');
+  String? _validator(String? strTotal) {
+    if (!(strTotal is String)) return 'Invalid input';
     if (strTotal.isEmpty) return 'Please input total';
 
     return null;

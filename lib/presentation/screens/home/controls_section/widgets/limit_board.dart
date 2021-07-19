@@ -8,7 +8,11 @@ class LimitBoard extends StatelessWidget {
   final String baseAsset;
   final String quoteAsset;
 
-  const LimitBoard({Key key, @required this.baseAsset, @required this.quoteAsset}) : super(key: key);
+  const LimitBoard({
+    Key? key,
+    required this.baseAsset,
+    required this.quoteAsset,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

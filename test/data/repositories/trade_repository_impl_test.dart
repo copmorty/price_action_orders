@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/error/failures.dart';
@@ -14,12 +15,12 @@ import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'trade_repository_impl_test.mocks.dart';
 
-class MockTradeDataSource extends Mock implements TradeDataSource {}
-
+@GenerateMocks([TradeDataSource])
 void main() {
-  TradeRepositoryImpl repository;
-  MockTradeDataSource mockTradeDataSource;
+  late TradeRepositoryImpl repository;
+  late MockTradeDataSource mockTradeDataSource;
 
   setUp(() {
     mockTradeDataSource = MockTradeDataSource();

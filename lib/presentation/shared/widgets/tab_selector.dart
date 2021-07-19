@@ -4,13 +4,13 @@ import '../colors.dart';
 class TabSelector extends StatelessWidget {
   final String label;
   final bool selected;
-  final Function onTapped;
+  final void Function() onTapped;
 
   const TabSelector({
-    Key key,
-    @required this.label,
-    @required this.selected,
-    @required this.onTapped,
+    Key? key,
+    required this.label,
+    required this.selected,
+    required this.onTapped,
   }) : super(key: key);
 
   @override

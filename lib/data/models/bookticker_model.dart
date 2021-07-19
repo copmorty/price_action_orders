@@ -1,17 +1,16 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class BookTickerModel extends BookTicker {
   BookTickerModel({
-    @required int updatedId,
-    @required String symbol,
-    @required Ticker ticker,
-    @required Decimal bidPrice,
-    @required Decimal bidQty,
-    @required Decimal askPrice,
-    @required Decimal askQty,
+    required int updatedId,
+    required String symbol,
+    required Ticker ticker,
+    required Decimal bidPrice,
+    required Decimal bidQty,
+    required Decimal askPrice,
+    required Decimal askQty,
   }) : super(
           updatedId: updatedId,
           symbol: symbol,

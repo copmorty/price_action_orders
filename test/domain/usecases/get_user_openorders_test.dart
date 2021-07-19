@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -8,12 +9,12 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
 import 'package:price_action_orders/domain/usecases/get_user_openorders.dart';
+import 'get_user_openorders_test.mocks.dart';
 
-class MockUserRepository extends Mock implements UserRepository {}
-
+@GenerateMocks([UserRepository])
 void main() {
-  GetOpenOrders usecase;
-  MockUserRepository mockUserRepository;
+  late GetOpenOrders usecase;
+  late MockUserRepository mockUserRepository;
 
   setUp(() {
     mockUserRepository = MockUserRepository();
@@ -69,7 +70,7 @@ void main() {
       //arrange
       when(mockUserRepository.getOpenOrders()).thenAnswer((_) async => Right(tOpenOrders));
       //act
-      final result = await usecase(NoParams());
+      final Either<Failure, List<entity.Order>>? result = await usecase(NoParams());
       //assert
       verify(mockUserRepository.getOpenOrders());
       verifyNoMoreInteractions(mockUserRepository);
@@ -83,7 +84,7 @@ void main() {
       //arrange
       when(mockUserRepository.getOpenOrders()).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final result = await usecase(NoParams());
+      final Either<Failure, List<entity.Order>>? result = await usecase(NoParams());
       //assert
       verify(mockUserRepository.getOpenOrders());
       verifyNoMoreInteractions(mockUserRepository);

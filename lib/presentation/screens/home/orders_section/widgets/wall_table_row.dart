@@ -6,8 +6,8 @@ class WallTableRow extends StatelessWidget {
   final double opacity;
 
   const WallTableRow({
-    Key key,
-    @required this.cells,
+    Key? key,
+    required this.cells,
     this.opacity = 1,
   }) : super(key: key);
 

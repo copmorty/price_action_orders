@@ -15,7 +15,7 @@ class OrdersLoaded extends OrdersState {
   final List<Trade> _tradeHistory;
 
   OrdersLoaded({
-    @required List<Order> openOrders,
+    required List<Order> openOrders,
     List<Order> orderHistory = const [],
     List<Trade> tradeHistory = const [],
   })  : _openOrders = openOrders,

@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -8,12 +9,12 @@ import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
 import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart';
+import 'post_trade_cancel_order_test.mocks.dart';
 
-class MockTradeRepository extends Mock implements TradeRepository {}
-
+@GenerateMocks([TradeRepository])
 void main() {
-  PostCancelOrder usecase;
-  MockTradeRepository mockTradeRepository;
+  late PostCancelOrder usecase;
+  late MockTradeRepository mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();
@@ -43,7 +44,7 @@ void main() {
       //arrange
       when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Right(tCancelOrderResponse));
       //act
-      final result = await usecase(Params(tCancelOrderRequest));
+      final Either<Failure, CancelOrderResponse>? result = await usecase(Params(tCancelOrderRequest));
       //assert
       verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);
@@ -57,7 +58,7 @@ void main() {
       //arrange
       when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final result = await usecase(Params(tCancelOrderRequest));
+      final Either<Failure, CancelOrderResponse>? result = await usecase(Params(tCancelOrderRequest));
       //assert
       verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);

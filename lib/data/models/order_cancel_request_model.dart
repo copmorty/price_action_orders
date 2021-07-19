@@ -1,14 +1,13 @@
-import 'package:meta/meta.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 
 class CancelOrderRequestModel extends CancelOrderRequest {
   CancelOrderRequestModel({
-    @required String symbol,
-    int orderId,
-    String origClientOrderId,
-    String newClientOrderId,
-    int recvWindow,
-    int timestamp,
+    required String symbol,
+    int? orderId,
+    String? origClientOrderId,
+    String? newClientOrderId,
+    int? recvWindow,
+    int? timestamp,
   }) : super(
           symbol: symbol,
           orderId: orderId,

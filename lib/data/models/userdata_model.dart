@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/data/models/balance_model.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
@@ -6,17 +5,17 @@ import 'package:price_action_orders/domain/entities/balance.dart';
 
 class UserDataModel extends UserData {
   UserDataModel({
-    @required int updateTime,
-    @required int makerCommission,
-    @required int takerCommission,
-    @required int buyerCommission,
-    @required int sellerCommission,
-    @required bool canTrade,
-    @required bool canWithdraw,
-    @required bool canDeposit,
-    @required String accountType,
-    @required List<Balance> balances,
-    @required List<String> permissions,
+    required int updateTime,
+    required int makerCommission,
+    required int takerCommission,
+    required int buyerCommission,
+    required int sellerCommission,
+    required bool canTrade,
+    required bool canWithdraw,
+    required bool canDeposit,
+    required String accountType,
+    required List<Balance> balances,
+    required List<String> permissions,
   }) : super(
           updateTime: updateTime,
           makerCommission: makerCommission,

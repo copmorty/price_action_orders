@@ -11,13 +11,13 @@ class TotalFormField extends StatelessWidget {
   final Function submitForm;
 
   const TotalFormField({
-    Key key,
-    @required this.quoteAsset,
-    @required this.priceController,
-    @required this.amountController,
-    @required this.totalController,
-    @required this.setCurrentPrice,
-    @required this.submitForm,
+    Key? key,
+    required this.quoteAsset,
+    required this.priceController,
+    required this.amountController,
+    required this.totalController,
+    required this.setCurrentPrice,
+    required this.submitForm,
   }) : super(key: key);
 
   void _onChanged(strTotal) {

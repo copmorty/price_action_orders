@@ -1,4 +1,3 @@
-import 'package:meta/meta.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
@@ -17,9 +16,9 @@ class TradeNotifier extends StateNotifier<TradeState> {
   final pco.PostCancelOrder _postCancelOrder;
 
   TradeNotifier({
-    @required plo.PostLimitOrder postLimitOrder,
-    @required pmo.PostMarketOrder postMarketOrder,
-    @required pco.PostCancelOrder postCancelOrder,
+    required plo.PostLimitOrder postLimitOrder,
+    required pmo.PostMarketOrder postMarketOrder,
+    required pco.PostCancelOrder postCancelOrder,
   })  : _postLimitOrder = postLimitOrder,
         _postMarketOrder = postMarketOrder,
         _postCancelOrder = postCancelOrder,

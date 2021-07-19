@@ -6,15 +6,15 @@ class CacheException extends Equatable implements Exception {
 }
 
 class ServerException extends Equatable implements Exception {
-  final String message;
+  final String? message;
 
   ServerException({this.message});
   @override
-  List<Object> get props => [message];
+  List<Object?> get props => [message];
 }
 
 class BinanceException extends ServerException {
-  BinanceException({message}) : super(message: message);
+  BinanceException({String? message}) : super(message: message);
 
   factory BinanceException.fromJson(Map<String, dynamic> jsonData) {
     switch (jsonData['code']) {

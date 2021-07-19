@@ -1,6 +1,7 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
@@ -15,12 +16,12 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import '../../attachments/attachment_reader.dart';
+import 'trade_datasource_test.mocks.dart';
 
-class MockHttpClient extends Mock implements http.Client {}
-
+@GenerateMocks([], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
 void main() {
-  TradeDataSourceImpl dataSource;
-  MockHttpClient mockHttpClient;
+  late TradeDataSourceImpl dataSource;
+  late MockHttpClient mockHttpClient;
 
   setUp(() {
     mockHttpClient = MockHttpClient();

@@ -1,4 +1,4 @@
-import 'package:meta/meta.dart';
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/models/order_fill_model.dart';
@@ -8,21 +8,21 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 
 class OrderResponseFullModel extends OrderResponseFull {
   OrderResponseFullModel({
-    @required Ticker ticker,
-    @required String symbol,
-    @required int orderId,
-    @required int orderListId,
-    @required String clientOrderId,
-    @required int transactTime,
-    @required Decimal price,
-    @required Decimal origQty,
-    @required Decimal executedQty,
-    @required Decimal cummulativeQuoteQty,
-    @required BinanceOrderStatus status,
-    @required BinanceOrderTimeInForce timeInForce,
-    @required BinanceOrderType type,
-    @required BinanceOrderSide side,
-    @required List<OrderFill> fills,
+    required Ticker ticker,
+    required String symbol,
+    required int orderId,
+    required int orderListId,
+    required String clientOrderId,
+    required int transactTime,
+    required Decimal price,
+    required Decimal origQty,
+    required Decimal executedQty,
+    required Decimal cummulativeQuoteQty,
+    required BinanceOrderStatus status,
+    required BinanceOrderTimeInForce timeInForce,
+    required BinanceOrderType type,
+    required BinanceOrderSide side,
+    required List<OrderFill> fills,
   }) : super(
           ticker: ticker,
           symbol: symbol,
@@ -56,10 +56,10 @@ class OrderResponseFullModel extends OrderResponseFull {
       origQty: Decimal.parse(parsedJson['origQty']),
       executedQty: Decimal.parse(parsedJson['executedQty']),
       cummulativeQuoteQty: Decimal.parse(parsedJson['cummulativeQuoteQty']),
-      status: BinanceOrderStatus.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['status'], orElse: () => null),
-      timeInForce: BinanceOrderTimeInForce.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['timeInForce'], orElse: () => null),
-      type: BinanceOrderType.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['type'], orElse: () => null),
-      side: BinanceOrderSide.values.firstWhere((enumElement) => enumElement.toShortString() == parsedJson['side'], orElse: () => null),
+      status: BinanceOrderStatus.values.firstWhereOrNull((enumElement) => enumElement.toShortString() == parsedJson['status'])!,
+      timeInForce: BinanceOrderTimeInForce.values.firstWhereOrNull((enumElement) => enumElement.toShortString() == parsedJson['timeInForce'])!,
+      type: BinanceOrderType.values.firstWhereOrNull((enumElement) => enumElement.toShortString() == parsedJson['type'])!,
+      side: BinanceOrderSide.values.firstWhereOrNull((enumElement) => enumElement.toShortString() == parsedJson['side'])!,
       fills: fillsList,
     );
   }

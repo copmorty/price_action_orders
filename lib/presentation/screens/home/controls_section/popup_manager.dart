@@ -16,16 +16,16 @@ class PopupManager extends StatefulWidget {
 }
 
 class _PopupManagerState extends State<PopupManager> {
-  Timer _timer;
+  Timer? _timer;
 
   @override
   Widget build(BuildContext buildContext) {
     return ProviderListener(
-      onChange: (context, state) {
+      provider: tradeNotifierProvider,
+      onChange: (context, TradeState state) {
         if (state is TradeError) _showOrderErrorDialog(state.message);
         if (state is TradeLoaded) _showOrderLoadedDialog(state.orderResponse);
       },
-      provider: tradeNotifierProvider,
       child: SizedBox(),
     );
   }
@@ -117,7 +117,7 @@ class _PopupManagerState extends State<PopupManager> {
     ).then(
       (_) {
         if (_timer?.isActive ?? false) {
-          _timer.cancel();
+          _timer!.cancel();
         }
       },
     );

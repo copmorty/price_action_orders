@@ -17,7 +17,7 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
-  const _HomeAppBar({Key key}) : super(key: key);
+  const _HomeAppBar({Key? key}) : super(key: key);
 
   @override
   Size get preferredSize => Size.fromHeight(kToolbarHeight);
@@ -50,7 +50,7 @@ class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
 }
 
 class _HomeBody extends StatelessWidget {
-  const _HomeBody({Key key}) : super(key: key);
+  const _HomeBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
-import 'package:meta/meta.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
@@ -21,12 +20,12 @@ abstract class MarketDataSource {
 class MarketDataSourceImpl implements MarketDataSource {
   final SharedPreferences sharedPreferences;
   final DataSourceUtils dataSourceUtils;
-  WebSocket _webSocket;
-  StreamController<BookTicker> _streamController;
+  WebSocket? _webSocket;
+  StreamController<BookTicker>? _streamController;
 
   MarketDataSourceImpl({
-    @required this.sharedPreferences,
-    @required this.dataSourceUtils,
+    required this.sharedPreferences,
+    required this.dataSourceUtils,
   });
 
   @override
@@ -43,17 +42,17 @@ class MarketDataSourceImpl implements MarketDataSource {
     try {
       _webSocket = await dataSourceUtils.webSocketConnect(binanceWebSocketUrl + pathWS + '$pair@bookTicker');
 
-      if (_webSocket.readyState == WebSocket.open) {
-        _webSocket.listen(
+      if (_webSocket!.readyState == WebSocket.open) {
+        _webSocket!.listen(
           (data) {
             final jsonData = jsonDecode(data);
             final bookTickerModel = BookTickerModel.fromJson(jsonData, ticker);
-            _streamController.add(bookTickerModel);
+            _streamController!.add(bookTickerModel);
           },
           onDone: () => print('[+] BookTicker stream done.'),
           onError: (err) {
             print('[!] Error: ${err.toString()}');
-            _streamController.addError(Error());
+            _streamController!.addError(Error());
           },
           cancelOnError: true,
         );
@@ -62,11 +61,11 @@ class MarketDataSourceImpl implements MarketDataSource {
       }
     } catch (err) {
       _webSocket?.close();
-      _streamController.close();
+      _streamController!.close();
       throw ServerException(message: "Could not obtain BookTicker stream.");
     }
 
-    return _streamController.stream;
+    return _streamController!.stream;
   }
 
   @override
