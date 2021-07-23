@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/stop_limit_board.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/tab_selector.dart';
 import 'widgets/limit_board.dart';
@@ -51,7 +52,7 @@ class _TradePanelState extends State<TradePanel> {
                     children: [
                       TabSelector(label: 'Limit', selected: _currentPage == 0, onTapped: () => _onTabTapped(0)),
                       TabSelector(label: 'Market', selected: _currentPage == 1, onTapped: () => _onTabTapped(1)),
-                      // TabSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
+                      TabSelector(label: 'Stop-limit', selected: _currentPage == 2, onTapped: () => _onTabTapped(2)),
                     ],
                   ),
                   Divider(height: 1),
@@ -64,7 +65,7 @@ class _TradePanelState extends State<TradePanel> {
                         children: [
                           LimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
                           MarketBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                          // Container(),
+                          StopLimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
                         ],
                       ),
                     ),

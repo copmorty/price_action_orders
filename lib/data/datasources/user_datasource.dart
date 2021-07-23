@@ -147,14 +147,14 @@ class UserDataSourceImpl implements UserDataSource {
       if (_webSocket!.readyState == WebSocket.open) {
         _webSocket!.listen(
           (data) {
-            final Map jsonData = jsonDecode(data);
-            dynamic finalData;
+            final Map<String, dynamic> jsonData = jsonDecode(data);
+            dynamic? finalData;
 
             if (jsonData['e'] == 'outboundAccountPosition') {
-              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData as Map<String, dynamic>);
+              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
             } else if (jsonData['e'] == 'balanceUpdate') {
             } else if (jsonData['e'] == 'executionReport') {
-              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData as Map<String, dynamic>);
+              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData);
             }
 
             if (finalData != null) _streamController!.add(finalData);

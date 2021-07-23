@@ -1,37 +1,45 @@
-import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
+import 'package:price_action_orders/domain/entities/order_request_stop_limit.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
-import 'limit_form_field_amount.dart';
-import 'limit_form_field_price.dart';
-import 'limit_form_field_total.dart';
+import 'form_field_amount.dart';
+import 'form_field_price.dart';
+import 'form_field_stop.dart';
+import 'form_field_total.dart';
 
-class LimitSellForm extends StatefulWidget {
+class StopLimitForm extends StatefulWidget {
+  final BinanceOrderType binanceOrderType;
+  final BinanceOrderSide binanceOrderSide;
   final String baseAsset;
   final String quoteAsset;
 
-  const LimitSellForm({
+  const StopLimitForm({
     Key? key,
+    required this.binanceOrderType,
+    required this.binanceOrderSide,
     required this.baseAsset,
     required this.quoteAsset,
   }) : super(key: key);
 
   @override
-  _LimitSellFormState createState() => _LimitSellFormState();
+  _StopLimitFormState createState() => _StopLimitFormState();
 }
 
-class _LimitSellFormState extends State<LimitSellForm> {
+class _StopLimitFormState extends State<StopLimitForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController _stopPriceController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _totalController = TextEditingController();
+  final FocusNode _priceFocus = FocusNode();
   final FocusNode _amountFocus = FocusNode();
   AutovalidateMode _autovalidateMode = AutovalidateMode.disabled;
   int? operationId;
@@ -39,42 +47,63 @@ class _LimitSellFormState extends State<LimitSellForm> {
   @override
   void dispose() {
     super.dispose();
+    _stopPriceController.dispose();
     _priceController.dispose();
     _amountController.dispose();
     _totalController.dispose();
+    _priceFocus.dispose();
     _amountFocus.dispose();
-  }
-
-  void _setCurrentPrice() {
-    final bookTickerState = context.read(bookTickerNotifierProvider);
-    if (bookTickerState is BookTickerLoaded) {
-      final currentPrice = (bookTickerState.bookTicker.bidPrice + bookTickerState.bookTicker.askPrice) / Decimal.fromInt(2);
-      _priceController.text = currentPrice.toString();
-    } else
-      return;
   }
 
   void _onFormSubmitted() {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
+      final stopPrice = Decimal.tryParse(_stopPriceController.text);
       final price = Decimal.parse(_priceController.text);
       final quantity = Decimal.parse(_amountController.text);
 
-      final limitOrder = LimitOrderRequest(
-        ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-        side: BinanceOrderSide.SELL,
-        timeInForce: BinanceOrderTimeInForce.GTC,
-        quantity: quantity,
-        price: price,
-      );
-      operationId = limitOrder.timestamp;
+      switch (widget.binanceOrderType) {
+        case BinanceOrderType.LIMIT:
+          final limitOrder = LimitOrderRequest(
+            ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+            side: widget.binanceOrderSide,
+            timeInForce: BinanceOrderTimeInForce.GTC,
+            quantity: quantity,
+            price: price,
+          );
+          operationId = limitOrder.timestamp;
+          context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
+          break;
+        case BinanceOrderType.STOP_LOSS_LIMIT:
+          final stopLimitOrder = StopLimitOrderRequest(
+            ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+            side: widget.binanceOrderSide,
+            timeInForce: BinanceOrderTimeInForce.GTC,
+            quantity: quantity,
+            price: price,
+            stopPrice: stopPrice!,
+          );
+          break;
+        default:
+      }
 
+      // final limitOrder = LimitOrderRequest(
+      //   ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+      //   side: BinanceOrderSide.BUY,
+      //   timeInForce: BinanceOrderTimeInForce.GTC,
+      //   quantity: quantity,
+      //   price: price,
+      // );
+      // operationId = orderRequest.timestamp;
+
+      _stopPriceController.clear();
       _priceController.clear();
       _amountController.clear();
       _totalController.clear();
       FocusScope.of(context).unfocus();
-      context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
+
+      // context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
 
       setState(() {
         _autovalidateMode = AutovalidateMode.disabled;
@@ -86,6 +115,15 @@ class _LimitSellFormState extends State<LimitSellForm> {
     }
   }
 
+  void _setCurrentPrice() {
+    final bookTickerState = context.read(bookTickerNotifierProvider);
+    if (bookTickerState is BookTickerLoaded) {
+      final currentPrice = (bookTickerState.bookTicker.bidPrice + bookTickerState.bookTicker.askPrice) / Decimal.fromInt(2);
+      _priceController.text = currentPrice.toString();
+    } else
+      return;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -93,9 +131,23 @@ class _LimitSellFormState extends State<LimitSellForm> {
       autovalidateMode: _autovalidateMode,
       child: Column(
         children: [
+          if (widget.binanceOrderType == BinanceOrderType.STOP_LOSS_LIMIT) ...[
+            StopPriceFormField(
+              quoteAsset: widget.quoteAsset,
+              controller: _stopPriceController,
+              priceController: _priceController,
+              amountController: _amountController,
+              totalController: _totalController,
+              focusNext: () => FocusScope.of(context).requestFocus(_priceFocus),
+              submitForm: _onFormSubmitted,
+            ),
+            SizedBox(height: 10),
+          ],
           PriceFormField(
+            hintText: widget.binanceOrderType == BinanceOrderType.STOP_LOSS_LIMIT ? 'Limit' : 'Price',
             quoteAsset: widget.quoteAsset,
-            priceController: _priceController,
+            controller: _priceController,
+            focusNode: _priceFocus,
             amountController: _amountController,
             totalController: _totalController,
             focusNext: () => FocusScope.of(context).requestFocus(_amountFocus),
@@ -104,9 +156,9 @@ class _LimitSellFormState extends State<LimitSellForm> {
           SizedBox(height: 10),
           AmountFormField(
             baseAsset: widget.baseAsset,
-            amountFocus: _amountFocus,
+            focusNode: _amountFocus,
             priceController: _priceController,
-            amountController: _amountController,
+            controller: _amountController,
             totalController: _totalController,
             setCurrentPrice: _setCurrentPrice,
             submitForm: _onFormSubmitted,
@@ -116,9 +168,9 @@ class _LimitSellFormState extends State<LimitSellForm> {
           SizedBox(height: 10),
           TotalFormField(
             quoteAsset: widget.quoteAsset,
+            controller: _totalController,
             priceController: _priceController,
             amountController: _amountController,
-            totalController: _totalController,
             setCurrentPrice: _setCurrentPrice,
             submitForm: _onFormSubmitted,
           ),
@@ -134,17 +186,17 @@ class _LimitSellFormState extends State<LimitSellForm> {
                   return ElevatedButton(
                     onPressed: () {},
                     child: LoadingWidget(height: 20, width: 20, color: whiteColorOp70),
-                    style: ElevatedButton.styleFrom(primary: sellColor),
+                    style: ElevatedButton.styleFrom(primary: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
                   );
                 }
 
                 return ElevatedButton(
                   onPressed: _onFormSubmitted,
                   child: Text(
-                    'Sell ${widget.baseAsset}',
+                    '${widget.binanceOrderSide == BinanceOrderSide.BUY ? 'Buy' : 'Sell'}  ${widget.baseAsset}',
                     style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),
                   ),
-                  style: ElevatedButton.styleFrom(primary: sellColor),
+                  style: ElevatedButton.styleFrom(primary: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
                 );
               },
             ),

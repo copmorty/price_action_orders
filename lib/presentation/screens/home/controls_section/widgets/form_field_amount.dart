@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'default_trade_form_field.dart';
 
 class AmountFormField extends StatelessWidget {
   final String baseAsset;
-  final FocusNode amountFocus;
+  final FocusNode focusNode;
+  final TextEditingController controller;
   final TextEditingController priceController;
-  final TextEditingController amountController;
   final TextEditingController totalController;
   final Function setCurrentPrice;
   final Function submitForm;
@@ -14,9 +14,9 @@ class AmountFormField extends StatelessWidget {
   const AmountFormField({
     Key? key,
     required this.baseAsset,
-    required this.amountFocus,
+    required this.focusNode,
+    required this.controller,
     required this.priceController,
-    required this.amountController,
     required this.totalController,
     required this.setCurrentPrice,
     required this.submitForm,
@@ -45,8 +45,8 @@ class AmountFormField extends StatelessWidget {
     return DefaultTradeFormField(
       hintText: 'Amount',
       suffixText: baseAsset,
-      focusNode: amountFocus,
-      controller: amountController,
+      focusNode: focusNode,
+      controller: controller,
       onChanged: _onChanged,
       onFieldSubmitted: (strVal) => submitForm,
       validator: _validator,

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:decimal/decimal.dart';
 import 'default_trade_form_field.dart';
 
-class PriceFormField extends StatelessWidget {
+class StopPriceFormField extends StatelessWidget {
   final String quoteAsset;
+  final TextEditingController controller;
   final TextEditingController priceController;
   final TextEditingController amountController;
   final TextEditingController totalController;
   final Function focusNext;
   final Function submitForm;
 
-  const PriceFormField({
+  const StopPriceFormField({
     Key? key,
     required this.quoteAsset,
+    required this.controller,
     required this.priceController,
     required this.amountController,
     required this.totalController,
@@ -20,18 +21,9 @@ class PriceFormField extends StatelessWidget {
     required this.submitForm,
   }) : super(key: key);
 
-  void _onChanged(String strPrice) {
-    if (strPrice.isEmpty) {
-      totalController.text = '';
-    } else if (amountController.text.isNotEmpty) {
-      final price = Decimal.parse(strPrice);
-      final amount = Decimal.parse(amountController.text);
-      totalController.text = (price * amount).toString();
-    }
-  }
 
   void _onFieldSubmitted(String strPrice) {
-    if (amountController.text.isEmpty || totalController.text.isEmpty)
+    if (priceController.text.isEmpty || amountController.text.isEmpty || totalController.text.isEmpty)
       focusNext();
     else
       submitForm();
@@ -47,10 +39,9 @@ class PriceFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTradeFormField(
-      hintText: 'Price',
+      hintText: 'Stop',
       suffixText: quoteAsset,
-      controller: priceController,
-      onChanged: _onChanged,
+      controller: controller,
       onFieldSubmitted: _onFieldSubmitted,
       validator: _validator,
     );

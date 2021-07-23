@@ -1,21 +1,21 @@
-import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'default_trade_form_field.dart';
 
 class TotalFormField extends StatelessWidget {
   final String quoteAsset;
+  final TextEditingController controller;
   final TextEditingController priceController;
   final TextEditingController amountController;
-  final TextEditingController totalController;
   final Function setCurrentPrice;
   final Function submitForm;
 
   const TotalFormField({
     Key? key,
     required this.quoteAsset,
+    required this.controller,
     required this.priceController,
     required this.amountController,
-    required this.totalController,
     required this.setCurrentPrice,
     required this.submitForm,
   }) : super(key: key);
@@ -36,7 +36,7 @@ class TotalFormField extends StatelessWidget {
     return DefaultTradeFormField(
       hintText: 'Total',
       suffixText: quoteAsset,
-      controller: totalController,
+      controller: controller,
       onChanged: _onChanged,
       onFieldSubmitted: (strVal) => submitForm,
     );

@@ -17,14 +17,14 @@ class BookTickerDisplay extends StatelessWidget {
       alignment: AlignmentDirectional.center,
       // fit: StackFit.expand,
       children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          child: Text(
-            bookTicker.updatedId.toString(),
-            style: TextStyle(color: whiteColor, fontSize: 10),
-          ),
-        ),
+        // Positioned(
+        //   top: 0,
+        //   left: 0,
+        //   child: Text(
+        //     bookTicker.updatedId.toString(),
+        //     style: TextStyle(color: whiteColor, fontSize: 10),
+        //   ),
+        // ),
         Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
