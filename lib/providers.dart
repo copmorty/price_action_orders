@@ -15,14 +15,13 @@ import 'data/repositories/user_repository_impl.dart';
 import 'domain/repositories/market_respository.dart';
 import 'domain/repositories/trade_repository.dart';
 import 'domain/repositories/user_repository.dart';
+import 'domain/usecases/get_market_bookticker_stream.dart';
 import 'domain/usecases/get_market_last_ticker.dart';
 import 'domain/usecases/get_user_accountinfo.dart';
 import 'domain/usecases/get_user_datastream.dart';
 import 'domain/usecases/get_user_openorders.dart';
 import 'domain/usecases/post_trade_cancel_order.dart';
-import 'domain/usecases/post_trade_limit_order.dart';
-import 'domain/usecases/post_trade_market_order.dart';
-import 'domain/usecases/get_market_bookticker_stream.dart';
+import 'domain/usecases/post_trade_order.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
 import 'presentation/logic/orderconfig_state_notifier.dart';
@@ -61,8 +60,7 @@ final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, Boo
 );
 final tradeNotifierProvider = StateNotifierProvider<TradeNotifier, TradeState>(
   (ref) => TradeNotifier(
-    postLimitOrder: ref.watch(postLimitOder),
-    postMarketOrder: ref.watch(postMarketOrder),
+    postOrder: ref.watch(postOrder),
     postCancelOrder: ref.watch(postCancelOrder),
   ),
 );
@@ -87,8 +85,7 @@ final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref
 final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userRepositoryProvider)));
 final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userRepositoryProvider)));
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
-final postLimitOder = Provider<PostLimitOrder>((ref) => PostLimitOrder(ref.watch(tradeRepositoryProvider)));
-final postMarketOrder = Provider<PostMarketOrder>((ref) => PostMarketOrder(ref.watch(tradeRepositoryProvider)));
+final postOrder = Provider<PostOrder>((ref) => PostOrder(ref.watch(tradeRepositoryProvider)));
 final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(tradeRepositoryProvider)));
 
 // Repositories

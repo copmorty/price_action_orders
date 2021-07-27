@@ -27,7 +27,7 @@ void main() {
     repository = TradeRepositoryImpl(mockTradeDataSource);
   });
 
-  group('postLimitOrder', () {
+  group('postOrder', () {
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final LimitOrderRequest tLimitOrder = LimitOrderRequest(
       ticker: tTicker,

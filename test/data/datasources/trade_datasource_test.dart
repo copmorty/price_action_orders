@@ -12,6 +12,7 @@ import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
+import 'package:price_action_orders/domain/entities/order_request_stop_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
@@ -50,7 +51,7 @@ void main() {
     }
   }
 
-  group('postLimitOrder', () {
+  group('postOrder limit', () {
     final tJsonData = attachment('order_limit_response_full.json');
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final LimitOrderRequest tLimitOrder = LimitOrderRequest(
@@ -84,7 +85,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('post', tJsonData);
         //act
-        await dataSource.postLimitOrder(tLimitOrder);
+        await dataSource.postOrder(tLimitOrder);
         //assert
         verify(mockHttpClient.post(any, headers: anyNamed('headers')));
         verifyNoMoreInteractions(mockHttpClient);
@@ -97,7 +98,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('post', tJsonData);
         //act
-        final result = await dataSource.postLimitOrder(tLimitOrder);
+        final result = await dataSource.postOrder(tLimitOrder);
         //assert
         expect(result, tOrderResponseFull);
       },
@@ -109,12 +110,12 @@ void main() {
         //arrange
         setUpMockHttpClientFailure404('post');
         //assert
-        expect(() => dataSource.postLimitOrder(tLimitOrder), throwsA(isInstanceOf<ServerException>()));
+        expect(() => dataSource.postOrder(tLimitOrder), throwsA(isInstanceOf<ServerException>()));
       },
     );
   });
 
-  group('postMarketOrder', () {
+  group('postOrder market', () {
     final tJsonData = attachment('order_market_response_full.json');
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final MarketOrderRequest tMarketOrder = MarketOrderRequest(
@@ -154,7 +155,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('post', tJsonData);
         //act
-        await dataSource.postMarketOrder(tMarketOrder);
+        await dataSource.postOrder(tMarketOrder);
         //assert
         verify(mockHttpClient.post(any, headers: anyNamed('headers')));
         verifyNoMoreInteractions(mockHttpClient);
@@ -167,7 +168,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('post', tJsonData);
         //act
-        final result = await dataSource.postMarketOrder(tMarketOrder);
+        final result = await dataSource.postOrder(tMarketOrder);
         //assert
         expect(result, tOrderResponseFull);
       },
@@ -179,7 +180,73 @@ void main() {
         //arrange
         setUpMockHttpClientFailure404('post');
         //assert
-        expect(() => dataSource.postMarketOrder(tMarketOrder), throwsA(isInstanceOf<ServerException>()));
+        expect(() => dataSource.postOrder(tMarketOrder), throwsA(isInstanceOf<ServerException>()));
+      },
+    );
+  });
+
+  group('postOrder stop-limit', () {
+    final tJsonData = attachment('order_limit_response_full.json');
+    final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
+    final StopLimitOrderRequest tStopLimitOrder = StopLimitOrderRequest(
+      ticker: tTicker,
+      side: BinanceOrderSide.SELL,
+      timeInForce: BinanceOrderTimeInForce.GTC,
+      currentMarketPrice: Decimal.parse('340'),
+      quantity: Decimal.parse('0.5'),
+      price: Decimal.parse('338'),
+      stopPrice: Decimal.parse('330'),
+    );
+    final OrderResponseFull tOrderResponseFull = OrderResponseFullModel(
+      ticker: tTicker,
+      symbol: 'BNBUSDT',
+      orderId: 4216025,
+      orderListId: -1,
+      clientOrderId: 'vrS5zRiFj7dgxOuK9Pr7M4',
+      transactTime: 1624643274441,
+      price: Decimal.parse('338.00000000'),
+      origQty: Decimal.parse('0.50000000'),
+      executedQty: Decimal.parse('0.00000000'),
+      cummulativeQuoteQty: Decimal.parse('0.00000000'),
+      status: BinanceOrderStatus.NEW,
+      timeInForce: BinanceOrderTimeInForce.GTC,
+      type: BinanceOrderType.STOP_LOSS_LIMIT,
+      side: BinanceOrderSide.SELL,
+      fills: [],
+    );
+
+    test(
+      'should perform a POST request on a URL with application/json header',
+      () async {
+        //arrange
+        setUpMockHttpClientSuccess200('post', tJsonData);
+        //act
+        await dataSource.postOrder(tStopLimitOrder);
+        //assert
+        verify(mockHttpClient.post(any, headers: anyNamed('headers')));
+        verifyNoMoreInteractions(mockHttpClient);
+      },
+    );
+
+    test(
+      'should return a full order response when the response code is 200 (success)',
+      () async {
+        //arrange
+        setUpMockHttpClientSuccess200('post', tJsonData);
+        //act
+        final result = await dataSource.postOrder(tStopLimitOrder);
+        //assert
+        expect(result, tOrderResponseFull);
+      },
+    );
+
+    test(
+      'should throw a server exception when the response code is not 200 (failure)',
+      () async {
+        //arrange
+        setUpMockHttpClientFailure404('post');
+        //assert
+        expect(() => dataSource.postOrder(tStopLimitOrder), throwsA(isInstanceOf<ServerException>()));
       },
     );
   });

@@ -22,7 +22,7 @@ class LimitBoard extends StatelessWidget {
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.BUY),
               SizedBox(height: 13),
-              StopLimitForm(binanceOrderType: BinanceOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.BUY, baseAsset: baseAsset, quoteAsset: quoteAsset),
+              StopLimitForm(appOrderType: AppOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.BUY, baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),
@@ -32,7 +32,7 @@ class LimitBoard extends StatelessWidget {
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.SELL),
               SizedBox(height: 13),
-              StopLimitForm(binanceOrderType: BinanceOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.SELL, baseAsset: baseAsset, quoteAsset: quoteAsset),
+              StopLimitForm(appOrderType: AppOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.SELL, baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),

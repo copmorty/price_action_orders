@@ -1,16 +1,22 @@
 import 'package:price_action_orders/core/utils/enum_functions.dart';
 
 enum AppMode { TEST, PRODUCTION }
+enum AppOrderType { LIMIT, MARKET, STOP_LIMIT }
 enum BinanceOrderSide { BUY, SELL }
 enum BinanceOrderType { LIMIT, MARKET, STOP_LOSS, STOP_LOSS_LIMIT, TAKE_PROFIT, TAKE_PROFIT_LIMIT, LIMIT_MAKER }
 enum BinanceOrderStatus { NEW, PARTIALLY_FILLED, FILLED, CANCELED, PENDING_CANCEL, REJECTED, EXPIRED }
 enum BinanceOrderTimeInForce { GTC, IOC, FOK }
-enum BinanceOrderResponseType { ACK, RESULT, FULL }
+enum BinanceNewOrderResponseType { ACK, RESULT, FULL }
 enum BinanceOrderExecutionType { NEW, CANCELED, REPLACED, REJECTED, TRADE, EXPIRED }
 enum BinanceUserDataPayloadEventType { outboundAccountPosition, balanceUpdate, executionReport, listStatus }
 
 extension AppModeExtension on AppMode {
   String toShortString() => enumToShortString(this);
+}
+
+extension AppOrderTypeExtension on AppOrderType {
+  String toShortString() => enumToShortString(this);
+  String capitalizeWords() => enumToCapitalizedWordsString(this);
 }
 
 extension BinanceOrderSideExtension on BinanceOrderSide {
@@ -33,7 +39,7 @@ extension BinanceOrderTimeInForceExtension on BinanceOrderTimeInForce {
   String toShortString() => enumToShortString(this);
 }
 
-extension BinanceOrderResponseTypeExtension on BinanceOrderResponseType {
+extension BinanceNewOrderResponseTypeExtension on BinanceNewOrderResponseType {
   String toShortString() => enumToShortString(this);
 }
 

@@ -16,14 +16,16 @@ import 'form_field_stop.dart';
 import 'form_field_total.dart';
 
 class StopLimitForm extends StatefulWidget {
-  final BinanceOrderType binanceOrderType;
+  final AppOrderType appOrderType;
+  // final BinanceOrderType binanceOrderType;
   final BinanceOrderSide binanceOrderSide;
   final String baseAsset;
   final String quoteAsset;
 
   const StopLimitForm({
     Key? key,
-    required this.binanceOrderType,
+    required this.appOrderType,
+    // required this.binanceOrderType,
     required this.binanceOrderSide,
     required this.baseAsset,
     required this.quoteAsset,
@@ -63,8 +65,8 @@ class _StopLimitFormState extends State<StopLimitForm> {
       final price = Decimal.parse(_priceController.text);
       final quantity = Decimal.parse(_amountController.text);
 
-      switch (widget.binanceOrderType) {
-        case BinanceOrderType.LIMIT:
+      switch (widget.appOrderType) {
+        case AppOrderType.LIMIT:
           final limitOrder = LimitOrderRequest(
             ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
             side: widget.binanceOrderSide,
@@ -73,37 +75,40 @@ class _StopLimitFormState extends State<StopLimitForm> {
             price: price,
           );
           operationId = limitOrder.timestamp;
-          context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
+          context.read(tradeNotifierProvider.notifier).postOrder(limitOrder);
           break;
-        case BinanceOrderType.STOP_LOSS_LIMIT:
-          final stopLimitOrder = StopLimitOrderRequest(
-            ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-            side: widget.binanceOrderSide,
-            timeInForce: BinanceOrderTimeInForce.GTC,
-            quantity: quantity,
-            price: price,
-            stopPrice: stopPrice!,
-          );
+
+        case AppOrderType.STOP_LIMIT:
+          final bookTickerState = context.read(bookTickerNotifierProvider);
+
+          if (bookTickerState is BookTickerLoaded) {
+            final currentPrice = widget.binanceOrderSide == BinanceOrderSide.BUY ? bookTickerState.bookTicker.bidPrice : bookTickerState.bookTicker.askPrice;
+
+            final stopLimitOrder = StopLimitOrderRequest(
+              ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
+              side: widget.binanceOrderSide,
+              currentMarketPrice: currentPrice,
+              timeInForce: BinanceOrderTimeInForce.GTC,
+              quantity: quantity,
+              price: price,
+              stopPrice: stopPrice!,
+            );
+
+            operationId = stopLimitOrder.timestamp;
+
+            context.read(tradeNotifierProvider.notifier).postOrder(stopLimitOrder);
+          } else
+            throw Error();
           break;
+
         default:
       }
-
-      // final limitOrder = LimitOrderRequest(
-      //   ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
-      //   side: BinanceOrderSide.BUY,
-      //   timeInForce: BinanceOrderTimeInForce.GTC,
-      //   quantity: quantity,
-      //   price: price,
-      // );
-      // operationId = orderRequest.timestamp;
 
       _stopPriceController.clear();
       _priceController.clear();
       _amountController.clear();
       _totalController.clear();
       FocusScope.of(context).unfocus();
-
-      // context.read(tradeNotifierProvider.notifier).postLimitOrder(limitOrder);
 
       setState(() {
         _autovalidateMode = AutovalidateMode.disabled;
@@ -131,7 +136,7 @@ class _StopLimitFormState extends State<StopLimitForm> {
       autovalidateMode: _autovalidateMode,
       child: Column(
         children: [
-          if (widget.binanceOrderType == BinanceOrderType.STOP_LOSS_LIMIT) ...[
+          if (widget.appOrderType == AppOrderType.STOP_LIMIT) ...[
             StopPriceFormField(
               quoteAsset: widget.quoteAsset,
               controller: _stopPriceController,
@@ -144,7 +149,7 @@ class _StopLimitFormState extends State<StopLimitForm> {
             SizedBox(height: 10),
           ],
           PriceFormField(
-            hintText: widget.binanceOrderType == BinanceOrderType.STOP_LOSS_LIMIT ? 'Limit' : 'Price',
+            hintText: widget.appOrderType == AppOrderType.STOP_LIMIT ? 'Limit' : 'Price',
             quoteAsset: widget.quoteAsset,
             controller: _priceController,
             focusNode: _priceFocus,

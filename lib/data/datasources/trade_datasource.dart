@@ -7,16 +7,18 @@ import 'package:price_action_orders/data/models/order_cancel_request_model.dart'
 import 'package:price_action_orders/data/models/order_cancel_response_model.dart';
 import 'package:price_action_orders/data/models/order_request_limit_model.dart';
 import 'package:price_action_orders/data/models/order_request_market_model.dart';
+import 'package:price_action_orders/data/models/order_request_stop_limit_model.dart';
 import 'package:price_action_orders/data/models/order_response_full_model.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
+import 'package:price_action_orders/domain/entities/order_request.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
+import 'package:price_action_orders/domain/entities/order_request_stop_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 
 abstract class TradeDataSource {
-  Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder);
-  Future<OrderResponseFull> postLimitOrder(LimitOrderRequest limitOrder);
+  Future<OrderResponseFull> postOrder(OrderRequest order);
   Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest cancelOrder);
 }
 
@@ -27,35 +29,20 @@ class TradeDataSourceImpl implements TradeDataSource {
   TradeDataSourceImpl(this.client);
 
   @override
-  Future<OrderResponseFull> postMarketOrder(MarketOrderRequest marketOrder) async {
-    final params = MarketOrderRequestModel.fromMarketOrderRequest(marketOrder).toJson();
+  Future<OrderResponseFull> postOrder(OrderRequest order) async {
+    late Map<String, dynamic> params;
 
-    String url = DataSourceUtils.generatetUrl(path, params);
-
-    final uri = Uri.parse(url);
-
-    final response = await client.post(
-      uri,
-      headers: {
-        'Content-Type': 'application/json',
-        'X-MBX-APIKEY': apiKey,
-      },
-    );
-
-    final jsonData = jsonDecode(response.body);
-
-    if (response.statusCode == 200) {
-      final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, marketOrder.ticker);
-      return orderResponseFullModel;
-    } else {
-      // print(jsonData);
-      throw BinanceException.fromJson(jsonData);
+    switch (order.runtimeType) {
+      case LimitOrderRequest:
+        params = LimitOrderRequestModel.fromLimitOrderRequest(order as LimitOrderRequest).toJson();
+        break;
+      case MarketOrderRequest:
+        params = MarketOrderRequestModel.fromMarketOrderRequest(order as MarketOrderRequest).toJson();
+        break;
+      case StopLimitOrderRequest:
+        params = StopLimitOrderRequestModel.fromStopLimitOrderRequest(order as StopLimitOrderRequest).toJson();
+        break;
     }
-  }
-
-  @override
-  Future<OrderResponseFull> postLimitOrder(LimitOrderRequest limitOrder) async {
-    final params = LimitOrderRequestModel.fromLimitOrderRequest(limitOrder).toJson();
 
     String url = DataSourceUtils.generatetUrl(path, params);
 
@@ -72,8 +59,7 @@ class TradeDataSourceImpl implements TradeDataSource {
     final jsonData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      final orderResponseFullModel = OrderResponseFullModel.fromJson(jsonData, limitOrder.ticker);
-      return orderResponseFullModel;
+      return OrderResponseFullModel.fromJson(jsonData, order.ticker);
     } else {
       // print(jsonData);
       throw BinanceException.fromJson(jsonData);
@@ -97,8 +83,7 @@ class TradeDataSourceImpl implements TradeDataSource {
     final jsonData = jsonDecode(response.body);
 
     if (response.statusCode == 200) {
-      final cancelOrderResponse = CancelOrderResponseModel.fromJson(jsonData);
-      return cancelOrderResponse;
+      return CancelOrderResponseModel.fromJson(jsonData);
     } else {
       // print(jsonData);
       throw BinanceException.fromJson(jsonData);
