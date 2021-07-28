@@ -21,10 +21,7 @@ class SpotBalances extends StatelessWidget {
             return LoadingWidget();
           }
           if (accountInfoState is AccountInfoError) {
-            return ReloadWidget(() {
-              context.read(userDataStream).initialization();
-              context.read(accountInfoNotifierProvider.notifier).getAccountInfo();
-            });
+            return ReloadWidget(context.read(stateHandlerProvider).reloadAccountInfo);
           }
           if (accountInfoState is AccountInfoLoaded) {
             return _BalancesList(accountInfoState.userData.balances);

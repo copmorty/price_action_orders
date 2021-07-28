@@ -48,7 +48,7 @@ class AmountFormField extends StatelessWidget {
       focusNode: focusNode,
       controller: controller,
       onChanged: _onChanged,
-      onFieldSubmitted: (strVal) => submitForm,
+      onFieldSubmitted: (strVal) => submitForm(),
       validator: _validator,
     );
   }

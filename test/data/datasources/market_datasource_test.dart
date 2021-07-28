@@ -67,6 +67,20 @@ void main() {
     );
   });
 
+  group('getTickerStatsStream', () {
+     test(
+       'should ',
+       () async {
+         //arrange
+         
+         //act
+         
+         //assert
+         expect(actual, matcher)
+       },
+     );
+  });
+
   group('cacheLastTicker', () {
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
 

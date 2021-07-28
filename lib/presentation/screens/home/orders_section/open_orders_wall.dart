@@ -41,10 +41,7 @@ class OpenOrdersWall extends StatelessWidget {
           if (ordersState is OrdersLoading) return LoadingWidget();
 
           if (ordersState is OrdersError) {
-            return ReloadWidget(() {
-              context.read(userDataStream).initialization();
-              context.read(ordersNotifierProvider.notifier).getOpenOrders();
-            });
+            return ReloadWidget(context.read(stateHandlerProvider).reloadOrderLists);
           }
 
           if (ordersState is OrdersLoaded) {

@@ -38,7 +38,7 @@ class TotalFormField extends StatelessWidget {
       suffixText: quoteAsset,
       controller: controller,
       onChanged: _onChanged,
-      onFieldSubmitted: (strVal) => submitForm,
+      onFieldSubmitted: (strVal) => submitForm(),
     );
   }
 }

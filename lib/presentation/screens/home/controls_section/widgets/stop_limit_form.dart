@@ -7,6 +7,7 @@ import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_stop_limit.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
+import 'package:price_action_orders/presentation/logic/tickerstats_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
@@ -17,7 +18,6 @@ import 'form_field_total.dart';
 
 class StopLimitForm extends StatefulWidget {
   final AppOrderType appOrderType;
-  // final BinanceOrderType binanceOrderType;
   final BinanceOrderSide binanceOrderSide;
   final String baseAsset;
   final String quoteAsset;
@@ -25,7 +25,6 @@ class StopLimitForm extends StatefulWidget {
   const StopLimitForm({
     Key? key,
     required this.appOrderType,
-    // required this.binanceOrderType,
     required this.binanceOrderSide,
     required this.baseAsset,
     required this.quoteAsset,
@@ -79,10 +78,10 @@ class _StopLimitFormState extends State<StopLimitForm> {
           break;
 
         case AppOrderType.STOP_LIMIT:
-          final bookTickerState = context.read(bookTickerNotifierProvider);
+          final tickerStatsState = context.read(tickerStatsNotifierProvider);
 
-          if (bookTickerState is BookTickerLoaded) {
-            final currentPrice = widget.binanceOrderSide == BinanceOrderSide.BUY ? bookTickerState.bookTicker.bidPrice : bookTickerState.bookTicker.askPrice;
+          if (tickerStatsState is TickerStatsLoaded) {
+            final currentPrice = tickerStatsState.tickerStats.lastPrice;
 
             final stopLimitOrder = StopLimitOrderRequest(
               ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),

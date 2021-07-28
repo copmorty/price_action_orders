@@ -17,6 +17,7 @@ import 'domain/repositories/trade_repository.dart';
 import 'domain/repositories/user_repository.dart';
 import 'domain/usecases/get_market_bookticker_stream.dart';
 import 'domain/usecases/get_market_last_ticker.dart';
+import 'domain/usecases/get_market_ticker_stats_stream.dart';
 import 'domain/usecases/get_user_accountinfo.dart';
 import 'domain/usecases/get_user_datastream.dart';
 import 'domain/usecases/get_user_openorders.dart';
@@ -28,6 +29,8 @@ import 'presentation/logic/orderconfig_state_notifier.dart';
 import 'presentation/logic/orders_state_notifier.dart';
 import 'presentation/logic/trade_state_notifier.dart';
 import 'presentation/logic/userdata_stream.dart';
+import 'presentation/logic/state_handler.dart';
+import 'presentation/logic/tickerstats_state_notifier.dart';
 
 late SharedPreferences sharedPreferencesInstance;
 
@@ -40,7 +43,7 @@ Future<void> loadKeys() async {
   final location = 'assets/config.json';
   final jsonStr = await rootBundle.loadString(location);
   final data = jsonDecode(jsonStr);
-  
+
   if (appMode == AppMode.PRODUCTION) {
     apiKey = data['api_prod_key'];
     apiSecret = data['api_prod_secret'];
@@ -78,6 +81,21 @@ final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState
   ),
 );
 final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
+final tickerStatsNotifierProvider = StateNotifierProvider<TickerStatsNotifier, TickerStatsState>(
+  (ref) => TickerStatsNotifier(
+    getLastTicker: ref.watch(getLastTickerProvider),
+    getTickerStatsStream: ref.watch(getTickerStatsStream),
+  ),
+);
+final stateHandlerProvider = Provider<StateHandler>(
+  (ref) => StateHandler(
+    userDataStream: ref.watch(userDataStream),
+    accountInfoNotifier: ref.watch(accountInfoNotifierProvider.notifier),
+    ordersNotifier: ref.watch(ordersNotifierProvider.notifier),
+    bookTickerNotifier: ref.watch(bookTickerNotifierProvider.notifier),
+    tickerStatsNotifier: ref.watch(tickerStatsNotifierProvider.notifier),
+  ),
+);
 
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(marketRepositoryProvider)));
@@ -85,6 +103,7 @@ final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref
 final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userRepositoryProvider)));
 final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userRepositoryProvider)));
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
+final getTickerStatsStream = Provider<GetTickerStatsStream>((ref) => GetTickerStatsStream(ref.watch(marketRepositoryProvider)));
 final postOrder = Provider<PostOrder>((ref) => PostOrder(ref.watch(tradeRepositoryProvider)));
 final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(tradeRepositoryProvider)));
 

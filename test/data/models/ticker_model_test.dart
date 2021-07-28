@@ -52,4 +52,16 @@ void main() {
       expect(result, expectedMap);
     },
   );
+
+  test(
+    'symbol should ',
+    () async {
+      //arrange
+      
+      //act
+      
+      //assert
+      expect(actual, matcher)
+    },
+  );
 }

@@ -76,6 +76,20 @@ void main() {
     );
   });
 
+group('getTickerStatsStream', () {
+   test(
+     'should ',
+     () async {
+       //arrange
+       
+       //act
+       
+       //assert
+       expect(actual, matcher)
+     },
+   );
+});
+
   group('getLastTicker', () {
     final Ticker tTicker = Ticker(baseAsset: 'BTC', quoteAsset: 'USDT');
 

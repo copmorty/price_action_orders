@@ -20,7 +20,7 @@ class _InputSymbolState extends State<InputSymbol> {
     _quoteAssetcontroller.dispose();
   }
 
-  void dispatchSymbol() {
+  void _submitTicker() {
     final baseAsset = _baseAssetController.text;
     final quoteAsset = _quoteAssetcontroller.text;
 
@@ -29,7 +29,7 @@ class _InputSymbolState extends State<InputSymbol> {
     _baseAssetController.clear();
     _quoteAssetcontroller.clear();
     FocusScope.of(context).unfocus();
-    context.read(bookTickerNotifierProvider.notifier).streamBookTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
+    context.read(stateHandlerProvider).dispatchTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
   }
 
   @override
@@ -45,7 +45,7 @@ class _InputSymbolState extends State<InputSymbol> {
               hintText: 'Base asset',
               focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: whiteColor)),
             ),
-            onSubmitted: (_) => dispatchSymbol(),
+            onSubmitted: (_) => _submitTicker(),
             onChanged: (value) {
               _baseAssetController.text = value.toUpperCase();
               _baseAssetController.selection = TextSelection.fromPosition(TextPosition(offset: _baseAssetController.text.length));
@@ -65,7 +65,7 @@ class _InputSymbolState extends State<InputSymbol> {
               hintText: 'Quote asset',
               focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: whiteColor)),
             ),
-            onSubmitted: (_) => dispatchSymbol(),
+            onSubmitted: (_) => _submitTicker(),
             onChanged: (value) {
               _quoteAssetcontroller.text = value.toUpperCase();
               _quoteAssetcontroller.selection = TextSelection.fromPosition(TextPosition(offset: _quoteAssetcontroller.text.length));
@@ -76,7 +76,7 @@ class _InputSymbolState extends State<InputSymbol> {
           color: whiteColorOp70,
           icon: Icon(Icons.send),
           splashRadius: 25,
-          onPressed: dispatchSymbol,
+          onPressed: _submitTicker,
         )
       ],
     );

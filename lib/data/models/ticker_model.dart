@@ -29,4 +29,6 @@ class TickerModel extends Ticker {
       'quoteAsset': quoteAsset,
     };
   }
+
+  String get symbol => (baseAsset + quoteAsset).toLowerCase();
 }
