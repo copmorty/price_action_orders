@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/providers.dart';
-import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
+import 'package:price_action_orders/presentation/logic/ticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/stop_limit_board.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/tab_selector.dart';
@@ -36,14 +36,14 @@ class _TradePanelState extends State<TradePanel> {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, watch, child) {
-        final orderConfigState = watch(orderConfigNotifierProvider);
+        final tickerState = watch(tickerNotifierProvider);
 
-        if (orderConfigState is OrderConfigLoading) {
+        if (tickerState is TickerLoading) {
           _resetTab();
           return Expanded(child: LoadingWidget());
         }
 
-        if (orderConfigState is OrderConfigLoaded) {
+        if (tickerState is TickerLoaded) {
           return Container(
             child: Expanded(
               child: Column(
@@ -63,9 +63,9 @@ class _TradePanelState extends State<TradePanel> {
                         physics: NeverScrollableScrollPhysics(),
                         controller: _pageController,
                         children: [
-                          LimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                          MarketBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
-                          StopLimitBoard(baseAsset: orderConfigState.ticker.baseAsset, quoteAsset: orderConfigState.ticker.quoteAsset),
+                          LimitBoard(baseAsset: tickerState.ticker.baseAsset, quoteAsset: tickerState.ticker.quoteAsset),
+                          MarketBoard(baseAsset: tickerState.ticker.baseAsset, quoteAsset: tickerState.ticker.quoteAsset),
+                          StopLimitBoard(baseAsset: tickerState.ticker.baseAsset, quoteAsset: tickerState.ticker.quoteAsset),
                         ],
                       ),
                     ),

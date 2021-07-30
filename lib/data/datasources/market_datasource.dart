@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
-import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/bookticker_model.dart';
@@ -16,22 +14,16 @@ import 'package:price_action_orders/domain/entities/ticker_stats.dart';
 abstract class MarketDataSource {
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker);
   Future<Stream<TickerStats>> getTickerStatsStream(Ticker ticker);
-  Future<void> cacheLastTicker(Ticker ticker);
-  Future<Ticker> getLastTicker();
 }
 
 class MarketDataSourceImpl implements MarketDataSource {
-  final SharedPreferences sharedPreferences;
   final DataSourceUtils dataSourceUtils;
   WebSocket? _bookTickerWebSocket;
   StreamController<BookTicker>? _bookTickerStreamController;
   WebSocket? _tickerStatsWebSocket;
   StreamController<TickerStats>? _tickerStatsStreamController;
 
-  MarketDataSourceImpl({
-    required this.sharedPreferences,
-    required this.dataSourceUtils,
-  });
+  MarketDataSourceImpl(this.dataSourceUtils);
 
   @override
   Future<Stream<BookTicker>> getBookTickerStream(Ticker ticker) async {
@@ -109,24 +101,5 @@ class MarketDataSourceImpl implements MarketDataSource {
     }
 
     return _tickerStatsStreamController!.stream;
-  }
-
-  @override
-  Future<void> cacheLastTicker(Ticker ticker) {
-    final tickerModel = TickerModel.fromTicker(ticker);
-    return sharedPreferences.setString(
-      LAST_TICKER,
-      jsonEncode(tickerModel.toJson()),
-    );
-  }
-
-  @override
-  Future<Ticker> getLastTicker() {
-    final jsonString = sharedPreferences.getString(LAST_TICKER);
-    if (jsonString != null) {
-      return Future.value(TickerModel.fromJson(jsonDecode(jsonString)));
-    } else {
-      throw CacheException();
-    }
   }
 }

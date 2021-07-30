@@ -15,7 +15,6 @@ class MarketRepositoryImpl implements MarketRepository {
   Future<Either<Failure, Stream<BookTicker>>> getBookTickerStream(Ticker ticker) async {
     try {
       final response = await dataSource.getBookTickerStream(ticker);
-      dataSource.cacheLastTicker(ticker);
       return Right(response);
     } catch (e) {
       return Left(ServerFailure.fromException(e));
@@ -29,16 +28,6 @@ class MarketRepositoryImpl implements MarketRepository {
       return Right(response);
     } catch (e) {
       return Left(ServerFailure.fromException(e));
-    }
-  }
-
-  @override
-  Future<Either<Failure, Ticker>> getLastTicker() async {
-    try {
-      final ticker = await dataSource.getLastTicker();
-      return Right(ticker);
-    } catch (e) {
-      return Left(CacheFailure());
     }
   }
 }

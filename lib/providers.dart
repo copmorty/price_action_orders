@@ -16,16 +16,17 @@ import 'domain/repositories/market_respository.dart';
 import 'domain/repositories/trade_repository.dart';
 import 'domain/repositories/user_repository.dart';
 import 'domain/usecases/get_market_bookticker_stream.dart';
-import 'domain/usecases/get_market_last_ticker.dart';
+import 'domain/usecases/get_user_last_ticker.dart';
 import 'domain/usecases/get_market_ticker_stats_stream.dart';
 import 'domain/usecases/get_user_accountinfo.dart';
 import 'domain/usecases/get_user_datastream.dart';
 import 'domain/usecases/get_user_openorders.dart';
 import 'domain/usecases/post_trade_cancel_order.dart';
 import 'domain/usecases/post_trade_order.dart';
+import 'domain/usecases/set_user_last_ticker.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
-import 'presentation/logic/orderconfig_state_notifier.dart';
+import 'presentation/logic/ticker_state_notifier.dart';
 import 'presentation/logic/orders_state_notifier.dart';
 import 'presentation/logic/trade_state_notifier.dart';
 import 'presentation/logic/userdata_stream.dart';
@@ -58,7 +59,6 @@ final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, Boo
   (ref) => BookTickerNotifier(
     getLastTicker: ref.watch(getLastTickerProvider),
     getBookTickerStream: ref.watch(getBookTickerStream),
-    orderConfigNotifier: ref.watch(orderConfigNotifierProvider.notifier),
   ),
 );
 final tradeNotifierProvider = StateNotifierProvider<TradeNotifier, TradeState>(
@@ -67,20 +67,25 @@ final tradeNotifierProvider = StateNotifierProvider<TradeNotifier, TradeState>(
     postCancelOrder: ref.watch(postCancelOrder),
   ),
 );
-final orderConfigNotifierProvider = StateNotifierProvider<OrderConfigNotifier, OrderConfigState>((ref) => OrderConfigNotifier());
+final tickerNotifierProvider = StateNotifierProvider<TickerNotifier, TickerState>(
+  (ref) => TickerNotifier(
+    getLastTicker: ref.watch(getLastTickerProvider),
+    setLastTicker: ref.watch(setLastTickerProvider),
+  ),
+);
 final accountInfoNotifierProvider = StateNotifierProvider<AccountInfoNotifier, AccountInfoState>(
   (ref) => AccountInfoNotifier(
     getAccountInfo: ref.watch(getAccountInfo),
-    userDataStream: ref.watch(userDataStream),
+    userDataStream: ref.watch(userDataStreamProvider),
   ),
 );
 final ordersNotifierProvider = StateNotifierProvider<OrdersNotifier, OrdersState>(
   (ref) => OrdersNotifier(
     getOpenOrders: ref.watch(getOpenOrders),
-    userDataStream: ref.watch(userDataStream),
+    userDataStream: ref.watch(userDataStreamProvider),
   ),
 );
-final userDataStream = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
+final userDataStreamProvider = Provider<UserDataStream>((ref) => UserDataStream(getUserDataStream: ref.watch(getUserDataStream)));
 final tickerStatsNotifierProvider = StateNotifierProvider<TickerStatsNotifier, TickerStatsState>(
   (ref) => TickerStatsNotifier(
     getLastTicker: ref.watch(getLastTickerProvider),
@@ -89,17 +94,19 @@ final tickerStatsNotifierProvider = StateNotifierProvider<TickerStatsNotifier, T
 );
 final stateHandlerProvider = Provider<StateHandler>(
   (ref) => StateHandler(
-    userDataStream: ref.watch(userDataStream),
+    userDataStream: ref.watch(userDataStreamProvider),
     accountInfoNotifier: ref.watch(accountInfoNotifierProvider.notifier),
     ordersNotifier: ref.watch(ordersNotifierProvider.notifier),
     bookTickerNotifier: ref.watch(bookTickerNotifierProvider.notifier),
+    tickerNotifier: ref.watch(tickerNotifierProvider.notifier),
     tickerStatsNotifier: ref.watch(tickerStatsNotifierProvider.notifier),
   ),
 );
 
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(marketRepositoryProvider)));
-final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref.watch(marketRepositoryProvider)));
+final getLastTickerProvider = Provider<GetLastTicker>((ref) => GetLastTicker(ref.watch(userRepositoryProvider)));
+final setLastTickerProvider = Provider<SetLastTicker>((ref) => SetLastTicker(ref.watch(userRepositoryProvider)));
 final getAccountInfo = Provider<GetAccountInfo>((ref) => GetAccountInfo(ref.watch(userRepositoryProvider)));
 final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(userRepositoryProvider)));
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
@@ -113,15 +120,11 @@ final tradeRepositoryProvider = Provider<TradeRepository>((ref) => TradeReposito
 final userRepositoryProvider = Provider<UserRepository>((ref) => UserRepositoryImpl(ref.watch(userDataSourceProvider)));
 
 // Data Sources
-final marketDataSourceProvider = Provider<MarketDataSource>(
-  (ref) => MarketDataSourceImpl(
-    sharedPreferences: ref.watch(sharedPreferencesProvider),
-    dataSourceUtils: ref.watch(dataSourceUtilsProvider),
-  ),
-);
+final marketDataSourceProvider = Provider<MarketDataSource>((ref) => MarketDataSourceImpl(ref.watch(dataSourceUtilsProvider)));
 final tradeDataSourceProvider = Provider<TradeDataSource>((ref) => TradeDataSourceImpl(ref.watch(httpClientProvider)));
 final userDataSourceProvider = Provider<UserDataSource>(
   (ref) => UserDataSourceImpl(
+    sharedPreferences: ref.watch(sharedPreferencesProvider),
     httpClient: ref.watch(httpClientProvider),
     dataSourceUtils: ref.watch(dataSourceUtilsProvider),
   ),
