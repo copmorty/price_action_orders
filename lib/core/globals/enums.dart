@@ -27,6 +27,7 @@ extension BinanceOrderSideExtension on BinanceOrderSide {
 extension BinanceOrderTypeExtension on BinanceOrderType {
   String toShortString() => enumToShortString(this);
   String capitalizeWords() => enumToCapitalizedWordsString(this);
+  String capitalizeCharacters() => enumToCapitalizedCharactersString(this);
 }
 
 extension BinanceOrderStatusExtension on BinanceOrderStatus {

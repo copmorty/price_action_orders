@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
-import 'row_division.dart';
+import 'popup_row_division.dart';
 
 class RowDivisionStatus extends StatelessWidget {
   final BinanceOrderStatus status;
