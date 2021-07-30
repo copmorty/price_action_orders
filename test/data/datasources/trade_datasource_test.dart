@@ -52,7 +52,7 @@ void main() {
   }
 
   group('postOrder limit', () {
-    final tJsonData = attachment('order_limit_response_full.json');
+    final tJsonData = attachment('order_response_full_limit.json');
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final LimitOrderRequest tLimitOrder = LimitOrderRequest(
       ticker: tTicker,
@@ -116,7 +116,7 @@ void main() {
   });
 
   group('postOrder market', () {
-    final tJsonData = attachment('order_market_response_full.json');
+    final tJsonData = attachment('order_response_full_market.json');
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final MarketOrderRequest tMarketOrder = MarketOrderRequest(
       ticker: tTicker,
@@ -186,32 +186,33 @@ void main() {
   });
 
   group('postOrder stop-limit', () {
-    final tJsonData = attachment('order_limit_response_full.json');
+    final tJsonData = attachment('order_response_full_stop_limit.json');
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final StopLimitOrderRequest tStopLimitOrder = StopLimitOrderRequest(
       ticker: tTicker,
-      side: BinanceOrderSide.SELL,
+      side: BinanceOrderSide.BUY,
       timeInForce: BinanceOrderTimeInForce.GTC,
-      currentMarketPrice: Decimal.parse('340'),
-      quantity: Decimal.parse('0.5'),
-      price: Decimal.parse('338'),
-      stopPrice: Decimal.parse('330'),
+      lastPrice: Decimal.parse('309.85'),
+      quantity: Decimal.one,
+      price: Decimal.parse('100'),
+      stopPrice: Decimal.parse('100'),
     );
     final OrderResponseFull tOrderResponseFull = OrderResponseFullModel(
       ticker: tTicker,
       symbol: 'BNBUSDT',
-      orderId: 4216025,
+      orderId: 5493331,
       orderListId: -1,
-      clientOrderId: 'vrS5zRiFj7dgxOuK9Pr7M4',
-      transactTime: 1624643274441,
-      price: Decimal.parse('338.00000000'),
-      origQty: Decimal.parse('0.50000000'),
-      executedQty: Decimal.parse('0.00000000'),
-      cummulativeQuoteQty: Decimal.parse('0.00000000'),
+      clientOrderId: 'dIjEz7FooSGgUVlmBbHTuD',
+      transactTime: 1627591503570,
+      stopPrice: Decimal.parse('100.00000000'),
+      price: Decimal.parse('100.00000000'),
+      origQty: Decimal.one,
+      executedQty: Decimal.zero,
+      cummulativeQuoteQty: Decimal.zero,
       status: BinanceOrderStatus.NEW,
       timeInForce: BinanceOrderTimeInForce.GTC,
-      type: BinanceOrderType.STOP_LOSS_LIMIT,
-      side: BinanceOrderSide.SELL,
+      type: BinanceOrderType.TAKE_PROFIT_LIMIT,
+      side: BinanceOrderSide.BUY,
       fills: [],
     );
 

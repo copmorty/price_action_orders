@@ -81,12 +81,12 @@ class _StopLimitFormState extends State<StopLimitForm> {
           final tickerStatsState = context.read(tickerStatsNotifierProvider);
 
           if (tickerStatsState is TickerStatsLoaded) {
-            final currentPrice = tickerStatsState.tickerStats.lastPrice;
+            final lastTradedPrice = tickerStatsState.tickerStats.lastPrice;
 
             final stopLimitOrder = StopLimitOrderRequest(
               ticker: Ticker(baseAsset: widget.baseAsset, quoteAsset: widget.quoteAsset),
               side: widget.binanceOrderSide,
-              currentMarketPrice: currentPrice,
+              lastPrice: lastTradedPrice,
               timeInForce: BinanceOrderTimeInForce.GTC,
               quantity: quantity,
               price: price,

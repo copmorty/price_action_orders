@@ -8,105 +8,30 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
-import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart' as pco;
-import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart' as plo;
-import 'package:price_action_orders/domain/usecases/post_trade_market_order.dart' as pmo;
+import 'package:price_action_orders/domain/usecases/post_trade_order.dart' as po;
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'trade_state_notifier_test.mocks.dart';
 
 @GenerateMocks([], customMocks: [
-  MockSpec<plo.PostLimitOrder>(as: #MockPostLimitOrder),
-  MockSpec<pmo.PostMarketOrder>(as: #MockPostMarketOrder),
+  MockSpec<po.PostOrder>(as: #MockPostOrder),
   MockSpec<pco.PostCancelOrder>(as: #MockPostCancelOrder),
 ])
 void main() {
   late TradeNotifier notifier;
-  late MockPostLimitOrder mockPostLimitOrder;
-  late MockPostMarketOrder mockPostMarketOrder;
+  late MockPostOrder mockPostOrder;
   late MockPostCancelOrder mockPostCancelOrder;
 
   setUp(() {
-    mockPostLimitOrder = MockPostLimitOrder();
-    mockPostMarketOrder = MockPostMarketOrder();
+    mockPostOrder = MockPostOrder();
     mockPostCancelOrder = MockPostCancelOrder();
-    notifier = TradeNotifier(postLimitOrder: mockPostLimitOrder, postMarketOrder: mockPostMarketOrder, postCancelOrder: mockPostCancelOrder);
+    notifier = TradeNotifier(postOrder: mockPostOrder, postCancelOrder: mockPostCancelOrder);
   });
 
-  group('postLimitOrder', () {
-    final tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
-    final tLimitOrder = LimitOrderRequest(
-      ticker: tTicker,
-      side: BinanceOrderSide.BUY,
-      timeInForce: BinanceOrderTimeInForce.GTC,
-      quantity: Decimal.parse('10.00000000'),
-      price: Decimal.parse('100.00000000'),
-    );
-    final tOrderResponse = OrderResponseFull(
-      ticker: tTicker,
-      symbol: 'BNBUSDT',
-      orderId: 123456,
-      orderListId: -1,
-      clientOrderId: '6gCrw2kRUAF9CvJDGP16IP',
-      transactTime: 1507725176595,
-      price: Decimal.parse('100.00000000'),
-      origQty: Decimal.parse('10.00000000'),
-      executedQty: Decimal.zero,
-      cummulativeQuoteQty: Decimal.zero,
-      status: BinanceOrderStatus.NEW,
-      timeInForce: BinanceOrderTimeInForce.GTC,
-      type: BinanceOrderType.LIMIT,
-      side: BinanceOrderSide.BUY,
-      fills: [],
-    );
-
-    test(
-      'should state TradeInitial, TradeLoading, and TradeLoaded when the request to the server is successful',
-      () async {
-        //arrange
-        final List<TradeState> tStates = [
-          TradeInitial(),
-          TradeLoading(tLimitOrder.timestamp),
-          TradeLoaded(tOrderResponse),
-        ];
-        final List<TradeState> actualStates = [];
-        notifier.addListener((state) => actualStates.add(state));
-        when(mockPostLimitOrder.call(plo.Params(tLimitOrder))).thenAnswer((_) async => Right(tOrderResponse));
-        //act
-        await notifier.postLimitOrder(tLimitOrder);
-        //assert
-        verify(mockPostLimitOrder.call(plo.Params(tLimitOrder)));
-        verifyNoMoreInteractions(mockPostLimitOrder);
-        expect(actualStates, tStates);
-      },
-    );
-
-    test(
-      'should state TradeInitial, TradeLoading, and TradeError when the request to the server is unsuccessful',
-      () async {
-        //arrange
-        final List<TradeState> tStates = [
-          TradeInitial(),
-          TradeLoading(tLimitOrder.timestamp),
-          TradeError(orderTimestamp: tLimitOrder.timestamp, message: 'Something went wrong.'),
-        ];
-        final List<TradeState> actualStates = [];
-        notifier.addListener((state) => actualStates.add(state));
-        when(mockPostLimitOrder.call(plo.Params(tLimitOrder))).thenAnswer((_) async => Left(ServerFailure()));
-        //act
-        await notifier.postLimitOrder(tLimitOrder);
-        //assert
-        verify(mockPostLimitOrder.call(plo.Params(tLimitOrder)));
-        verifyNoMoreInteractions(mockPostLimitOrder);
-        expect(actualStates, tStates);
-      },
-    );
-  });
-
-  group('postMarketOrder', () {
+  group('postOrder', () {
     final tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
     final tMarketOrder = MarketOrderRequest(
       ticker: tTicker,
@@ -157,12 +82,12 @@ void main() {
         ];
         final List<TradeState> actualStates = [];
         notifier.addListener((state) => actualStates.add(state));
-        when(mockPostMarketOrder.call(pmo.Params(tMarketOrder))).thenAnswer((_) async => Right(tOrderResponse));
+        when(mockPostOrder.call(po.Params(tMarketOrder))).thenAnswer((_) async => Right(tOrderResponse));
         //act
-        await notifier.postMarketOrder(tMarketOrder);
+        await notifier.postOrder(tMarketOrder);
         //assert
-        verify(mockPostMarketOrder.call(pmo.Params(tMarketOrder)));
-        verifyNoMoreInteractions(mockPostMarketOrder);
+        verify(mockPostOrder.call(po.Params(tMarketOrder)));
+        verifyNoMoreInteractions(mockPostOrder);
         expect(actualStates, tStates);
       },
     );
@@ -178,12 +103,12 @@ void main() {
         ];
         final List<TradeState> actualStates = [];
         notifier.addListener((state) => actualStates.add(state));
-        when(mockPostMarketOrder.call(pmo.Params(tMarketOrder))).thenAnswer((_) async => Left(ServerFailure()));
+        when(mockPostOrder.call(po.Params(tMarketOrder))).thenAnswer((_) async => Left(ServerFailure()));
         //act
-        await notifier.postMarketOrder(tMarketOrder);
+        await notifier.postOrder(tMarketOrder);
         //assert
-        verify(mockPostMarketOrder.call(pmo.Params(tMarketOrder)));
-        verifyNoMoreInteractions(mockPostMarketOrder);
+        verify(mockPostOrder.call(po.Params(tMarketOrder)));
+        verifyNoMoreInteractions(mockPostOrder);
         expect(actualStates, tStates);
       },
     );

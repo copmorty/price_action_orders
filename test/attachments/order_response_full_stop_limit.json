@@ -1,0 +1,17 @@
+{
+    "symbol": "BNBUSDT",
+    "orderId": 5493331,
+    "orderListId": -1,
+    "clientOrderId": "dIjEz7FooSGgUVlmBbHTuD",
+    "transactTime": 1627591503570,
+    "price": "100.00000000",
+    "origQty": "1.00000000",
+    "executedQty": "0.00000000",
+    "cummulativeQuoteQty": "0.00000000",
+    "status": "NEW",
+    "timeInForce": "GTC",
+    "type": "TAKE_PROFIT_LIMIT",
+    "side": "BUY",
+    "stopPrice": "100.00000000",
+    "fills": []
+}

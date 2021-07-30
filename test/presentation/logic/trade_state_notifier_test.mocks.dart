@@ -8,17 +8,15 @@ import 'package:dartz/dartz.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/core/error/failures.dart' as _i6;
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart'
-    as _i10;
+    as _i9;
 import 'package:price_action_orders/domain/entities/order_response_full.dart'
     as _i7;
 import 'package:price_action_orders/domain/repositories/trade_repository.dart'
     as _i2;
 import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart'
-    as _i9;
-import 'package:price_action_orders/domain/usecases/post_trade_limit_order.dart'
-    as _i4;
-import 'package:price_action_orders/domain/usecases/post_trade_market_order.dart'
     as _i8;
+import 'package:price_action_orders/domain/usecases/post_trade_order.dart'
+    as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -33,11 +31,11 @@ class _FakeEither<L, R> extends _i1.Fake implements _i3.Either<L, R> {
   String toString() => super.toString();
 }
 
-/// A class which mocks [PostLimitOrder].
+/// A class which mocks [PostOrder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPostLimitOrder extends _i1.Mock implements _i4.PostLimitOrder {
-  MockPostLimitOrder() {
+class MockPostOrder extends _i1.Mock implements _i4.PostOrder {
+  MockPostOrder() {
     _i1.throwOnMissingStub(this);
   }
 
@@ -55,32 +53,10 @@ class MockPostLimitOrder extends _i1.Mock implements _i4.PostLimitOrder {
           as _i5.Future<_i3.Either<_i6.Failure, _i7.OrderResponseFull>>);
 }
 
-/// A class which mocks [PostMarketOrder].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockPostMarketOrder extends _i1.Mock implements _i8.PostMarketOrder {
-  MockPostMarketOrder() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  _i2.TradeRepository get repository =>
-      (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeTradeRepository()) as _i2.TradeRepository);
-  @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.OrderResponseFull>> call(
-          _i8.Params? params) =>
-      (super.noSuchMethod(Invocation.method(#call, [params]),
-              returnValue:
-                  Future<_i3.Either<_i6.Failure, _i7.OrderResponseFull>>.value(
-                      _FakeEither<_i6.Failure, _i7.OrderResponseFull>()))
-          as _i5.Future<_i3.Either<_i6.Failure, _i7.OrderResponseFull>>);
-}
-
 /// A class which mocks [PostCancelOrder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPostCancelOrder extends _i1.Mock implements _i9.PostCancelOrder {
+class MockPostCancelOrder extends _i1.Mock implements _i8.PostCancelOrder {
   MockPostCancelOrder() {
     _i1.throwOnMissingStub(this);
   }
@@ -90,11 +66,11 @@ class MockPostCancelOrder extends _i1.Mock implements _i9.PostCancelOrder {
       (super.noSuchMethod(Invocation.getter(#repository),
           returnValue: _FakeTradeRepository()) as _i2.TradeRepository);
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i10.CancelOrderResponse>> call(
-          _i9.Params? params) =>
+  _i5.Future<_i3.Either<_i6.Failure, _i9.CancelOrderResponse>> call(
+          _i8.Params? params) =>
       (super.noSuchMethod(Invocation.method(#call, [params]),
           returnValue:
-              Future<_i3.Either<_i6.Failure, _i10.CancelOrderResponse>>.value(
-                  _FakeEither<_i6.Failure, _i10.CancelOrderResponse>())) as _i5
-          .Future<_i3.Either<_i6.Failure, _i10.CancelOrderResponse>>);
+              Future<_i3.Either<_i6.Failure, _i9.CancelOrderResponse>>.value(
+                  _FakeEither<_i6.Failure, _i9.CancelOrderResponse>())) as _i5
+          .Future<_i3.Either<_i6.Failure, _i9.CancelOrderResponse>>);
 }

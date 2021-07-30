@@ -9,6 +9,7 @@ import 'package:price_action_orders/data/datasources/market_datasource.dart';
 import 'package:price_action_orders/data/repositories/market_repository_impl.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'package:price_action_orders/domain/entities/ticker_stats.dart';
 import 'market_repository_impl_test.mocks.dart';
 
 final _bookTickers = [
@@ -47,7 +48,7 @@ void main() {
     final Stream<BookTicker> tBookTickerStream = Stream<BookTicker>.fromIterable(_bookTickers);
 
     test(
-      'should return BookTicker stream and cache the ticker when the call to data source is successful',
+      'should return BookTicker stream when the call to data source is successful',
       () async {
         //arrange
         when(mockMarketDataSource.getBookTickerStream(tTicker)).thenAnswer((_) async => tBookTickerStream);
@@ -55,7 +56,6 @@ void main() {
         final result = await repository.getBookTickerStream(tTicker);
         //assert
         verify(mockMarketDataSource.getBookTickerStream(tTicker));
-        verify(mockMarketDataSource.cacheLastTicker(tTicker));
         verifyNoMoreInteractions(mockMarketDataSource);
         expect(result, Right(tBookTickerStream));
       },
@@ -76,48 +76,35 @@ void main() {
     );
   });
 
-group('getTickerStatsStream', () {
-   test(
-     'should ',
-     () async {
-       //arrange
-       
-       //act
-       
-       //assert
-       expect(actual, matcher)
-     },
-   );
-});
-
-  group('getLastTicker', () {
-    final Ticker tTicker = Ticker(baseAsset: 'BTC', quoteAsset: 'USDT');
+  group('getTickerStatsStream', () {
+    final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
+    final Stream<TickerStats> tTickerStatsStream = Stream<TickerStats>.empty();
 
     test(
-      'should return a ticker when the call to data source is successful',
+      'should return TickerStats stream when the call to data source is successful',
       () async {
         //arrange
-        when(mockMarketDataSource.getLastTicker()).thenAnswer((_) async => tTicker);
+        when(mockMarketDataSource.getTickerStatsStream(tTicker)).thenAnswer((_) async => tTickerStatsStream);
         //act
-        final result = await repository.getLastTicker();
+        final result = await repository.getTickerStatsStream(tTicker);
         //assert
-        verify(mockMarketDataSource.getLastTicker());
+        verify(mockMarketDataSource.getTickerStatsStream(tTicker));
         verifyNoMoreInteractions(mockMarketDataSource);
-        expect(result, Right(tTicker));
+        expect(result, Right(tTickerStatsStream));
       },
     );
 
     test(
-      'should return cache failure when the call to data source is unsuccessful',
+      'should return server failure when the call to data source is unsuccessful',
       () async {
         //arrange
-        when(mockMarketDataSource.getLastTicker()).thenThrow(CacheException());
+        when(mockMarketDataSource.getTickerStatsStream(tTicker)).thenThrow(ServerException(message: "Could not obtain TickerStats stream."));
         //act
-        final result = await repository.getLastTicker();
+        final result = await repository.getTickerStatsStream(tTicker);
         //assert
-        verify(mockMarketDataSource.getLastTicker());
+        verify(mockMarketDataSource.getTickerStatsStream(tTicker));
         verifyNoMoreInteractions(mockMarketDataSource);
-        expect(result, Left(CacheFailure()));
+        expect(result, Left(ServerFailure(message: "Could not obtain TickerStats stream.")));
       },
     );
   });

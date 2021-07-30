@@ -4,37 +4,32 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
-import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/datasources/market_datasource.dart';
-import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../../attachments/attachment_reader.dart';
+import 'package:price_action_orders/domain/entities/ticker_stats.dart';
 import 'market_datasource_test.mocks.dart';
 
 class FakeWebSocket extends Fake implements WebSocket {
-  StreamSubscription<BookTicker> _streamSubscription = Stream<BookTicker>.empty().listen((event) {});
+  StreamSubscription<dynamic> _streamSubscription = Stream<dynamic>.empty().listen((event) {});
 
   @override
   int get readyState => WebSocket.open;
   @override
   Future<void> close([int? code, String? reason]) => _streamSubscription.cancel();
   @override
-  StreamSubscription<BookTicker> listen(void onData(BookTicker event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
+  StreamSubscription<dynamic> listen(void onData(dynamic event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
 }
 
-@GenerateMocks([SharedPreferences, DataSourceUtils])
+@GenerateMocks([DataSourceUtils])
 void main() {
   late MarketDataSourceImpl dataSource;
-  late MockSharedPreferences mockSharedPreferences;
   late MockDataSourceUtils mockDataSourceUtils;
 
   setUp(() {
-    mockSharedPreferences = MockSharedPreferences();
     mockDataSourceUtils = MockDataSourceUtils();
-    dataSource = MarketDataSourceImpl(sharedPreferences: mockSharedPreferences, dataSourceUtils: mockDataSourceUtils);
+    dataSource = MarketDataSourceImpl(mockDataSourceUtils);
   });
 
   group('getBookTickerStream', () {
@@ -68,63 +63,31 @@ void main() {
   });
 
   group('getTickerStatsStream', () {
-     test(
-       'should ',
-       () async {
-         //arrange
-         
-         //act
-         
-         //assert
-         expect(actual, matcher)
-       },
-     );
-  });
-
-  group('cacheLastTicker', () {
     final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
+    final FakeWebSocket tWebSocket = FakeWebSocket();
+    tWebSocket.close();
 
     test(
-      'should call shared preferences to save the ticker',
+      'should establish a websocket connection and return a ticker stats stream when the communication is successful',
       () async {
         //arrange
-        when(mockSharedPreferences.setString(LAST_TICKER, any)).thenAnswer((_) async => true);
+        when(mockDataSourceUtils.webSocketConnect(any)).thenAnswer((_) async => tWebSocket);
         //act
-        await dataSource.cacheLastTicker(tTicker);
+        final result = await dataSource.getTickerStatsStream(tTicker);
         //assert
-        verify((mockSharedPreferences.setString(LAST_TICKER, any)));
-        verifyNoMoreInteractions(mockSharedPreferences);
-      },
-    );
-  });
-
-  group('getLastTicker', () {
-    final Ticker tTicker = TickerModel(baseAsset: 'BNB', quoteAsset: 'USDT');
-
-    test(
-      'should retrieve a previously cached ticker',
-      () async {
-        //arrange
-        final String jsonString = attachment('ticker.json');
-        when(mockSharedPreferences.getString(LAST_TICKER)).thenReturn(jsonString);
-        //act
-        final result = await dataSource.getLastTicker();
-        //assert
-        verify(mockSharedPreferences.getString(LAST_TICKER));
-        verifyNoMoreInteractions(mockSharedPreferences);
-        expect(result, tTicker);
+        verify(mockDataSourceUtils.webSocketConnect(any));
+        verifyNoMoreInteractions(mockDataSourceUtils);
+        expect(result, isA<Stream<TickerStats>>());
       },
     );
 
     test(
-      'should throw a cache exception when there is no ticker saved',
+      'should throw a server exception when the communication is unsuccessful',
       () async {
         //arrange
-        when(mockSharedPreferences.getString(LAST_TICKER)).thenReturn(null);
-        //act
-        final call = dataSource.getLastTicker;
+        when(mockDataSourceUtils.webSocketConnect(any)).thenThrow(Error());
         //assert
-        expect(() => call(), throwsA(isInstanceOf<CacheException>()));
+        expect(() => dataSource.getTickerStatsStream(tTicker), throwsA(isInstanceOf<ServerException>()));
       },
     );
   });

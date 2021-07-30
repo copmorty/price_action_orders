@@ -54,14 +54,13 @@ void main() {
   );
 
   test(
-    'symbol should ',
+    'symbol getter should return a lowercase string',
     () async {
-      //arrange
-      
       //act
-      
+      final symbol = tTickerModel.symbol;
       //assert
-      expect(actual, matcher)
+      final expectedString = (tTickerModel.baseAsset + tTickerModel.quoteAsset).toLowerCase();
+      expect(symbol, expectedString);
     },
   );
 }

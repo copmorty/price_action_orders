@@ -6,51 +6,53 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
-import 'package:price_action_orders/domain/entities/order_request_market.dart';
+import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
-import 'package:price_action_orders/domain/usecases/post_trade_market_order.dart';
-import 'post_trade_market_order_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/post_trade_order.dart';
+import 'post_trade_order_test.mocks.dart';
 
 @GenerateMocks([TradeRepository])
 void main() {
-  late PostMarketOrder usecase;
+  late PostOrder usecase;
   late MockTradeRepository mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();
-    usecase = PostMarketOrder(mockTradeRepository);
+    usecase = PostOrder(mockTradeRepository);
   });
 
   final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
-  final MarketOrderRequest tMarketOrder = MarketOrderRequest(
+  final LimitOrderRequest tLimitOrder = LimitOrderRequest(
     ticker: tTicker,
-    side: BinanceOrderSide.BUY,
-    quoteOrderQty: Decimal.parse('20'),
+    side: BinanceOrderSide.SELL,
+    timeInForce: BinanceOrderTimeInForce.GTC,
+    quantity: Decimal.parse('0.5'),
+    price: Decimal.parse('338'),
   );
   final tOrderResponseFull = OrderResponseFull(
     ticker: tTicker,
     symbol: 'BNBUSDT',
-    orderId: 3065299,
+    orderId: 3064643,
     orderListId: -1,
-    clientOrderId: 'T2Np7YlcUojhYefWoqqBga',
-    transactTime: 1624117720140,
-    price: Decimal.parse('0.00000000'),
-    origQty: Decimal.parse('0.05000000'),
-    executedQty: Decimal.parse('0.05000000'),
-    cummulativeQuoteQty: Decimal.parse('16.96450000'),
+    clientOrderId: 'CfH1n7Zof0XrvDf0vMTc0c',
+    transactTime: 1624117403814,
+    price: Decimal.parse('338.00000000'),
+    origQty: Decimal.parse('0.50000000'),
+    executedQty: Decimal.parse('0.50000000'),
+    cummulativeQuoteQty: Decimal.parse('169.76000000'),
     status: BinanceOrderStatus.FILLED,
     timeInForce: BinanceOrderTimeInForce.GTC,
-    type: BinanceOrderType.MARKET,
-    side: BinanceOrderSide.BUY,
+    type: BinanceOrderType.LIMIT,
+    side: BinanceOrderSide.SELL,
     fills: [
       OrderFill(
-        price: Decimal.parse('339.29000000'),
-        quantity: Decimal.parse('0.05000000'),
+        price: Decimal.parse('339.52000000'),
+        quantity: Decimal.parse('0.50000000'),
         commission: Decimal.parse('0.00000000'),
-        commissionAsset: 'BNB',
-        tradeId: 392000,
+        commissionAsset: 'USDT',
+        tradeId: 391921,
       ),
     ],
   );
@@ -59,11 +61,11 @@ void main() {
     'should return a full order response when the call to the repository is successful',
     () async {
       //arrange
-      when(mockTradeRepository.postMarketOrder(tMarketOrder)).thenAnswer((_) async => Right(tOrderResponseFull));
+      when(mockTradeRepository.postOrder(tLimitOrder)).thenAnswer((_) async => Right(tOrderResponseFull));
       //act
-      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tMarketOrder));
+      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tLimitOrder));
       //assert
-      verify(mockTradeRepository.postMarketOrder(tMarketOrder));
+      verify(mockTradeRepository.postOrder(tLimitOrder));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Right(tOrderResponseFull));
     },
@@ -73,11 +75,11 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockTradeRepository.postMarketOrder(tMarketOrder)).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockTradeRepository.postOrder(tLimitOrder)).thenAnswer((_) async => Left(ServerFailure()));
       //act
-      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tMarketOrder));
+      final Either<Failure, OrderResponseFull>? result = await usecase(Params(tLimitOrder));
       //assert
-      verify(mockTradeRepository.postMarketOrder(tMarketOrder));
+      verify(mockTradeRepository.postOrder(tLimitOrder));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Left(ServerFailure()));
     },

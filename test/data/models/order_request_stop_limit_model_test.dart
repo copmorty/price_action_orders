@@ -11,7 +11,7 @@ void main() {
     ticker: tTicker,
     side: BinanceOrderSide.SELL,
     timeInForce: BinanceOrderTimeInForce.GTC,
-    currentMarketPrice: Decimal.parse('340'),
+    lastPrice: Decimal.parse('340'),
     quantity: Decimal.parse('0.5'),
     price: Decimal.parse('338'),
     stopPrice: Decimal.parse('330'),
