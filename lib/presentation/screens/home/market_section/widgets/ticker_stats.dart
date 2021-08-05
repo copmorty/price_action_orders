@@ -16,7 +16,7 @@ class TickerStatsBoard extends ConsumerWidget {
 
     if (tickerStatsState is TickerStatsInitial) return SizedBox();
     if (tickerStatsState is TickerStatsLoading) return LoadingWidget();
-    if (tickerStatsState is TickerStatsError) return _TickerStatsErrorWidget();
+    if (tickerStatsState is TickerStatsError) return SizedBox();
     if (tickerStatsState is TickerStatsLoaded) return _TickerStatsDisplay(tickerStatsState.tickerStats);
 
     return SizedBox();
@@ -36,16 +36,9 @@ class _TickerStatsDisplay extends StatelessWidget {
         TickerStatsChangeInfo(priceChange: tickerStats.priceChange, priceChangePercent: tickerStats.priceChangePercent),
         TickerStatsInfo(label: '24h High', value: tickerStats.highPrice),
         TickerStatsInfo(label: '24h Low', value: tickerStats.lowPrice),
+        TickerStatsInfo(label: '24h Volume(${tickerStats.ticker.baseAsset})', value: tickerStats.totalTradedBaseAssetVolume),
+        TickerStatsInfo(label: '24h Volume(${tickerStats.ticker.quoteAsset})', value: tickerStats.totalTradedQuoteAssetVolume),
       ],
     );
-  }
-}
-
-class _TickerStatsErrorWidget extends StatelessWidget {
-  const _TickerStatsErrorWidget({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

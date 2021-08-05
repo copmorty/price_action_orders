@@ -26,6 +26,8 @@ final Color whiteColorOp10 = Colors.white.withOpacity(0.1);
 
 final Color greyColor = Colors.grey;
 final Color greyColor700 = Colors.grey.shade700;
+final Color greyColor800 = Colors.grey.shade800;
+// final Color greyColor850 = Colors.grey.shade850;
 final Color greyWhiteColor = Colors.white54;
 
 final Color blackColor = Colors.black;

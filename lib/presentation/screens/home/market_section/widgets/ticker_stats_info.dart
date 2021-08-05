@@ -1,5 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
+import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class TickerStatsInfo extends StatelessWidget {
   final String label;
@@ -15,8 +16,9 @@ class TickerStatsInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label),
-        Text(value.toString()),
+        Text(label, style: TextStyle(fontSize: 10, color: whiteColorOp70)),
+        SizedBox(height: 5),
+        Text(value.toString(), style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600)),
       ],
     );
   }

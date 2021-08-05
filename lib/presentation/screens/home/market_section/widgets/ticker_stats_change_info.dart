@@ -17,7 +17,7 @@ class TickerStatsChangeInfo extends StatelessWidget {
     late Color priceColor;
     final String p = priceChange.toString();
     String pp = '';
-    
+
     if (priceChangePercent.isNegative)
       priceColor = sellColor;
     else {
@@ -29,10 +29,11 @@ class TickerStatsChangeInfo extends StatelessWidget {
 
     return Column(
       children: [
-        Text('24h Change'),
+        Text('24h Change', style: TextStyle(fontSize: 10, color: whiteColorOp70)),
+        SizedBox(height: 5),
         Text(
           '$p $pp',
-          style: TextStyle(color: priceColor),
+          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: priceColor),
         ),
       ],
     );
