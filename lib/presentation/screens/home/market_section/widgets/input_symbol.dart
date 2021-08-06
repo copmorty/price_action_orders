@@ -6,8 +6,9 @@ import 'package:price_action_orders/presentation/shared/colors.dart';
 
 class InputSymbol extends StatefulWidget {
   final bool minimize;
+  final void Function()? callback;
 
-  const InputSymbol({Key? key, this.minimize = false}) : super(key: key);
+  const InputSymbol({Key? key, this.minimize = false, this.callback}) : super(key: key);
 
   @override
   _InputSymbolState createState() => _InputSymbolState();
@@ -30,10 +31,9 @@ class _InputSymbolState extends State<InputSymbol> {
 
     if (baseAsset == '' || quoteAsset == '') return;
 
-    _baseAssetController.clear();
-    _quoteAssetcontroller.clear();
     FocusScope.of(context).unfocus();
     context.read(stateHandlerProvider).dispatchTicker(Ticker(baseAsset: baseAsset, quoteAsset: quoteAsset));
+    if (widget.callback != null) widget.callback!();
   }
 
   @override

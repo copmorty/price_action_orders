@@ -47,7 +47,7 @@ class _CurrentTickerState extends State<CurrentTicker> {
                   color: greyColor800,
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                 ),
-                child: Center(child: InputSymbol(minimize: true)),
+                child: Center(child: InputSymbol(minimize: true, callback: () => _destroyFloatingDropdown(childOverlayKey))),
               ),
             ),
           ),
