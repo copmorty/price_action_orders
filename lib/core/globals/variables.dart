@@ -8,3 +8,6 @@ String binanceWebSocketUrl = appMode == AppMode.PRODUCTION ? BINANCE_REAL_WEBSOC
 
 String apiKey = 'YOUR-API-KEY-HERE';
 String apiSecret = 'YOUR-API-SECRET-HERE';
+
+int currentTickerPriceDecimalDigits = 8;
+int currentTickerBaseVolumeDecimalDigits = 8;

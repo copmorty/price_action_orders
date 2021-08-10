@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:price_action_orders/core/extensions/decimal_extension.dart';
+import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
@@ -34,8 +36,15 @@ class _BookTickerDisplay extends StatelessWidget {
   TableRow _buildBookRow({required Color rowColor, required Decimal price, required Decimal qty}) {
     return TableRow(
       children: [
-        Text(price.toStringAsFixed(8), style: TextStyle(color: rowColor, fontSize: 30, fontWeight: FontWeight.w600)),
-        Text(qty.toStringAsFixed(8), style: TextStyle(color: whiteColorOp50, fontSize: 30, fontWeight: FontWeight.normal), textAlign: TextAlign.end),
+        Text(
+          price.toCrypto(decimalDigits: currentTickerPriceDecimalDigits),
+          style: TextStyle(color: rowColor, fontSize: 30, fontWeight: FontWeight.w600),
+        ),
+        Text(
+          qty.toCrypto(decimalDigits: currentTickerBaseVolumeDecimalDigits),
+          style: TextStyle(color: whiteColorOp50, fontSize: 30, fontWeight: FontWeight.normal),
+          textAlign: TextAlign.end,
+        ),
       ],
     );
   }

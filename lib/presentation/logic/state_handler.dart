@@ -28,10 +28,13 @@ class StateHandler {
         _tickerNotifier = tickerNotifier,
         _tickerStatsNotifier = tickerStatsNotifier;
 
-  void dispatchTicker(Ticker ticker) {
-    _bookTickerNotifier.streamBookTicker(ticker);
-    _tickerStatsNotifier.streamTickerStats(ticker);
-    _tickerNotifier.setLoaded(ticker);
+  Future<void> dispatchTicker(Ticker ticker) async {
+    final tickerFound = await _tickerNotifier.setTicker(ticker);
+
+    if (tickerFound) {
+      _bookTickerNotifier.streamBookTicker(ticker);
+      _tickerStatsNotifier.streamTickerStats(ticker);
+    }
   }
 
   void _reloadUserStreams() {
