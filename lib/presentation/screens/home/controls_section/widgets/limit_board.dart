@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/stop_limit_form.dart';
 import 'trade_form_header.dart';
-import 'limit_buy_form.dart';
-import 'limit_sell_form.dart';
 
 class LimitBoard extends StatelessWidget {
   final String baseAsset;
@@ -23,7 +22,7 @@ class LimitBoard extends StatelessWidget {
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.BUY),
               SizedBox(height: 13),
-              LimitBuyForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
+              StopLimitForm(appOrderType: AppOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.BUY, baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),
@@ -33,7 +32,7 @@ class LimitBoard extends StatelessWidget {
             children: [
               TradeFormHeader(baseAsset: baseAsset, quoteAsset: quoteAsset, side: BinanceOrderSide.SELL),
               SizedBox(height: 13),
-              LimitSellForm(baseAsset: baseAsset, quoteAsset: quoteAsset),
+              StopLimitForm(appOrderType: AppOrderType.LIMIT, binanceOrderSide: BinanceOrderSide.SELL, baseAsset: baseAsset, quoteAsset: quoteAsset),
             ],
           ),
         ),

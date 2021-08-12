@@ -52,4 +52,15 @@ void main() {
       expect(result, expectedMap);
     },
   );
+
+  test(
+    'symbol getter should return a lowercase string',
+    () async {
+      //act
+      final symbol = tTickerModel.symbol;
+      //assert
+      final expectedString = (tTickerModel.baseAsset + tTickerModel.quoteAsset).toLowerCase();
+      expect(symbol, expectedString);
+    },
+  );
 }

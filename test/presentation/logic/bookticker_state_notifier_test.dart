@@ -9,24 +9,20 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream.dart';
-import 'package:price_action_orders/domain/usecases/get_market_last_ticker.dart';
+import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart';
 import 'package:price_action_orders/presentation/logic/bookticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart';
 import 'bookticker_state_notifier_test.mocks.dart';
 
-@GenerateMocks([GetLastTicker, GetBookTickerStream, OrderConfigNotifier])
+@GenerateMocks([GetLastTicker, GetBookTickerStream])
 void main() {
   late BookTickerNotifier notifier;
   late MockGetLastTicker mockGetLastTicker;
   late MockGetBookTickerStream mockGetBookTickerStream;
-  late MockOrderConfigNotifier mockOrderConfigNotifier;
 
   setUp(() {
     mockGetLastTicker = MockGetLastTicker();
     mockGetBookTickerStream = MockGetBookTickerStream();
-    mockOrderConfigNotifier = MockOrderConfigNotifier();
-    notifier = BookTickerNotifier(
-        getLastTicker: mockGetLastTicker, getBookTickerStream: mockGetBookTickerStream, orderConfigNotifier: mockOrderConfigNotifier, init: false);
+    notifier = BookTickerNotifier(getLastTicker: mockGetLastTicker, getBookTickerStream: mockGetBookTickerStream, init: false);
   });
 
   group('initialization', () {
@@ -42,21 +38,6 @@ void main() {
     );
 
     test(
-      'should not call streamBookTicker when there is no ticker cached',
-      () async {
-        //arrange
-        when(mockGetLastTicker.call(NoParams())).thenAnswer((_) async => Left(CacheFailure()));
-        //act
-        await notifier.initialization();
-        //assert
-        verify(mockGetLastTicker.call(NoParams()));
-        verifyNoMoreInteractions(mockGetLastTicker);
-        verifyZeroInteractions(mockGetBookTickerStream);
-        verifyZeroInteractions(mockOrderConfigNotifier);
-      },
-    );
-
-    test(
       'should call streamBookTicker when there is a ticker cached',
       () async {
         when(mockGetLastTicker.call(NoParams())).thenAnswer((_) async => Right(tTicker));
@@ -69,6 +50,21 @@ void main() {
         verify(mockGetBookTickerStream.call(Params(tTicker)));
         verifyNoMoreInteractions(mockGetLastTicker);
         verifyNoMoreInteractions(mockGetBookTickerStream);
+      },
+    );
+
+    test(
+      'should not call streamBookTicker when there is no ticker cached',
+      () async {
+        //arrange
+        when(mockGetLastTicker.call(NoParams())).thenAnswer((_) async => Left(CacheFailure()));
+        //act
+        await notifier.initialization();
+        await Future.delayed(const Duration(milliseconds: 100), () {});
+        //assert
+        verify(mockGetLastTicker.call(NoParams()));
+        verifyNoMoreInteractions(mockGetLastTicker);
+        verifyZeroInteractions(mockGetBookTickerStream);
       },
     );
   });
@@ -101,11 +97,8 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
-        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
-        verify(mockOrderConfigNotifier.setLoaded(tTicker));
         verifyNoMoreInteractions(mockGetBookTickerStream);
-        verifyNoMoreInteractions(mockOrderConfigNotifier);
         expect(actualStates, tStates);
       },
     );
@@ -126,9 +119,7 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
-        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
-        verifyNoMoreInteractions(mockOrderConfigNotifier);
         verifyNoMoreInteractions(mockGetBookTickerStream);
         expect(actualStates, tStates);
       },
@@ -150,11 +141,8 @@ void main() {
         await notifier.streamBookTicker(tTicker);
         await Future.delayed(const Duration(milliseconds: 100), () {});
         //assert
-        verify(mockOrderConfigNotifier.setLoading());
         verify(mockGetBookTickerStream.call(Params(tTicker)));
-        verify(mockOrderConfigNotifier.setLoaded(tTicker));
         verifyNoMoreInteractions(mockGetBookTickerStream);
-        verifyNoMoreInteractions(mockOrderConfigNotifier);
         expect(actualStates, tStates);
       },
     );

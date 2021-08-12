@@ -11,14 +11,13 @@ import 'package:price_action_orders/core/usecases/usecase.dart' as _i9;
 import 'package:price_action_orders/domain/entities/bookticker.dart' as _i11;
 import 'package:price_action_orders/domain/entities/ticker.dart' as _i8;
 import 'package:price_action_orders/domain/repositories/market_respository.dart'
+    as _i4;
+import 'package:price_action_orders/domain/repositories/user_repository.dart'
     as _i2;
 import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream.dart'
     as _i10;
-import 'package:price_action_orders/domain/usecases/get_market_last_ticker.dart'
+import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart'
     as _i5;
-import 'package:price_action_orders/presentation/logic/orderconfig_state_notifier.dart'
-    as _i4;
-import 'package:state_notifier/state_notifier.dart' as _i12;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -26,14 +25,14 @@ import 'package:state_notifier/state_notifier.dart' as _i12;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
-class _FakeMarketRepository extends _i1.Fake implements _i2.MarketRepository {}
+class _FakeUserRepository extends _i1.Fake implements _i2.UserRepository {}
 
 class _FakeEither<L, R> extends _i1.Fake implements _i3.Either<L, R> {
   @override
   String toString() => super.toString();
 }
 
-class _FakeOrderConfigState extends _i1.Fake implements _i4.OrderConfigState {}
+class _FakeMarketRepository extends _i1.Fake implements _i4.MarketRepository {}
 
 /// A class which mocks [GetLastTicker].
 ///
@@ -44,9 +43,9 @@ class MockGetLastTicker extends _i1.Mock implements _i5.GetLastTicker {
   }
 
   @override
-  _i2.MarketRepository get repository =>
+  _i2.UserRepository get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeMarketRepository()) as _i2.MarketRepository);
+          returnValue: _FakeUserRepository()) as _i2.UserRepository);
   @override
   _i6.Future<_i3.Either<_i7.Failure, _i8.Ticker>> call(_i9.NoParams? params) =>
       (super.noSuchMethod(Invocation.method(#call, [params]),
@@ -65,9 +64,9 @@ class MockGetBookTickerStream extends _i1.Mock
   }
 
   @override
-  _i2.MarketRepository get repository =>
+  _i4.MarketRepository get repository =>
       (super.noSuchMethod(Invocation.getter(#repository),
-          returnValue: _FakeMarketRepository()) as _i2.MarketRepository);
+          returnValue: _FakeMarketRepository()) as _i4.MarketRepository);
   @override
   _i6.Future<_i3.Either<_i7.Failure, _i6.Stream<_i11.BookTicker>>> call(
           _i10.Params? params) =>
@@ -76,61 +75,4 @@ class MockGetBookTickerStream extends _i1.Mock
                   _i3.Either<_i7.Failure, _i6.Stream<_i11.BookTicker>>>.value(
               _FakeEither<_i7.Failure, _i6.Stream<_i11.BookTicker>>())) as _i6
           .Future<_i3.Either<_i7.Failure, _i6.Stream<_i11.BookTicker>>>);
-}
-
-/// A class which mocks [OrderConfigNotifier].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockOrderConfigNotifier extends _i1.Mock
-    implements _i4.OrderConfigNotifier {
-  MockOrderConfigNotifier() {
-    _i1.throwOnMissingStub(this);
-  }
-
-  @override
-  set onError(_i12.ErrorListener? _onError) =>
-      super.noSuchMethod(Invocation.setter(#onError, _onError),
-          returnValueForMissingStub: null);
-  @override
-  bool get mounted =>
-      (super.noSuchMethod(Invocation.getter(#mounted), returnValue: false)
-          as bool);
-  @override
-  _i6.Stream<_i4.OrderConfigState> get stream =>
-      (super.noSuchMethod(Invocation.getter(#stream),
-              returnValue: Stream<_i4.OrderConfigState>.empty())
-          as _i6.Stream<_i4.OrderConfigState>);
-  @override
-  _i4.OrderConfigState get state =>
-      (super.noSuchMethod(Invocation.getter(#state),
-          returnValue: _FakeOrderConfigState()) as _i4.OrderConfigState);
-  @override
-  set state(_i4.OrderConfigState? value) =>
-      super.noSuchMethod(Invocation.setter(#state, value),
-          returnValueForMissingStub: null);
-  @override
-  _i4.OrderConfigState get debugState =>
-      (super.noSuchMethod(Invocation.getter(#debugState),
-          returnValue: _FakeOrderConfigState()) as _i4.OrderConfigState);
-  @override
-  bool get hasListeners =>
-      (super.noSuchMethod(Invocation.getter(#hasListeners), returnValue: false)
-          as bool);
-  @override
-  void setLoading() => super.noSuchMethod(Invocation.method(#setLoading, []),
-      returnValueForMissingStub: null);
-  @override
-  void setLoaded(_i8.Ticker? ticker) =>
-      super.noSuchMethod(Invocation.method(#setLoaded, [ticker]),
-          returnValueForMissingStub: null);
-  @override
-  _i12.RemoveListener addListener(_i12.Listener<_i4.OrderConfigState>? listener,
-          {bool? fireImmediately = true}) =>
-      (super.noSuchMethod(
-          Invocation.method(
-              #addListener, [listener], {#fireImmediately: fireImmediately}),
-          returnValue: () {}) as _i12.RemoveListener);
-  @override
-  void dispose() => super.noSuchMethod(Invocation.method(#dispose, []),
-      returnValueForMissingStub: null);
 }

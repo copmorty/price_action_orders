@@ -10,6 +10,7 @@ import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/data/repositories/user_repository_impl.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'user_repository_impl_test.mocks.dart';
 
@@ -184,6 +185,64 @@ void main() {
         final result = await repository.getUserDataStream();
         //assert
         expect(result, Left(ServerFailure(message: "Could not obtain UserData stream.")));
+      },
+    );
+  });
+
+  group('getLastTicker', () {
+    final Ticker tTicker = Ticker(baseAsset: 'BTC', quoteAsset: 'USDT');
+
+    test(
+      'should return a ticker when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataSource.getLastTicker()).thenAnswer((_) async => tTicker);
+        //act
+        final result = await repository.getLastTicker();
+        //assert
+        verify(mockUserDataSource.getLastTicker());
+        verifyNoMoreInteractions(mockUserDataSource);
+        expect(result, Right(tTicker));
+      },
+    );
+
+    test(
+      'should return cache failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataSource.getLastTicker()).thenThrow(CacheException());
+        //act
+        final result = await repository.getLastTicker();
+        //assert
+        verify(mockUserDataSource.getLastTicker());
+        verifyNoMoreInteractions(mockUserDataSource);
+        expect(result, Left(CacheFailure()));
+      },
+    );
+  });
+
+  group('setLastTicker', () {
+    final Ticker tTicker = Ticker(baseAsset: 'BTC', quoteAsset: 'USDT');
+
+    test(
+      'should return null when the call to data source is successful',
+      () async {
+        //act
+        final result = await repository.setLastTicker(tTicker);
+        //assert
+        expect(result, Right(null));
+      },
+    );
+
+    test(
+      'should return cache failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataSource.cacheLastTicker(tTicker)).thenThrow(Exception());
+        //act
+        final result = await repository.setLastTicker(tTicker);
+        //assert
+        expect(result, Left(CacheFailure()));
       },
     );
   });

@@ -6,11 +6,11 @@ class BookTickerModel extends BookTicker {
   BookTickerModel({
     required int updatedId,
     required String symbol,
-    required Ticker ticker,
     required Decimal bidPrice,
     required Decimal bidQty,
     required Decimal askPrice,
     required Decimal askQty,
+    required Ticker ticker,
   }) : super(
           updatedId: updatedId,
           symbol: symbol,
@@ -25,11 +25,11 @@ class BookTickerModel extends BookTicker {
     return BookTickerModel(
       updatedId: parsedJson['u'],
       symbol: parsedJson['s'],
-      ticker: ticker,
       bidPrice: Decimal.parse(parsedJson['b']),
       bidQty: Decimal.parse(parsedJson['B']),
       askPrice: Decimal.parse(parsedJson['a']),
       askQty: Decimal.parse(parsedJson['A']),
+      ticker: ticker,
     );
   }
 }

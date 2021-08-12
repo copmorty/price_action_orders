@@ -3,22 +3,29 @@ import 'dart:convert';
 import 'dart:io' show WebSocket;
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
+import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
+import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_orderupdate_model.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class UserDataSource {
   Future<UserData> getAccountInfo();
   Future<List<Order>> getOpenOrders();
   Future<Stream<dynamic>> getUserDataStream();
+  Future<void> cacheLastTicker(Ticker ticker);
+  Future<Ticker> getLastTicker();
 }
 
 class UserDataSourceImpl implements UserDataSource {
+  final SharedPreferences sharedPreferences;
   final http.Client httpClient;
   final DataSourceUtils dataSourceUtils;
   WebSocket? _webSocket;
@@ -26,6 +33,7 @@ class UserDataSourceImpl implements UserDataSource {
   Timer? _timer;
 
   UserDataSourceImpl({
+    required this.sharedPreferences,
     required this.httpClient,
     required this.dataSourceUtils,
   });
@@ -147,14 +155,14 @@ class UserDataSourceImpl implements UserDataSource {
       if (_webSocket!.readyState == WebSocket.open) {
         _webSocket!.listen(
           (data) {
-            final Map jsonData = jsonDecode(data);
-            dynamic finalData;
+            final Map<String, dynamic> jsonData = jsonDecode(data);
+            dynamic? finalData;
 
             if (jsonData['e'] == 'outboundAccountPosition') {
-              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData as Map<String, dynamic>);
+              finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
             } else if (jsonData['e'] == 'balanceUpdate') {
             } else if (jsonData['e'] == 'executionReport') {
-              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData as Map<String, dynamic>);
+              finalData = UserDataPayloadOrderUpdateModel.fromJson(jsonData);
             }
 
             if (finalData != null) _streamController!.add(finalData);
@@ -177,5 +185,24 @@ class UserDataSourceImpl implements UserDataSource {
     }
 
     return _streamController!.stream;
+  }
+
+  @override
+  Future<Ticker> getLastTicker() async {
+    final jsonString = sharedPreferences.getString(LAST_TICKER);
+    if (jsonString == null) {
+      throw CacheException();
+    } else {
+      return TickerModel.fromJson(jsonDecode(jsonString));
+    }
+  }
+
+  @override
+  Future<void> cacheLastTicker(Ticker ticker) async {
+    final tickerModel = TickerModel.fromTicker(ticker);
+    await sharedPreferences.setString(
+      LAST_TICKER,
+      jsonEncode(tickerModel.toJson()),
+    );
   }
 }

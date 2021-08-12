@@ -6,18 +6,22 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
+import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
+import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
+import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../attachments/attachment_reader.dart';
 import 'user_datasource_test.mocks.dart';
 
-class FakeWebSocket extends Fake implements WebSocket {
+class _FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<dynamic> _streamSubscription = Stream<dynamic>.empty().listen((event) {});
 
   @override
@@ -28,16 +32,18 @@ class FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<dynamic> listen(void onData(dynamic event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
 }
 
-@GenerateMocks([DataSourceUtils], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
+@GenerateMocks([SharedPreferences, DataSourceUtils], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
 void main() {
+  late MockSharedPreferences mockSharedPreferences;
   late UserDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
   late MockDataSourceUtils mockDataSourceUtils;
 
   setUp(() {
+    mockSharedPreferences = MockSharedPreferences();
     mockHttpClient = MockHttpClient();
     mockDataSourceUtils = MockDataSourceUtils();
-    dataSource = UserDataSourceImpl(httpClient: mockHttpClient, dataSourceUtils: mockDataSourceUtils);
+    dataSource = UserDataSourceImpl(sharedPreferences: mockSharedPreferences, httpClient: mockHttpClient, dataSourceUtils: mockDataSourceUtils);
   });
 
   void setUpMockHttpClientSuccess200(String method, String jsonData) {
@@ -213,7 +219,7 @@ void main() {
   group('getUserDataStream', () {
     final tJsonData = attachment('listen_key.json');
     final Timer timerResponse = Timer.periodic(Duration(minutes: 1), (timer) {});
-    final FakeWebSocket tWebSocket = FakeWebSocket();
+    final _FakeWebSocket tWebSocket = _FakeWebSocket();
     tWebSocket.close();
 
     test(
@@ -255,6 +261,54 @@ void main() {
         final call = dataSource.getUserDataStream;
         //assert
         expect(call(), throwsA(isInstanceOf<ServerException>()));
+      },
+    );
+  });
+
+  group('cacheLastTicker', () {
+    final Ticker tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
+
+    test(
+      'should call shared preferences to save the ticker',
+      () async {
+        //arrange
+        when(mockSharedPreferences.setString(LAST_TICKER, any)).thenAnswer((_) async => true);
+        //act
+        await dataSource.cacheLastTicker(tTicker);
+        //assert
+        verify((mockSharedPreferences.setString(LAST_TICKER, any)));
+        verifyNoMoreInteractions(mockSharedPreferences);
+      },
+    );
+  });
+
+  group('getLastTicker', () {
+    final Ticker tTicker = TickerModel(baseAsset: 'BNB', quoteAsset: 'USDT');
+
+    test(
+      'should retrieve a previously cached ticker',
+      () async {
+        //arrange
+        final String jsonString = attachment('ticker.json');
+        when(mockSharedPreferences.getString(LAST_TICKER)).thenReturn(jsonString);
+        //act
+        final result = await dataSource.getLastTicker();
+        //assert
+        verify(mockSharedPreferences.getString(LAST_TICKER));
+        verifyNoMoreInteractions(mockSharedPreferences);
+        expect(result, tTicker);
+      },
+    );
+
+    test(
+      'should throw a cache exception when there is no ticker saved',
+      () async {
+        //arrange
+        when(mockSharedPreferences.getString(LAST_TICKER)).thenReturn(null);
+        //act
+        final call = dataSource.getLastTicker;
+        //assert
+        expect(() => call(), throwsA(isInstanceOf<CacheException>()));
       },
     );
   });

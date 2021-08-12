@@ -2,12 +2,13 @@
 // in price_action_orders/test/data/repositories/user_repository_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i4;
+import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/data/datasources/user_datasource.dart'
-    as _i3;
-import 'package:price_action_orders/domain/entities/order.dart' as _i5;
+    as _i4;
+import 'package:price_action_orders/domain/entities/order.dart' as _i6;
+import 'package:price_action_orders/domain/entities/ticker.dart' as _i3;
 import 'package:price_action_orders/domain/entities/userdata.dart' as _i2;
 
 // ignore_for_file: avoid_redundant_argument_values
@@ -18,28 +19,40 @@ import 'package:price_action_orders/domain/entities/userdata.dart' as _i2;
 
 class _FakeUserData extends _i1.Fake implements _i2.UserData {}
 
+class _FakeTicker extends _i1.Fake implements _i3.Ticker {}
+
 /// A class which mocks [UserDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserDataSource extends _i1.Mock implements _i3.UserDataSource {
+class MockUserDataSource extends _i1.Mock implements _i4.UserDataSource {
   MockUserDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i4.Future<_i2.UserData> getAccountInfo() =>
+  _i5.Future<_i2.UserData> getAccountInfo() =>
       (super.noSuchMethod(Invocation.method(#getAccountInfo, []),
               returnValue: Future<_i2.UserData>.value(_FakeUserData()))
-          as _i4.Future<_i2.UserData>);
+          as _i5.Future<_i2.UserData>);
   @override
-  _i4.Future<List<_i5.Order>> getOpenOrders() =>
+  _i5.Future<List<_i6.Order>> getOpenOrders() =>
       (super.noSuchMethod(Invocation.method(#getOpenOrders, []),
-              returnValue: Future<List<_i5.Order>>.value(<_i5.Order>[]))
-          as _i4.Future<List<_i5.Order>>);
+              returnValue: Future<List<_i6.Order>>.value(<_i6.Order>[]))
+          as _i5.Future<List<_i6.Order>>);
   @override
-  _i4.Future<_i4.Stream<dynamic>> getUserDataStream() =>
+  _i5.Future<_i5.Stream<dynamic>> getUserDataStream() =>
       (super.noSuchMethod(Invocation.method(#getUserDataStream, []),
               returnValue:
-                  Future<_i4.Stream<dynamic>>.value(Stream<dynamic>.empty()))
-          as _i4.Future<_i4.Stream<dynamic>>);
+                  Future<_i5.Stream<dynamic>>.value(Stream<dynamic>.empty()))
+          as _i5.Future<_i5.Stream<dynamic>>);
+  @override
+  _i5.Future<void> cacheLastTicker(_i3.Ticker? ticker) =>
+      (super.noSuchMethod(Invocation.method(#cacheLastTicker, [ticker]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future.value()) as _i5.Future<void>);
+  @override
+  _i5.Future<_i3.Ticker> getLastTicker() =>
+      (super.noSuchMethod(Invocation.method(#getLastTicker, []),
+              returnValue: Future<_i3.Ticker>.value(_FakeTicker()))
+          as _i5.Future<_i3.Ticker>);
 }

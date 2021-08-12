@@ -50,7 +50,7 @@ class _MarketBuyFormState extends State<MarketBuyForm> {
 
       _controller.clear();
       FocusScope.of(context).unfocus();
-      context.read(tradeNotifierProvider.notifier).postMarketOrder(marketOrder);
+      context.read(tradeNotifierProvider.notifier).postOrder(marketOrder);
 
       setState(() {
         _autovalidateMode = AutovalidateMode.disabled;

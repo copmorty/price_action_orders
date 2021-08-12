@@ -15,7 +15,7 @@ abstract class OrderRequest extends Equatable {
   final String? newClientOrderId;
   final Decimal? stopPrice;
   final Decimal? icebergQty;
-  final BinanceOrderResponseType? newOrderRespType;
+  final BinanceNewOrderResponseType? newOrderRespType;
   final int? recvWindow;
   final int timestamp;
 

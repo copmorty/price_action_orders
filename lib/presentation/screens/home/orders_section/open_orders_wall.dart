@@ -41,10 +41,7 @@ class OpenOrdersWall extends StatelessWidget {
           if (ordersState is OrdersLoading) return LoadingWidget();
 
           if (ordersState is OrdersError) {
-            return ReloadWidget(() {
-              context.read(userDataStream).initialization();
-              context.read(ordersNotifierProvider.notifier).getOpenOrders();
-            });
+            return ReloadWidget(context.read(stateHandlerProvider).reloadOrderLists);
           }
 
           if (ordersState is OrdersLoaded) {
@@ -93,7 +90,16 @@ class __WallDataState extends State<_WallData> {
           final amount = order.origQty;
           final filledQty = order.executedQty / order.origQty * Decimal.parse('100');
           final total = order.price * order.origQty;
-          final triggerConditions = order.stopPrice == Decimal.zero ? '-' : '<= ' + order.stopPrice.toString();
+          String triggerConditions = '-';
+
+          if (order.type == BinanceOrderType.TAKE_PROFIT_LIMIT) {
+            final symbol = order.side == BinanceOrderSide.BUY ? '<= ' : '>= ';
+            triggerConditions = symbol + order.stopPrice.toString();
+          }
+          if (order.type == BinanceOrderType.STOP_LOSS_LIMIT) {
+            final symbol = order.side == BinanceOrderSide.BUY ? '>= ' : '<= ';
+            triggerConditions = symbol + order.stopPrice.toString();
+          }
 
           return WallTableRow(
             cells: [

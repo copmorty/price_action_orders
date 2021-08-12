@@ -5,11 +5,11 @@ import 'ticker.dart';
 class BookTicker extends Equatable {
   final int updatedId;
   final String symbol;
-  final Ticker ticker;
   final Decimal bidPrice; // best bid price
   final Decimal bidQty; // best bid qty
   final Decimal askPrice; // best ask price
   final Decimal askQty; // best ask qty
+  final Ticker ticker;
 
   BookTicker({
     required this.updatedId,

@@ -5,6 +5,7 @@ import 'order_response.dart';
 import 'ticker.dart';
 
 class OrderResponseFull extends OrderResponse {
+  final Decimal? stopPrice;
   final Decimal price;
   final Decimal origQty;
   final Decimal executedQty;
@@ -22,6 +23,7 @@ class OrderResponseFull extends OrderResponse {
     required int orderListId,
     required String clientOrderId,
     required int transactTime,
+    this.stopPrice,
     required this.price,
     required this.origQty,
     required this.executedQty,

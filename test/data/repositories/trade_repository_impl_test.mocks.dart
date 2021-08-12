@@ -8,13 +8,10 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/data/datasources/trade_datasource.dart'
     as _i4;
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart'
-    as _i8;
+    as _i7;
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart'
     as _i3;
-import 'package:price_action_orders/domain/entities/order_request_limit.dart'
-    as _i7;
-import 'package:price_action_orders/domain/entities/order_request_market.dart'
-    as _i6;
+import 'package:price_action_orders/domain/entities/order_request.dart' as _i6;
 import 'package:price_action_orders/domain/entities/order_response_full.dart'
     as _i2;
 
@@ -39,22 +36,14 @@ class MockTradeDataSource extends _i1.Mock implements _i4.TradeDataSource {
   }
 
   @override
-  _i5.Future<_i2.OrderResponseFull> postMarketOrder(
-          _i6.MarketOrderRequest? marketOrder) =>
-      (super.noSuchMethod(Invocation.method(#postMarketOrder, [marketOrder]),
-              returnValue:
-                  Future<_i2.OrderResponseFull>.value(_FakeOrderResponseFull()))
-          as _i5.Future<_i2.OrderResponseFull>);
-  @override
-  _i5.Future<_i2.OrderResponseFull> postLimitOrder(
-          _i7.LimitOrderRequest? limitOrder) =>
-      (super.noSuchMethod(Invocation.method(#postLimitOrder, [limitOrder]),
+  _i5.Future<_i2.OrderResponseFull> postOrder(_i6.OrderRequest? order) =>
+      (super.noSuchMethod(Invocation.method(#postOrder, [order]),
               returnValue:
                   Future<_i2.OrderResponseFull>.value(_FakeOrderResponseFull()))
           as _i5.Future<_i2.OrderResponseFull>);
   @override
   _i5.Future<_i3.CancelOrderResponse> postCancelOrder(
-          _i8.CancelOrderRequest? cancelOrder) =>
+          _i7.CancelOrderRequest? cancelOrder) =>
       (super.noSuchMethod(Invocation.method(#postCancelOrder, [cancelOrder]),
               returnValue: Future<_i3.CancelOrderResponse>.value(
                   _FakeCancelOrderResponse()))

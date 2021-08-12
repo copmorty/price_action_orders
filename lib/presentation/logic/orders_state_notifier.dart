@@ -48,11 +48,10 @@ class OrdersNotifier extends StateNotifier<OrdersState> {
     );
   }
 
-  void _updateOrders(dynamic data) {
-    if (!(data is UserDataPayloadOrderUpdate)) return;
+  void _updateOrders(dynamic report) {
+    if (!(report is UserDataPayloadOrderUpdate)) return;
     if (!(state is OrdersLoaded)) return;
 
-    final report = data;
     final List<Order> openOrders = (state as OrdersLoaded).openOrders;
     final List<Order> orderHistory = (state as OrdersLoaded).orderHistory.isEmpty ? [] : (state as OrdersLoaded).orderHistory;
     final List<Trade> tradeHistory = (state as OrdersLoaded).tradeHistory.isEmpty ? [] : (state as OrdersLoaded).tradeHistory;

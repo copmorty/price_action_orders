@@ -6,8 +6,9 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
-import 'widgets/limit_popup_dialog.dart';
-import 'widgets/market_popup_dialog.dart';
+import 'widgets/popup_dialog_market.dart';
+import 'widgets/popup_dialog_limit.dart';
+import 'widgets/popup_dialog_stop_limit.dart';
 
 /// This is an empty UI widget that manages popup messages
 class PopupManager extends StatefulWidget {
@@ -98,7 +99,7 @@ class _PopupManagerState extends State<PopupManager> {
                   text: TextSpan(
                     style: TextStyle(fontSize: 25),
                     children: [
-                      TextSpan(text: orderResponse.type.toShortString()),
+                      TextSpan(text: orderResponse.type.capitalizeCharacters()),
                       TextSpan(text: ' '),
                       TextSpan(
                         text: orderResponse.side.toShortString(),
@@ -109,6 +110,8 @@ class _PopupManagerState extends State<PopupManager> {
                 ),
                 if (orderResponse.type == BinanceOrderType.LIMIT) LimitOrderPopupDialog(orderResponse),
                 if (orderResponse.type == BinanceOrderType.MARKET) MarketOrderPopupDialog(orderResponse),
+                if (orderResponse.type == BinanceOrderType.STOP_LOSS_LIMIT) StopLimitOrderPopupDialog(orderResponse),
+                if (orderResponse.type == BinanceOrderType.TAKE_PROFIT_LIMIT) StopLimitOrderPopupDialog(orderResponse),
               ],
             ),
           ),

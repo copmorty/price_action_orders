@@ -8,7 +8,9 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/data/datasources/market_datasource.dart'
     as _i3;
 import 'package:price_action_orders/domain/entities/bookticker.dart' as _i5;
-import 'package:price_action_orders/domain/entities/ticker.dart' as _i2;
+import 'package:price_action_orders/domain/entities/exchange_info.dart' as _i2;
+import 'package:price_action_orders/domain/entities/ticker.dart' as _i6;
+import 'package:price_action_orders/domain/entities/ticker_stats.dart' as _i7;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: comment_references
@@ -16,7 +18,7 @@ import 'package:price_action_orders/domain/entities/ticker.dart' as _i2;
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: unnecessary_parenthesis
 
-class _FakeTicker extends _i1.Fake implements _i2.Ticker {}
+class _FakeExchangeInfo extends _i1.Fake implements _i2.ExchangeInfo {}
 
 /// A class which mocks [MarketDataSource].
 ///
@@ -28,19 +30,21 @@ class MockMarketDataSource extends _i1.Mock implements _i3.MarketDataSource {
 
   @override
   _i4.Future<_i4.Stream<_i5.BookTicker>> getBookTickerStream(
-          _i2.Ticker? ticker) =>
+          _i6.Ticker? ticker) =>
       (super.noSuchMethod(Invocation.method(#getBookTickerStream, [ticker]),
               returnValue: Future<_i4.Stream<_i5.BookTicker>>.value(
                   Stream<_i5.BookTicker>.empty()))
           as _i4.Future<_i4.Stream<_i5.BookTicker>>);
   @override
-  _i4.Future<void> cacheLastTicker(_i2.Ticker? ticker) =>
-      (super.noSuchMethod(Invocation.method(#cacheLastTicker, [ticker]),
-          returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future.value()) as _i4.Future<void>);
+  _i4.Future<_i4.Stream<_i7.TickerStats>> getTickerStatsStream(
+          _i6.Ticker? ticker) =>
+      (super.noSuchMethod(Invocation.method(#getTickerStatsStream, [ticker]),
+              returnValue: Future<_i4.Stream<_i7.TickerStats>>.value(
+                  Stream<_i7.TickerStats>.empty()))
+          as _i4.Future<_i4.Stream<_i7.TickerStats>>);
   @override
-  _i4.Future<_i2.Ticker> getLastTicker() =>
-      (super.noSuchMethod(Invocation.method(#getLastTicker, []),
-              returnValue: Future<_i2.Ticker>.value(_FakeTicker()))
-          as _i4.Future<_i2.Ticker>);
+  _i4.Future<_i2.ExchangeInfo> getExchangeInfo() =>
+      (super.noSuchMethod(Invocation.method(#getExchangeInfo, []),
+              returnValue: Future<_i2.ExchangeInfo>.value(_FakeExchangeInfo()))
+          as _i4.Future<_i2.ExchangeInfo>);
 }

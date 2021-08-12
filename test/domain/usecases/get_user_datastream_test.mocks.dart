@@ -8,6 +8,7 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/core/error/failures.dart' as _i5;
 import 'package:price_action_orders/domain/entities/order.dart' as _i7;
+import 'package:price_action_orders/domain/entities/ticker.dart' as _i8;
 import 'package:price_action_orders/domain/entities/userdata.dart' as _i6;
 import 'package:price_action_orders/domain/repositories/user_repository.dart'
     as _i3;
@@ -51,4 +52,17 @@ class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
               Future<_i2.Either<_i5.ServerFailure, _i4.Stream<dynamic>>>.value(
                   _FakeEither<_i5.ServerFailure, _i4.Stream<dynamic>>())) as _i4
           .Future<_i2.Either<_i5.ServerFailure, _i4.Stream<dynamic>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i8.Ticker>> getLastTicker() =>
+      (super.noSuchMethod(Invocation.method(#getLastTicker, []),
+              returnValue: Future<_i2.Either<_i5.Failure, _i8.Ticker>>.value(
+                  _FakeEither<_i5.Failure, _i8.Ticker>()))
+          as _i4.Future<_i2.Either<_i5.Failure, _i8.Ticker>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, Null?>> setLastTicker(
+          _i8.Ticker? ticker) =>
+      (super.noSuchMethod(Invocation.method(#setLastTicker, [ticker]),
+              returnValue: Future<_i2.Either<_i5.Failure, Null?>>.value(
+                  _FakeEither<_i5.Failure, Null?>()))
+          as _i4.Future<_i2.Either<_i5.Failure, Null?>>);
 }
