@@ -2,7 +2,7 @@
 
 [![build](https://github.com/copmorty/price_action_orders/actions/workflows/main.yml/badge.svg)](https://github.com/copmorty/price_action_orders/actions/workflows/main.yml)
 
-A Flutter desktop application for cryptocurrency trading on the Binance exchange, through its API. The app allows to see cryptocurrency prices, spot wallet balances, to create market and limit orders from the spot account and it also allows to see open orders, order history and trade history. All these features work in real time, according to the user's movements and the exchange's operation.
+A Flutter desktop application for cryptocurrency trading on the Binance exchange, through its API. The app allows to see cryptocurrency prices, spot wallet balances, to create market, limit, and stop-limit orders from the spot account and it also allows to see open orders, order history and trade history. All these features work in real time, according to the user's movements and the operation of the exchange.
 
 ![PAO-0 7 0](https://user-images.githubusercontent.com/23016725/129225811-853c1614-b426-492d-a436-9cb6dfb841cf.png)
 
