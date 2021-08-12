@@ -4,7 +4,9 @@
 
 A Flutter desktop application for cryptocurrency trading on the Binance exchange, through its API. The app allows to see cryptocurrency prices, spot wallet balances, to create market and limit orders from the spot account and it also allows to see open orders, order history and trade history. All these features work in real time, according to the user's movements and the exchange's operation.
 
-![price_action_orders-operating](https://user-images.githubusercontent.com/23016725/123714155-2aac9680-d84c-11eb-96e3-73bc87f96d1f.png)
+![PAO-0 7 0](https://user-images.githubusercontent.com/23016725/129225811-853c1614-b426-492d-a436-9cb6dfb841cf.png)
+
+
 
 ## Getting Started
 
