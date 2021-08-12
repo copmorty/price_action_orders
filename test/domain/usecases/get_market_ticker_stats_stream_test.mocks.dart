@@ -8,6 +8,7 @@ import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/core/error/failures.dart' as _i5;
 import 'package:price_action_orders/domain/entities/bookticker.dart' as _i6;
+import 'package:price_action_orders/domain/entities/exchange_info.dart' as _i9;
 import 'package:price_action_orders/domain/entities/ticker.dart' as _i7;
 import 'package:price_action_orders/domain/entities/ticker_stats.dart' as _i8;
 import 'package:price_action_orders/domain/repositories/market_respository.dart'
@@ -48,4 +49,10 @@ class MockMarketRepository extends _i1.Mock implements _i3.MarketRepository {
                   _i2.Either<_i5.Failure, _i4.Stream<_i8.TickerStats>>>.value(
               _FakeEither<_i5.Failure, _i4.Stream<_i8.TickerStats>>())) as _i4
           .Future<_i2.Either<_i5.Failure, _i4.Stream<_i8.TickerStats>>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i9.ExchangeInfo>> getExchangeInfo() =>
+      (super.noSuchMethod(Invocation.method(#getExchangeInfo, []),
+          returnValue: Future<_i2.Either<_i5.Failure, _i9.ExchangeInfo>>.value(
+              _FakeEither<_i5.Failure, _i9.ExchangeInfo>())) as _i4
+          .Future<_i2.Either<_i5.Failure, _i9.ExchangeInfo>>);
 }

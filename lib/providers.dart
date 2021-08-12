@@ -95,7 +95,9 @@ final tickerStatsNotifierProvider = StateNotifierProvider<TickerStatsNotifier, T
     getTickerStatsStream: ref.watch(getTickerStatsStream),
   ),
 );
-final exchangeInfoNotifierProvider = StateNotifierProvider<ExchangeInfoNotifier, ExchangeInfoState>((ref) => ExchangeInfoNotifier(ref.watch(getExchangeInfo)));
+final exchangeInfoNotifierProvider = StateNotifierProvider<ExchangeInfoNotifier, ExchangeInfoState>(
+  (ref) => ExchangeInfoNotifier(getExchangeInfo: ref.watch(getExchangeInfo)),
+);
 final stateHandlerProvider = Provider<StateHandler>(
   (ref) => StateHandler(
     userDataStream: ref.watch(userDataStreamProvider),

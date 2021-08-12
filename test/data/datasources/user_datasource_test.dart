@@ -21,7 +21,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../attachments/attachment_reader.dart';
 import 'user_datasource_test.mocks.dart';
 
-class FakeWebSocket extends Fake implements WebSocket {
+class _FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<dynamic> _streamSubscription = Stream<dynamic>.empty().listen((event) {});
 
   @override
@@ -219,7 +219,7 @@ void main() {
   group('getUserDataStream', () {
     final tJsonData = attachment('listen_key.json');
     final Timer timerResponse = Timer.periodic(Duration(minutes: 1), (timer) {});
-    final FakeWebSocket tWebSocket = FakeWebSocket();
+    final _FakeWebSocket tWebSocket = _FakeWebSocket();
     tWebSocket.close();
 
     test(

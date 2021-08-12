@@ -11,7 +11,11 @@ part 'exchangeinfo_state.dart';
 class ExchangeInfoNotifier extends StateNotifier<ExchangeInfoState> {
   final GetExchangeInfo _getExchangeInfo;
 
-  ExchangeInfoNotifier(this._getExchangeInfo) : super(ExchangeInfoInitial());
+  ExchangeInfoNotifier({
+    required GetExchangeInfo getExchangeInfo,
+    ExchangeInfoState? state,
+  })  : _getExchangeInfo = getExchangeInfo,
+        super(state ?? ExchangeInfoInitial());
 
   Future<Either<Failure, ExchangeInfo>> getExchangeInfo() async {
     if (state is ExchangeInfoLoaded)

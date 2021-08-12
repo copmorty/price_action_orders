@@ -51,17 +51,34 @@ void main() {
     final tTicker = Ticker(baseAsset: 'BNB', quoteAsset: 'USDT');
 
     test(
-      'should call streamBookTicker, streamTickerStats, and setLoaded',
+      'should call streamBookTicker and streamTickerStats, when there is exchangeInfo and the ticker is found',
       () async {
+        //arrange
+        when(mockTickerNotifier.setTicker(tTicker)).thenAnswer((_) async => true);
         //act
-        stateHandler.dispatchTicker(tTicker);
+        await stateHandler.dispatchTicker(tTicker);
         //assert
+        verify(mockTickerNotifier.setTicker(tTicker));
         verify(mockBookTickerNotifier.streamBookTicker(tTicker));
         verify(mockTickerStatsNotifier.streamTickerStats(tTicker));
-        verify(mockTickerNotifier.setLoaded(tTicker));
+        verifyNoMoreInteractions(mockTickerNotifier);
         verifyNoMoreInteractions(mockBookTickerNotifier);
         verifyNoMoreInteractions(mockTickerStatsNotifier);
+      },
+    );
+
+    test(
+      'should not call streamBookTicker and streamTickerStats, when there is no exchangeInfo or the ticker is not found',
+      () async {
+        //arrange
+        when(mockTickerNotifier.setTicker(tTicker)).thenAnswer((_) async => false);
+        //act
+        await stateHandler.dispatchTicker(tTicker);
+        //assert
+        verify(mockTickerNotifier.setTicker(tTicker));
         verifyNoMoreInteractions(mockTickerNotifier);
+        verifyZeroInteractions(mockBookTickerNotifier);
+        verifyZeroInteractions(mockTickerStatsNotifier);
       },
     );
   });

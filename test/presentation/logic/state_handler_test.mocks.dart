@@ -265,12 +265,10 @@ class MockTickerNotifier extends _i1.Mock implements _i5.TickerNotifier {
           returnValue: Future<void>.value(),
           returnValueForMissingStub: Future.value()) as _i8.Future<void>);
   @override
-  void setLoading() => super.noSuchMethod(Invocation.method(#setLoading, []),
-      returnValueForMissingStub: null);
-  @override
-  void setLoaded(_i10.Ticker? ticker) =>
-      super.noSuchMethod(Invocation.method(#setLoaded, [ticker]),
-          returnValueForMissingStub: null);
+  _i8.Future<bool> setTicker(_i10.Ticker? ticker, {bool? init = false}) =>
+      (super.noSuchMethod(
+          Invocation.method(#setTicker, [ticker], {#init: init}),
+          returnValue: Future<bool>.value(false)) as _i8.Future<bool>);
   @override
   _i9.RemoveListener addListener(_i9.Listener<_i5.TickerState>? listener,
           {bool? fireImmediately = true}) =>
