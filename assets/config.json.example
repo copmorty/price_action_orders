@@ -1,6 +1,0 @@
-{
-    "api_prod_key": "YOUR_API_PROD_KEY",
-    "api_prod_secret": "YOUR_API_PROD_SECRET",
-    "api_test_key": "YOUR_API_TEST_KEY",
-    "api_test_secret": "YOUR_API_TEST_SECRET"
-}

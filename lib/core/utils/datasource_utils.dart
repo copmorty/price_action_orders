@@ -13,10 +13,10 @@ class DataSourceUtils {
     return queryParams.substring(1);
   }
 
-  static String generatetUrl(String path, Map<String, dynamic> params) {
-    String baseUrl = binanceUrl + path;
+  static String generatetUrl(String path, Map<String, dynamic> params, {String? middleUrl, String? secret}) {
+    secret = secret ?? apiSecret;
+    String baseUrl = (middleUrl ?? binanceUrl) + path;
     String queryParams = generateQueryParams(params);
-    String secret = apiSecret;
 
     List<int> messageBytes = utf8.encode(queryParams);
     List<int> key = utf8.encode(secret);

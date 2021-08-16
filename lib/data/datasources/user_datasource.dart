@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
+import 'package:decimal/decimal.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
+import 'package:price_action_orders/data/models/order_request_market_model.dart';
 import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
@@ -22,6 +25,7 @@ abstract class UserDataSource {
   Future<Stream<dynamic>> getUserDataStream();
   Future<void> cacheLastTicker(Ticker ticker);
   Future<Ticker> getLastTicker();
+  Future<Null> checkAccountStatus(AppMode mode, String key, String secret);
 }
 
 class UserDataSourceImpl implements UserDataSource {
@@ -204,5 +208,41 @@ class UserDataSourceImpl implements UserDataSource {
       LAST_TICKER,
       jsonEncode(tickerModel.toJson()),
     );
+  }
+
+  @override
+  Future<Null> checkAccountStatus(AppMode mode, String key, String secret) async {
+    // const path = '/sapi/v1/account/status'; // NOT AVAILABLE (FOR NOW) WITH THE TESTNET API
+    const path = '/api/v3/order/test';
+
+    final marketOrder = MarketOrderRequestModel(
+      ticker: Ticker(baseAsset: 'BTC', quoteAsset: 'USDT'),
+      side: BinanceOrderSide.BUY,
+      quoteOrderQty: Decimal.parse('20'),
+    );
+
+    final Map<String, dynamic> params = marketOrder.toJson();
+    final middleUrl = mode == AppMode.PRODUCTION ? BINANCE_REAL_URL : BINANCE_TEST_URL;
+
+    String url = DataSourceUtils.generatetUrl(path, params, middleUrl: middleUrl, secret: secret);
+
+    final uri = Uri.parse(url);
+
+    final response = await httpClient.post(
+      uri,
+      headers: {
+        'Content-Type': 'application/json',
+        'X-MBX-APIKEY': key,
+      },
+    );
+
+    final jsonData = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      return null;
+    } else {
+      // print(jsonData);
+      throw BinanceException.fromJson(jsonData);
+    }
   }
 }

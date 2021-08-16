@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
+import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
@@ -58,6 +59,16 @@ class UserRepositoryImpl implements UserRepository {
       return Right(null);
     } catch (e) {
       return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Null>> checkAccountStatus(AppMode mode, String key, String secret) async {
+    try {
+      await dataSource.checkAccountStatus(mode, key, secret);
+      return Right(null);
+    } catch (e) {
+      return Left(ServerFailure.fromException(e));
     }
   }
 }
