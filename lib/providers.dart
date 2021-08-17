@@ -1,12 +1,10 @@
-import 'dart:convert';
-import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/domain/usecases/get_market_exchange_info.dart';
+import 'package:price_action_orders/domain/usecases/get_user_account_status.dart';
+import 'package:price_action_orders/presentation/logic/auth_handler.dart';
 import 'package:price_action_orders/presentation/logic/exchangeinfo_state_notifier.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'core/globals/enums.dart';
-import 'core/globals/variables.dart';
 import 'core/utils/datasource_utils.dart';
 import 'data/datasources/market_datasource.dart';
 import 'data/datasources/trade_datasource.dart';
@@ -38,22 +36,7 @@ import 'presentation/logic/tickerstats_state_notifier.dart';
 late SharedPreferences sharedPreferencesInstance;
 
 Future<void> init() async {
-  await loadKeys();
   sharedPreferencesInstance = await SharedPreferences.getInstance();
-}
-
-Future<void> loadKeys() async {
-  final location = 'assets/config.json';
-  final jsonStr = await rootBundle.loadString(location);
-  final data = jsonDecode(jsonStr);
-
-  if (appMode == AppMode.PRODUCTION) {
-    apiKey = data['api_prod_key'];
-    apiSecret = data['api_prod_secret'];
-  } else {
-    apiKey = data['api_test_key'];
-    apiSecret = data['api_test_secret'];
-  }
 }
 
 // Logic
@@ -108,6 +91,7 @@ final stateHandlerProvider = Provider<StateHandler>(
     tickerStatsNotifier: ref.watch(tickerStatsNotifierProvider.notifier),
   ),
 );
+final authHandlerProvider = Provider<AuthHandler>((ref) => AuthHandler(checkAccountStatus: ref.watch(checkAccountStatus)));
 
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(marketRepositoryProvider)));
@@ -118,6 +102,7 @@ final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(u
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
 final getTickerStatsStream = Provider<GetTickerStatsStream>((ref) => GetTickerStatsStream(ref.watch(marketRepositoryProvider)));
 final getExchangeInfo = Provider<GetExchangeInfo>((ref) => GetExchangeInfo(ref.watch(marketRepositoryProvider)));
+final checkAccountStatus = Provider<CheckAccountStatus>((ref) => CheckAccountStatus(ref.watch(userRepositoryProvider)));
 final postOrder = Provider<PostOrder>((ref) => PostOrder(ref.watch(tradeRepositoryProvider)));
 final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(tradeRepositoryProvider)));
 

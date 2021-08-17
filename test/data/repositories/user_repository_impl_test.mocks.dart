@@ -5,6 +5,7 @@
 import 'dart:async' as _i5;
 
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:price_action_orders/core/globals/enums.dart' as _i7;
 import 'package:price_action_orders/data/datasources/user_datasource.dart'
     as _i4;
 import 'package:price_action_orders/domain/entities/order.dart' as _i6;
@@ -55,4 +56,10 @@ class MockUserDataSource extends _i1.Mock implements _i4.UserDataSource {
       (super.noSuchMethod(Invocation.method(#getLastTicker, []),
               returnValue: Future<_i3.Ticker>.value(_FakeTicker()))
           as _i5.Future<_i3.Ticker>);
+  @override
+  _i5.Future<Null?> checkAccountStatus(
+          _i7.AppMode? mode, String? key, String? secret) =>
+      (super.noSuchMethod(
+          Invocation.method(#checkAccountStatus, [mode, key, secret]),
+          returnValue: Future<Null?>.value()) as _i5.Future<Null?>);
 }

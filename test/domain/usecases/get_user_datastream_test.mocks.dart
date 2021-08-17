@@ -7,6 +7,7 @@ import 'dart:async' as _i4;
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/core/error/failures.dart' as _i5;
+import 'package:price_action_orders/core/globals/enums.dart' as _i9;
 import 'package:price_action_orders/domain/entities/order.dart' as _i7;
 import 'package:price_action_orders/domain/entities/ticker.dart' as _i8;
 import 'package:price_action_orders/domain/entities/userdata.dart' as _i6;
@@ -62,6 +63,14 @@ class MockUserRepository extends _i1.Mock implements _i3.UserRepository {
   _i4.Future<_i2.Either<_i5.Failure, Null?>> setLastTicker(
           _i8.Ticker? ticker) =>
       (super.noSuchMethod(Invocation.method(#setLastTicker, [ticker]),
+              returnValue: Future<_i2.Either<_i5.Failure, Null?>>.value(
+                  _FakeEither<_i5.Failure, Null?>()))
+          as _i4.Future<_i2.Either<_i5.Failure, Null?>>);
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, Null?>> checkAccountStatus(
+          _i9.AppMode? mode, String? key, String? secret) =>
+      (super.noSuchMethod(
+              Invocation.method(#checkAccountStatus, [mode, key, secret]),
               returnValue: Future<_i2.Either<_i5.Failure, Null?>>.value(
                   _FakeEither<_i5.Failure, Null?>()))
           as _i4.Future<_i2.Either<_i5.Failure, Null?>>);

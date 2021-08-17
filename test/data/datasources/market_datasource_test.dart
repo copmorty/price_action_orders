@@ -6,6 +6,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/datasources/market_datasource.dart';
 import 'package:price_action_orders/data/models/exchange_info_model.dart';
@@ -68,10 +69,16 @@ void main() {
   late MockDataSourceUtils mockDataSourceUtils;
   late MockHttpClient mockHttpClient;
 
+  final AppMode tmode = AppMode.TEST;
+  final String tkey = 'HFKJGFbjhasfbka87b210dfgnskdgmhaskKJABhjabsf72anmbASDJFMNb4hg4L1';
+  final String tsecret = 'Gjn8oJNHTkjnsgKHFKJQ3m1rkamnfbkgnKJBnwgdfhnmmsndfBJJyhgwajbnnafK';
+
   setUp(() {
     mockDataSourceUtils = MockDataSourceUtils();
     mockHttpClient = MockHttpClient();
     dataSource = MarketDataSourceImpl(dataSourceUtils: mockDataSourceUtils, httpClient: mockHttpClient);
+    
+    setGlobalModeVariables(tmode, tkey, tsecret);
   });
 
   group('getBookTickerStream', () {
