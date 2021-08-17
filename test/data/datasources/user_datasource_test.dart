@@ -8,6 +8,7 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
@@ -39,11 +40,17 @@ void main() {
   late MockHttpClient mockHttpClient;
   late MockDataSourceUtils mockDataSourceUtils;
 
+  final AppMode tmode = AppMode.TEST;
+  final String tkey = 'HFKJGFbjhasfbka87b210dfgnskdgmhaskKJABhjabsf72anmbASDJFMNb4hg4L1';
+  final String tsecret = 'Gjn8oJNHTkjnsgKHFKJQ3m1rkamnfbkgnKJBnwgdfhnmmsndfBJJyhgwajbnnafK';
+
   setUp(() {
     mockSharedPreferences = MockSharedPreferences();
     mockHttpClient = MockHttpClient();
     mockDataSourceUtils = MockDataSourceUtils();
     dataSource = UserDataSourceImpl(sharedPreferences: mockSharedPreferences, httpClient: mockHttpClient, dataSourceUtils: mockDataSourceUtils);
+
+    setGlobalModeVariables(tmode, tkey, tsecret);
   });
 
   void setUpMockHttpClientSuccess200(String method, String jsonData) {
@@ -309,6 +316,45 @@ void main() {
         final call = dataSource.getLastTicker;
         //assert
         expect(() => call(), throwsA(isInstanceOf<CacheException>()));
+      },
+    );
+  });
+
+  group('checkAccountStatus', () {
+    final String tJsonData = '{}';
+
+    test(
+      'should perform a POST request on a URL with application/json header',
+      () async {
+        //arrange
+        setUpMockHttpClientSuccess200('post', tJsonData);
+        //act
+        await dataSource.checkAccountStatus(tmode, tkey, tsecret);
+        //assert
+        verify(mockHttpClient.post(any, headers: anyNamed('headers')));
+        verifyNoMoreInteractions(mockHttpClient);
+      },
+    );
+
+    test(
+      'should return null when the response code is 200 (success)',
+      () async {
+        //arrange
+        setUpMockHttpClientSuccess200('post', tJsonData);
+        //act
+        final result = await dataSource.checkAccountStatus(tmode, tkey, tsecret);
+        //assert
+        expect(result, null);
+      },
+    );
+
+    test(
+      'should throw a server exception when the response code is not 200 (failure)',
+      () async {
+        //arrange
+        setUpMockHttpClientFailure404('post');
+        //assert
+        expect(() => dataSource.checkAccountStatus(tmode, tkey, tsecret), throwsA(isInstanceOf<ServerException>()));
       },
     );
   });

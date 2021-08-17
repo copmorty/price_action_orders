@@ -246,4 +246,47 @@ void main() {
       },
     );
   });
+
+  group('checkAccountStatus', () {
+    final AppMode tmode = AppMode.TEST;
+    final String tkey = 'HFKJGFbjhasfbka87b210dfgnskdgmhaskKJABhjabsf72anmbASDJFMNb4hg4L1';
+    final String tsecret = 'Gjn8oJNHTkjnsgKHFKJQ3m1rkamnfbkgnKJBnwgdfhnmmsndfBJJyhgwajbnnafK';
+
+    test(
+      'should return null when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataSource.checkAccountStatus(tmode, tkey, tsecret)).thenAnswer((realInvocation) async => null);
+        //act
+        final result = await repository.checkAccountStatus(tmode, tkey, tsecret);
+        //assert
+        expect(result, Right(null));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for known reasons',
+      () async {
+        //arrange
+        when(mockUserDataSource.checkAccountStatus(tmode, tkey, tsecret))
+            .thenThrow(BinanceException(message: "Internal error, unable to process your request. Please try again."));
+        //act
+        final result = await repository.checkAccountStatus(tmode, tkey, tsecret);
+        //assert
+        expect(result, Left(ServerFailure(message: "Internal error, unable to process your request. Please try again.")));
+      },
+    );
+
+    test(
+      'should return server failure when the call to data source is unsuccessful for unknown reasons',
+      () async {
+        //arrange
+        when(mockUserDataSource.checkAccountStatus(tmode, tkey, tsecret)).thenThrow(BinanceException());
+        //act
+        final result = await repository.checkAccountStatus(tmode, tkey, tsecret);
+        //assert
+        expect(result, Left(ServerFailure()));
+      },
+    );
+  });
 }

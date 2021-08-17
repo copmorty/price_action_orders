@@ -5,6 +5,7 @@ import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/data/datasources/trade_datasource.dart';
 import 'package:price_action_orders/data/models/order_cancel_response_model.dart';
 import 'package:price_action_orders/data/models/order_response_full_model.dart';
@@ -24,9 +25,15 @@ void main() {
   late TradeDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
 
+  final AppMode tmode = AppMode.TEST;
+  final String tkey = 'HFKJGFbjhasfbka87b210dfgnskdgmhaskKJABhjabsf72anmbASDJFMNb4hg4L1';
+  final String tsecret = 'Gjn8oJNHTkjnsgKHFKJQ3m1rkamnfbkgnKJBnwgdfhnmmsndfBJJyhgwajbnnafK';
+
   setUp(() {
     mockHttpClient = MockHttpClient();
     dataSource = TradeDataSourceImpl(mockHttpClient);
+
+    setGlobalModeVariables(tmode, tkey, tsecret);
   });
 
   void setUpMockHttpClientSuccess200(String method, String jsonData) {

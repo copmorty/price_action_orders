@@ -71,7 +71,7 @@ void main() {
   );
 
   test(
-    'should return exchange info when the call to the repository is successful',
+    'should return exchange info when the use case responds successfully',
     () async {
       //arrange
       when(mockMarketRepository.getExchangeInfo()).thenAnswer((_) async => Right(tExchangeInfo));
@@ -85,7 +85,7 @@ void main() {
   );
 
   test(
-    'should return a failure when the call to the repository is unsuccessful',
+    'should return a failure when the use case responds unsuccessful',
     () async {
       //arrange
       when(mockMarketRepository.getExchangeInfo()).thenAnswer((_) async => Left(ServerFailure()));
