@@ -18,17 +18,17 @@ import 'trade_state_notifier_test.mocks.dart';
 
 @GenerateMocks([], customMocks: [
   MockSpec<po.PostOrder>(as: #MockPostOrder),
-  MockSpec<pco.PostCancelOrder>(as: #MockPostCancelOrder),
+  MockSpec<pco.CancelOrder>(as: #MockCancelOrder),
 ])
 void main() {
   late TradeNotifier notifier;
   late MockPostOrder mockPostOrder;
-  late MockPostCancelOrder mockPostCancelOrder;
+  late MockCancelOrder mockCancelOrder;
 
   setUp(() {
     mockPostOrder = MockPostOrder();
-    mockPostCancelOrder = MockPostCancelOrder();
-    notifier = TradeNotifier(postOrder: mockPostOrder, postCancelOrder: mockPostCancelOrder);
+    mockCancelOrder = MockCancelOrder();
+    notifier = TradeNotifier(postOrder: mockPostOrder, cancelOrder: mockCancelOrder);
   });
 
   group('postOrder', () {
@@ -114,7 +114,7 @@ void main() {
     );
   });
 
-  group('postCancelOrder', () {
+  group('cancelOrder', () {
     final tCancelOrder = CancelOrderRequest(symbol: 'BNBUSDT', orderId: 123456789);
     final tCancelOrderResponse = CancelOrderResponse(
       symbol: 'BNBUSDT',
@@ -142,12 +142,12 @@ void main() {
         ];
         final List<TradeState> actualStates = [];
         notifier.addListener((state) => actualStates.add(state));
-        when(mockPostCancelOrder.call(pco.Params(tCancelOrder))).thenAnswer((_) async => Right(tCancelOrderResponse));
+        when(mockCancelOrder.call(pco.Params(tCancelOrder))).thenAnswer((_) async => Right(tCancelOrderResponse));
         //act
-        await notifier.postCancelOrder(tCancelOrder);
+        await notifier.cancelOrder(tCancelOrder);
         //assert
-        verify(mockPostCancelOrder.call(pco.Params(tCancelOrder)));
-        verifyNoMoreInteractions(mockPostCancelOrder);
+        verify(mockCancelOrder.call(pco.Params(tCancelOrder)));
+        verifyNoMoreInteractions(mockCancelOrder);
         expect(actualStates, tStates);
       },
     );
@@ -163,12 +163,12 @@ void main() {
         ];
         final List<TradeState> actualStates = [];
         notifier.addListener((state) => actualStates.add(state));
-        when(mockPostCancelOrder.call(pco.Params(tCancelOrder))).thenAnswer((_) async => Left(ServerFailure()));
+        when(mockCancelOrder.call(pco.Params(tCancelOrder))).thenAnswer((_) async => Left(ServerFailure()));
         //act
-        await notifier.postCancelOrder(tCancelOrder);
+        await notifier.cancelOrder(tCancelOrder);
         //assert
-        verify(mockPostCancelOrder.call(pco.Params(tCancelOrder)));
-        verifyNoMoreInteractions(mockPostCancelOrder);
+        verify(mockCancelOrder.call(pco.Params(tCancelOrder)));
+        verifyNoMoreInteractions(mockCancelOrder);
         expect(actualStates, tStates);
       },
     );

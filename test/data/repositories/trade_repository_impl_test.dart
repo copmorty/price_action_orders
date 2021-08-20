@@ -100,7 +100,7 @@ void main() {
     );
   });
 
-  group('postCancelOrder', () {
+  group('cancelOrder', () {
     final tCancelOrderRequest = CancelOrderRequest(symbol: 'BNBUSDT', orderId: 391921);
     final tCancelOrderResponse = CancelOrderResponse(
       symbol: 'BNBUSDT',
@@ -122,9 +122,9 @@ void main() {
       'should return cancel order response when the call to data source is successful',
       () async {
         //arrange
-        when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => tCancelOrderResponse);
+        when(mockTradeDataSource.cancelOrder(tCancelOrderRequest)).thenAnswer((_) async => tCancelOrderResponse);
         //act
-        final result = await repository.postCancelOrder(tCancelOrderRequest);
+        final result = await repository.cancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Right(tCancelOrderResponse));
       },
@@ -134,9 +134,9 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for known reasons',
       () async {
         //arrange
-        when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenThrow(BinanceException(message: "Too many requests."));
+        when(mockTradeDataSource.cancelOrder(tCancelOrderRequest)).thenThrow(BinanceException(message: "Too many requests."));
         //act
-        final result = await repository.postCancelOrder(tCancelOrderRequest);
+        final result = await repository.cancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Left(ServerFailure(message: "Too many requests.")));
       },
@@ -146,9 +146,9 @@ void main() {
       'should return server failure when the call to data source is unsuccessful for unknown reasons',
       () async {
         //arrange
-        when(mockTradeDataSource.postCancelOrder(tCancelOrderRequest)).thenThrow(BinanceException());
+        when(mockTradeDataSource.cancelOrder(tCancelOrderRequest)).thenThrow(BinanceException());
         //act
-        final result = await repository.postCancelOrder(tCancelOrderRequest);
+        final result = await repository.cancelOrder(tCancelOrderRequest);
         //assert
         expect(result, Left(ServerFailure()));
       },

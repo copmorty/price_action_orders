@@ -42,9 +42,9 @@ class MockTradeDataSource extends _i1.Mock implements _i4.TradeDataSource {
                   Future<_i2.OrderResponseFull>.value(_FakeOrderResponseFull()))
           as _i5.Future<_i2.OrderResponseFull>);
   @override
-  _i5.Future<_i3.CancelOrderResponse> postCancelOrder(
+  _i5.Future<_i3.CancelOrderResponse> cancelOrder(
           _i7.CancelOrderRequest? cancelOrder) =>
-      (super.noSuchMethod(Invocation.method(#postCancelOrder, [cancelOrder]),
+      (super.noSuchMethod(Invocation.method(#cancelOrder, [cancelOrder]),
               returnValue: Future<_i3.CancelOrderResponse>.value(
                   _FakeCancelOrderResponse()))
           as _i5.Future<_i3.CancelOrderResponse>);

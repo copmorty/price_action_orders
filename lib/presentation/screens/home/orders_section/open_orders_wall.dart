@@ -151,7 +151,7 @@ class __CancelOrderButtonState extends State<_CancelOrderButton> {
   void _cancelOrder() {
     final cancelOrderRequest = CancelOrderRequest(symbol: widget.order.symbol, orderId: widget.order.orderId);
     operationId = cancelOrderRequest.timestamp;
-    context.read(tradeNotifierProvider.notifier).postCancelOrder(cancelOrderRequest);
+    context.read(tradeNotifierProvider.notifier).cancelOrder(cancelOrderRequest);
   }
 
   @override

@@ -49,7 +49,7 @@ final bookTickerNotifierProvider = StateNotifierProvider<BookTickerNotifier, Boo
 final tradeNotifierProvider = StateNotifierProvider<TradeNotifier, TradeState>(
   (ref) => TradeNotifier(
     postOrder: ref.watch(postOrder),
-    postCancelOrder: ref.watch(postCancelOrder),
+    cancelOrder: ref.watch(cancelOrder),
   ),
 );
 final tickerNotifierProvider = StateNotifierProvider<TickerNotifier, TickerState>(
@@ -104,7 +104,7 @@ final getTickerStatsStream = Provider<GetTickerStatsStream>((ref) => GetTickerSt
 final getExchangeInfo = Provider<GetExchangeInfo>((ref) => GetExchangeInfo(ref.watch(marketRepositoryProvider)));
 final checkAccountStatus = Provider<CheckAccountStatus>((ref) => CheckAccountStatus(ref.watch(userRepositoryProvider)));
 final postOrder = Provider<PostOrder>((ref) => PostOrder(ref.watch(tradeRepositoryProvider)));
-final postCancelOrder = Provider<PostCancelOrder>((ref) => PostCancelOrder(ref.watch(tradeRepositoryProvider)));
+final cancelOrder = Provider<CancelOrder>((ref) => CancelOrder(ref.watch(tradeRepositoryProvider)));
 
 // Repositories
 final marketRepositoryProvider = Provider<MarketRepository>((ref) => MarketRepositoryImpl(ref.watch(marketDataSourceProvider)));

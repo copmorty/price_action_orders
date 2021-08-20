@@ -6,14 +6,14 @@ import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
 
-class PostCancelOrder implements UseCase<CancelOrderResponse, Params> {
+class CancelOrder implements UseCase<CancelOrderResponse, Params> {
   final TradeRepository repository;
 
-  PostCancelOrder(this.repository);
+  CancelOrder(this.repository);
 
   @override
   Future<Either<Failure, CancelOrderResponse>> call(Params params) async {
-    return await repository.postCancelOrder(params.cancelOrder);
+    return await repository.cancelOrder(params.cancelOrder);
   }
 }
 

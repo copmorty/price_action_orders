@@ -46,8 +46,8 @@ class MockTradeRepository extends _i1.Mock implements _i3.TradeRepository {
           .Future<_i2.Either<_i5.ServerFailure, _i6.OrderResponseFull>>);
   @override
   _i4.Future<_i2.Either<_i5.ServerFailure, _i8.CancelOrderResponse>>
-      postCancelOrder(_i9.CancelOrderRequest? cancelOrder) => (super.noSuchMethod(
-          Invocation.method(#postCancelOrder, [cancelOrder]),
+      cancelOrder(_i9.CancelOrderRequest? cancelOrder) => (super.noSuchMethod(
+          Invocation.method(#cancelOrder, [cancelOrder]),
           returnValue: Future<
                   _i2.Either<_i5.ServerFailure, _i8.CancelOrderResponse>>.value(
               _FakeEither<_i5.ServerFailure, _i8.CancelOrderResponse>())) as _i4

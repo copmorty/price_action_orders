@@ -19,7 +19,7 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 
 abstract class TradeDataSource {
   Future<OrderResponseFull> postOrder(OrderRequest order);
-  Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest cancelOrder);
+  Future<CancelOrderResponse> cancelOrder(CancelOrderRequest cancelOrder);
 }
 
 class TradeDataSourceImpl implements TradeDataSource {
@@ -66,7 +66,7 @@ class TradeDataSourceImpl implements TradeDataSource {
     }
   }
 
-  Future<CancelOrderResponse> postCancelOrder(CancelOrderRequest cancelOrderRequest) async {
+  Future<CancelOrderResponse> cancelOrder(CancelOrderRequest cancelOrderRequest) async {
     final params = CancelOrderRequestModel.fromCancelOrderRequest(cancelOrderRequest).toJson();
 
     String url = DataSourceUtils.generatetUrl(path, params);

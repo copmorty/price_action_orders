@@ -7,5 +7,5 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart';
 
 abstract class TradeRepository {
   Future<Either<ServerFailure, OrderResponseFull>> postOrder(OrderRequest order);
-  Future<Either<ServerFailure, CancelOrderResponse>> postCancelOrder(CancelOrderRequest cancelOrder);
+  Future<Either<ServerFailure, CancelOrderResponse>> cancelOrder(CancelOrderRequest cancelOrder);
 }

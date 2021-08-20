@@ -53,11 +53,11 @@ class MockPostOrder extends _i1.Mock implements _i4.PostOrder {
           as _i5.Future<_i3.Either<_i6.Failure, _i7.OrderResponseFull>>);
 }
 
-/// A class which mocks [PostCancelOrder].
+/// A class which mocks [CancelOrder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockPostCancelOrder extends _i1.Mock implements _i8.PostCancelOrder {
-  MockPostCancelOrder() {
+class MockCancelOrder extends _i1.Mock implements _i8.CancelOrder {
+  MockCancelOrder() {
     _i1.throwOnMissingStub(this);
   }
 

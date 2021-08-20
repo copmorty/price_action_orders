@@ -23,9 +23,9 @@ class TradeRepositoryImpl implements TradeRepository {
   }
 
   @override
-  Future<Either<ServerFailure, CancelOrderResponse>> postCancelOrder(CancelOrderRequest cancelOrder) async {
+  Future<Either<ServerFailure, CancelOrderResponse>> cancelOrder(CancelOrderRequest cancelOrder) async {
     try {
-      final response = await dataSource.postCancelOrder(cancelOrder);
+      final response = await dataSource.cancelOrder(cancelOrder);
       return Right(response);
     } catch (e) {
       return Left(ServerFailure.fromException(e));

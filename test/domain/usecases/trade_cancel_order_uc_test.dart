@@ -13,12 +13,12 @@ import 'trade_cancel_order_uc_test.mocks.dart';
 
 @GenerateMocks([TradeRepository])
 void main() {
-  late PostCancelOrder usecase;
+  late CancelOrder usecase;
   late MockTradeRepository mockTradeRepository;
 
   setUp(() {
     mockTradeRepository = MockTradeRepository();
-    usecase = PostCancelOrder(mockTradeRepository);
+    usecase = CancelOrder(mockTradeRepository);
   });
 
   final tCancelOrderRequest = CancelOrderRequest(symbol: 'BNBUSDT', orderId: 391921);
@@ -42,11 +42,11 @@ void main() {
     'should return a cancel order response when the call to the repository is successful',
     () async {
       //arrange
-      when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Right(tCancelOrderResponse));
+      when(mockTradeRepository.cancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Right(tCancelOrderResponse));
       //act
       final Either<Failure, CancelOrderResponse>? result = await usecase(Params(tCancelOrderRequest));
       //assert
-      verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
+      verify(mockTradeRepository.cancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Right(tCancelOrderResponse));
     },
@@ -56,11 +56,11 @@ void main() {
     'should return a failure when the call to the repository is unsuccessful',
     () async {
       //arrange
-      when(mockTradeRepository.postCancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Left(ServerFailure()));
+      when(mockTradeRepository.cancelOrder(tCancelOrderRequest)).thenAnswer((_) async => Left(ServerFailure()));
       //act
       final Either<Failure, CancelOrderResponse>? result = await usecase(Params(tCancelOrderRequest));
       //assert
-      verify(mockTradeRepository.postCancelOrder(tCancelOrderRequest));
+      verify(mockTradeRepository.cancelOrder(tCancelOrderRequest));
       verifyNoMoreInteractions(mockTradeRepository);
       expect(result, Left(ServerFailure()));
     },

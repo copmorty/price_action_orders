@@ -10,13 +10,13 @@ part 'trade_state.dart';
 
 class TradeNotifier extends StateNotifier<TradeState> {
   final po.PostOrder _postOrder;
-  final pco.PostCancelOrder _postCancelOrder;
+  final pco.CancelOrder _cancelOrder;
 
   TradeNotifier({
     required po.PostOrder postOrder,
-    required pco.PostCancelOrder postCancelOrder,
+    required pco.CancelOrder cancelOrder,
   })   : _postOrder = postOrder,
-        _postCancelOrder = postCancelOrder,
+        _cancelOrder = cancelOrder,
         super(TradeInitial());
 
   Future<void> postOrder(OrderRequest order) async {
@@ -29,10 +29,10 @@ class TradeNotifier extends StateNotifier<TradeState> {
     );
   }
 
-  Future<void> postCancelOrder(CancelOrderRequest cancelOrderRequest) async {
+  Future<void> cancelOrder(CancelOrderRequest cancelOrderRequest) async {
     state = TradeLoading(cancelOrderRequest.timestamp);
 
-    final failureOrCancelResponse = await _postCancelOrder(pco.Params(cancelOrderRequest));
+    final failureOrCancelResponse = await _cancelOrder(pco.Params(cancelOrderRequest));
     failureOrCancelResponse.fold(
       (failure) => state = TradeError(orderTimestamp: cancelOrderRequest.timestamp, message: failure.message),
       (cancelResponse) => null, // The success case is managed by the user data stream (executionReport)

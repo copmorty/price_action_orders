@@ -259,7 +259,7 @@ void main() {
     );
   });
 
-  group('postCancelOrder', () {
+  group('cancelOrder', () {
     final tJsonData = attachment('cancel_order_response.json');
     final CancelOrderRequest tCancelOrderRequest = CancelOrderRequest(symbol: 'BNBUSDT', orderId: 4201377);
     final CancelOrderResponse tCancelOrderResponse = CancelOrderResponseModel(
@@ -284,7 +284,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('delete', tJsonData);
         //act
-        await dataSource.postCancelOrder(tCancelOrderRequest);
+        await dataSource.cancelOrder(tCancelOrderRequest);
         //assert
         verify(mockHttpClient.delete(any, headers: anyNamed('headers')));
         verifyNoMoreInteractions(mockHttpClient);
@@ -297,7 +297,7 @@ void main() {
         //arrange
         setUpMockHttpClientSuccess200('delete', tJsonData);
         //act
-        final result = await dataSource.postCancelOrder(tCancelOrderRequest);
+        final result = await dataSource.cancelOrder(tCancelOrderRequest);
         //assert
         expect(result, tCancelOrderResponse);
       },
@@ -309,7 +309,7 @@ void main() {
         //arrange
         setUpMockHttpClientFailure404('delete');
         //assert
-        expect(() => dataSource.postCancelOrder(tCancelOrderRequest), throwsA(isInstanceOf<ServerException>()));
+        expect(() => dataSource.cancelOrder(tCancelOrderRequest), throwsA(isInstanceOf<ServerException>()));
       },
     );
   });
