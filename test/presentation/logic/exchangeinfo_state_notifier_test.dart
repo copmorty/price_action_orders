@@ -7,7 +7,7 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/data/models/exchange_info_model.dart';
 import 'package:price_action_orders/data/models/exchange_symbol_info_model.dart';
-import 'package:price_action_orders/domain/usecases/get_market_exchange_info.dart';
+import 'package:price_action_orders/domain/usecases/market_get_exchangeinfo_uc.dart';
 import 'package:price_action_orders/presentation/logic/exchangeinfo_state_notifier.dart';
 
 import 'exchangeinfo_state_notifier_test.mocks.dart';

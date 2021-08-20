@@ -13,9 +13,9 @@ import 'package:price_action_orders/domain/entities/order_response_full.dart'
     as _i7;
 import 'package:price_action_orders/domain/repositories/trade_repository.dart'
     as _i2;
-import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart'
+import 'package:price_action_orders/domain/usecases/trade_cancel_order_uc.dart'
     as _i8;
-import 'package:price_action_orders/domain/usecases/post_trade_order.dart'
+import 'package:price_action_orders/domain/usecases/trade_post_order_uc.dart'
     as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values

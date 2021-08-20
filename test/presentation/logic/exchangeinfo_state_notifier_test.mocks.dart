@@ -11,7 +11,7 @@ import 'package:price_action_orders/core/usecases/usecase.dart' as _i8;
 import 'package:price_action_orders/domain/entities/exchange_info.dart' as _i7;
 import 'package:price_action_orders/domain/repositories/market_respository.dart'
     as _i2;
-import 'package:price_action_orders/domain/usecases/get_market_exchange_info.dart'
+import 'package:price_action_orders/domain/usecases/market_get_exchangeinfo_uc.dart'
     as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values

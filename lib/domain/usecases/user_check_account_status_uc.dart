@@ -5,7 +5,7 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
 
-class CheckAccountStatus implements UseCase<dynamic, Params> {
+class CheckAccountStatus implements UseCase<Null, Params> {
   final UserRepository repository;
 
   CheckAccountStatus(this.repository);

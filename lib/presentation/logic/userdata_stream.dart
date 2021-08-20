@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:price_action_orders/core/usecases/usecase.dart';
-import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
+import 'package:price_action_orders/domain/usecases/user_get_userdata_stream_uc.dart';
 
 class UserDataStream {
   final GetUserDataStream _getUserDataStream;

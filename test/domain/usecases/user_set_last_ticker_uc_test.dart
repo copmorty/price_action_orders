@@ -5,9 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
-import 'package:price_action_orders/domain/usecases/set_user_last_ticker.dart';
-
-import 'set_user_last_ticker_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/user_set_last_ticker_uc.dart';
+import 'user_set_last_ticker_uc_test.mocks.dart';
 
 @GenerateMocks([UserRepository])
 void main() {

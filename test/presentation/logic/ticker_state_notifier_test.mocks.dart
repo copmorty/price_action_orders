@@ -12,9 +12,9 @@ import 'package:price_action_orders/domain/entities/exchange_info.dart' as _i12;
 import 'package:price_action_orders/domain/entities/ticker.dart' as _i8;
 import 'package:price_action_orders/domain/repositories/user_repository.dart'
     as _i2;
-import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart'
+import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart'
     as _i5;
-import 'package:price_action_orders/domain/usecases/set_user_last_ticker.dart'
+import 'package:price_action_orders/domain/usecases/user_set_last_ticker_uc.dart'
     as _i10;
 import 'package:price_action_orders/presentation/logic/exchangeinfo_state_notifier.dart'
     as _i4;

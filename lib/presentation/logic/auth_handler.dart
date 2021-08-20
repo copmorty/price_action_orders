@@ -1,5 +1,5 @@
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/domain/usecases/get_user_account_status.dart';
+import 'package:price_action_orders/domain/usecases/user_check_account_status_uc.dart';
 
 class AuthHandler {
   final CheckAccountStatus _checkAccountStatus;

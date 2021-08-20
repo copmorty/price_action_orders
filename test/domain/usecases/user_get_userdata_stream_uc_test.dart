@@ -5,8 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
-import 'get_user_datastream_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/user_get_userdata_stream_uc.dart';
+import 'user_get_userdata_stream_uc_test.mocks.dart';
 
 @GenerateMocks([UserRepository])
 void main() {

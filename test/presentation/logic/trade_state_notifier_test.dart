@@ -11,8 +11,8 @@ import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_request_market.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart' as pco;
-import 'package:price_action_orders/domain/usecases/post_trade_order.dart' as po;
+import 'package:price_action_orders/domain/usecases/trade_cancel_order_uc.dart' as pco;
+import 'package:price_action_orders/domain/usecases/trade_post_order_uc.dart' as po;
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'trade_state_notifier_test.mocks.dart';
 

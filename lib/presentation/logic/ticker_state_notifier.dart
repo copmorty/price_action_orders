@@ -6,8 +6,8 @@ import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/exchange_info.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart';
-import 'package:price_action_orders/domain/usecases/set_user_last_ticker.dart';
+import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart';
+import 'package:price_action_orders/domain/usecases/user_set_last_ticker_uc.dart';
 import 'package:price_action_orders/presentation/logic/exchangeinfo_state_notifier.dart';
 
 part 'ticker_state.dart';

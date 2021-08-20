@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_request.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'package:price_action_orders/domain/usecases/post_trade_order.dart' as po;
-import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart' as pco;
+import 'package:price_action_orders/domain/usecases/trade_post_order_uc.dart' as po;
+import 'package:price_action_orders/domain/usecases/trade_cancel_order_uc.dart' as pco;
 
 part 'trade_state.dart';
 

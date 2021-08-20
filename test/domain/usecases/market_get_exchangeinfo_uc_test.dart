@@ -9,8 +9,8 @@ import 'package:price_action_orders/data/models/exchange_info_model.dart';
 import 'package:price_action_orders/data/models/exchange_symbol_info_model.dart';
 import 'package:price_action_orders/domain/entities/exchange_info.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
-import 'package:price_action_orders/domain/usecases/get_market_exchange_info.dart';
-import 'get_market_exchange_info_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/market_get_exchangeinfo_uc.dart';
+import 'market_get_exchangeinfo_uc_test.mocks.dart';
 
 final _exchangeSymbolInfo = ExchangeSymbolInfoModel(
   symbol: 'ETHBTC',

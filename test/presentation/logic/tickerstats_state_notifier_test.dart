@@ -7,8 +7,8 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/ticker_stats.dart';
-import 'package:price_action_orders/domain/usecases/get_market_ticker_stats_stream.dart';
-import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart';
+import 'package:price_action_orders/domain/usecases/market_get_tickerstats_stream_uc.dart';
+import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart';
 import 'package:price_action_orders/presentation/logic/tickerstats_state_notifier.dart';
 import 'tickerstats_state_notifier_test.mocks.dart';
 

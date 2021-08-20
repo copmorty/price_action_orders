@@ -14,9 +14,9 @@ import 'package:price_action_orders/domain/repositories/market_respository.dart'
     as _i4;
 import 'package:price_action_orders/domain/repositories/user_repository.dart'
     as _i2;
-import 'package:price_action_orders/domain/usecases/get_market_ticker_stats_stream.dart'
+import 'package:price_action_orders/domain/usecases/market_get_tickerstats_stream_uc.dart'
     as _i10;
-import 'package:price_action_orders/domain/usecases/get_user_last_ticker.dart'
+import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart'
     as _i5;
 
 // ignore_for_file: avoid_redundant_argument_values

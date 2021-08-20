@@ -7,8 +7,8 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/domain/entities/bookticker.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/market_respository.dart';
-import 'package:price_action_orders/domain/usecases/get_market_bookticker_stream.dart';
-import 'get_market_bookticker_stream_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/market_get_bookticker_stream_uc.dart';
+import 'market_get_bookticker_stream_uc_test.mocks.dart';
 
 final _bookTickers = [
   BookTicker(

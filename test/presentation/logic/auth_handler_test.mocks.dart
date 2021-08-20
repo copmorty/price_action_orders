@@ -9,7 +9,7 @@ import 'package:mockito/mockito.dart' as _i1;
 import 'package:price_action_orders/core/error/failures.dart' as _i6;
 import 'package:price_action_orders/domain/repositories/user_repository.dart'
     as _i2;
-import 'package:price_action_orders/domain/usecases/get_user_account_status.dart'
+import 'package:price_action_orders/domain/usecases/user_check_account_status_uc.dart'
     as _i4;
 
 // ignore_for_file: avoid_redundant_argument_values

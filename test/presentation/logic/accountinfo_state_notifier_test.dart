@@ -10,7 +10,7 @@ import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
-import 'package:price_action_orders/domain/usecases/get_user_accountinfo.dart';
+import 'package:price_action_orders/domain/usecases/user_get_accountinfo_uc.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 import 'accountinfo_state_notifier_test.mocks.dart';

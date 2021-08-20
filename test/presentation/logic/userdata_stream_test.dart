@@ -8,7 +8,7 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_orderupdate.dart';
-import 'package:price_action_orders/domain/usecases/get_user_datastream.dart';
+import 'package:price_action_orders/domain/usecases/user_get_userdata_stream_uc.dart';
 import 'package:price_action_orders/presentation/logic/userdata_stream.dart';
 import 'userdata_stream_test.mocks.dart';
 

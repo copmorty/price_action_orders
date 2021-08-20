@@ -8,8 +8,8 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_user_openorders.dart';
-import 'get_user_openorders_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/user_get_open_orders_uc.dart';
+import 'user_get_open_orders_uc_test.mocks.dart';
 
 @GenerateMocks([UserRepository])
 void main() {

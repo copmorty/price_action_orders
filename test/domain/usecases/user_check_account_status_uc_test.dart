@@ -5,8 +5,8 @@ import 'package:mockito/mockito.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
-import 'package:price_action_orders/domain/usecases/get_user_account_status.dart';
-import 'get_user_account_status_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/user_check_account_status_uc.dart';
+import 'user_check_account_status_uc_test.mocks.dart';
 
 @GenerateMocks([UserRepository])
 void main() {

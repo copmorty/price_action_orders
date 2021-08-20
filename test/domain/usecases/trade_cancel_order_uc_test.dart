@@ -8,8 +8,8 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_request.dart';
 import 'package:price_action_orders/domain/entities/order_cancel_response.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
-import 'package:price_action_orders/domain/usecases/post_trade_cancel_order.dart';
-import 'post_trade_cancel_order_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/trade_cancel_order_uc.dart';
+import 'trade_cancel_order_uc_test.mocks.dart';
 
 @GenerateMocks([TradeRepository])
 void main() {

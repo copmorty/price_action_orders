@@ -10,8 +10,8 @@ import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/repositories/trade_repository.dart';
-import 'package:price_action_orders/domain/usecases/post_trade_order.dart';
-import 'post_trade_order_test.mocks.dart';
+import 'package:price_action_orders/domain/usecases/trade_post_order_uc.dart';
+import 'trade_post_order_uc_test.mocks.dart';
 
 @GenerateMocks([TradeRepository])
 void main() {
