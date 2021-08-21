@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
-import 'widgets/popup_dialog_market.dart';
+import 'package:price_action_orders/providers.dart';
 import 'widgets/popup_dialog_limit.dart';
+import 'widgets/popup_dialog_market.dart';
 import 'widgets/popup_dialog_stop_limit.dart';
 
 /// This is an empty UI widget that manages popup messages

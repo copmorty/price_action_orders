@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/extensions/decimal_extension.dart';
 import 'package:price_action_orders/core/globals/variables.dart';

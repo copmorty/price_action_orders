@@ -3,10 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/domain/entities/ticker_stats.dart';
 import 'package:price_action_orders/presentation/logic/tickerstats_state_notifier.dart';
-import 'package:price_action_orders/presentation/screens/home/market_section/widgets/ticker_stats_change_info.dart';
-import 'package:price_action_orders/presentation/screens/home/market_section/widgets/ticker_stats_info.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/providers.dart';
+import 'ticker_stats_change_info.dart';
+import 'ticker_stats_info.dart';
 
 class TickerStatsBoard extends ConsumerWidget {
   const TickerStatsBoard({Key? key}) : super(key: key);

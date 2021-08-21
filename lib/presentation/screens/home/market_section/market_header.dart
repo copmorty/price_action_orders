@@ -4,9 +4,9 @@ import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/logic/ticker_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/providers.dart';
+import 'widgets/current_ticker.dart';
 import 'widgets/input_symbol.dart';
 import 'widgets/ticker_stats.dart';
-import 'widgets/current_ticker.dart';
 
 class MarketHeader extends ConsumerWidget {
   const MarketHeader({Key? key}) : super(key: key);

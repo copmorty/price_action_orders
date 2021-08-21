@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/domain/entities/trade.dart';
-import 'package:price_action_orders/presentation/screens/home/orders_section/widgets/wall_table.dart';
-import 'package:price_action_orders/presentation/screens/home/orders_section/widgets/wall_table_empty.dart';
-import 'package:price_action_orders/presentation/screens/home/orders_section/widgets/wall_table_row.dart';
-import 'package:price_action_orders/providers.dart';
+import 'package:intl/intl.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
+import 'package:price_action_orders/domain/entities/trade.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
+import 'package:price_action_orders/providers.dart';
+import 'widgets/wall_table.dart';
 import 'widgets/wall_table_cell.dart';
+import 'widgets/wall_table_empty.dart';
+import 'widgets/wall_table_row.dart';
 
 class TradeHistoryWall extends StatelessWidget {
   const TradeHistoryWall({Key? key}) : super(key: key);

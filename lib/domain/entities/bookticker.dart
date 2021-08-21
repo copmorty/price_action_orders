@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
+import 'package:equatable/equatable.dart';
 import 'ticker.dart';
 
 class BookTicker extends Equatable {

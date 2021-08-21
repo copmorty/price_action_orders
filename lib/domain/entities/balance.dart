@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
+import 'package:equatable/equatable.dart';
 
 class Balance extends Equatable {
   final String asset;

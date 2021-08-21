@@ -2,10 +2,10 @@ import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
+import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
 import 'package:price_action_orders/domain/repositories/user_repository.dart';
-import 'package:price_action_orders/domain/entities/order.dart' as entity;
 
 class UserRepositoryImpl implements UserRepository {
   final UserDataSource dataSource;

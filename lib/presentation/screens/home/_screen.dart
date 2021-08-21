@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
-import 'home_market_section.dart';
 import 'home_controls_section.dart';
+import 'home_market_section.dart';
 import 'home_orders_section.dart';
 
 class HomeScreen extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/sizes.dart';
-import 'controls_section/trade_panel.dart';
 import 'controls_section/popup_manager.dart';
 import 'controls_section/spot_balances.dart';
+import 'controls_section/trade_panel.dart';
 
 class ControlsSection extends StatelessWidget {
   @override

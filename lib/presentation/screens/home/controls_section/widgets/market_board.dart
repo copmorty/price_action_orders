@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'trade_form_header.dart';
 import 'market_buy_form.dart';
 import 'market_sell_form.dart';
+import 'trade_form_header.dart';
 
 class MarketBoard extends StatelessWidget {
   final String baseAsset;

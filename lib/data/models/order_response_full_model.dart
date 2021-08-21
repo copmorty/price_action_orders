@@ -1,10 +1,10 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:decimal/decimal.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/data/models/order_fill_model.dart';
 import 'package:price_action_orders/domain/entities/order_fill.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'order_fill_model.dart';
 
 class OrderResponseFullModel extends OrderResponseFull {
   OrderResponseFullModel({

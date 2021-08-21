@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_response_full.dart';
-import 'popup_row_division_status.dart';
 import 'popup_row_division.dart';
+import 'popup_row_division_status.dart';
 
 class MarketOrderPopupDialog extends StatelessWidget {
   final OrderResponseFull orderResponse;

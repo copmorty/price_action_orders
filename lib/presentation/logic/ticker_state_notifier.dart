@@ -8,7 +8,7 @@ import 'package:price_action_orders/domain/entities/exchange_info.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart';
 import 'package:price_action_orders/domain/usecases/user_set_last_ticker_uc.dart';
-import 'package:price_action_orders/presentation/logic/exchangeinfo_state_notifier.dart';
+import 'exchangeinfo_state_notifier.dart';
 
 part 'ticker_state.dart';
 

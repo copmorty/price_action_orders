@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'package:price_action_orders/providers.dart';
 
 class InputSymbol extends StatefulWidget {
   final bool minimize;

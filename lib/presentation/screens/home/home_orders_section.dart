@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/presentation/logic/orders_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/sizes.dart';
 import 'package:price_action_orders/presentation/shared/widgets/tab_selector.dart';
+import 'package:price_action_orders/providers.dart';
 import 'orders_section/open_orders_wall.dart';
 import 'orders_section/order_history_wall.dart';
 import 'orders_section/trade_history_wall.dart';

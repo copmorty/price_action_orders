@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/presentation/screens/auth/_screen.dart';
-import 'package:price_action_orders/presentation/screens/home/_screen.dart';
-import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'presentation/screens/auth/_screen.dart';
+import 'presentation/screens/home/_screen.dart';
+import 'presentation/shared/colors.dart';
 import 'providers.dart';
 
 void main() async {

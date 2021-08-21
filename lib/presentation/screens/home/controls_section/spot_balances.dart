@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/presentation/logic/accountinfo_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/reload_widget.dart';
+import 'package:price_action_orders/providers.dart';
 
 class SpotBalances extends StatelessWidget {
   @override

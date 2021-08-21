@@ -1,7 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/domain/entities/order_request_limit.dart';
 import 'package:price_action_orders/domain/entities/order_request_stop_limit.dart';
@@ -11,6 +10,7 @@ import 'package:price_action_orders/presentation/logic/tickerstats_state_notifie
 import 'package:price_action_orders/presentation/logic/trade_state_notifier.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
+import 'package:price_action_orders/providers.dart';
 import 'form_field_amount.dart';
 import 'form_field_price.dart';
 import 'form_field_stop.dart';

@@ -1,8 +1,8 @@
 import 'package:price_action_orders/domain/entities/ticker.dart';
-import 'package:price_action_orders/presentation/logic/ticker_state_notifier.dart';
 import 'accountinfo_state_notifier.dart';
 import 'bookticker_state_notifier.dart';
 import 'orders_state_notifier.dart';
+import 'ticker_state_notifier.dart';
 import 'tickerstats_state_notifier.dart';
 import 'userdata_stream.dart';
 

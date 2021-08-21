@@ -1,5 +1,5 @@
-import 'package:price_action_orders/core/globals/constants.dart';
-import 'package:price_action_orders/core/globals/enums.dart';
+import 'constants.dart';
+import 'enums.dart';
 
 late AppMode appMode;
 

@@ -1,6 +1,6 @@
 import 'package:decimal/decimal.dart';
 import 'package:equatable/equatable.dart';
-import 'package:price_action_orders/domain/entities/ticker.dart';
+import 'ticker.dart';
 
 class TickerStats extends Equatable {
   final String eventType;

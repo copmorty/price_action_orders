@@ -1,8 +1,8 @@
 import 'package:collection/collection.dart' show IterableExtension;
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/data/models/balance_model.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/userdata_payload_accountupdate.dart';
+import 'balance_model.dart';
 
 class UserDataPayloadAccountUpdateModel extends UserDataPayloadAccountUpdate {
   UserDataPayloadAccountUpdateModel({

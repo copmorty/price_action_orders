@@ -4,8 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:price_action_orders/core/usecases/usecase.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/ticker_stats.dart';
-import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart';
 import 'package:price_action_orders/domain/usecases/market_get_tickerstats_stream_uc.dart';
+import 'package:price_action_orders/domain/usecases/user_get_last_ticker_uc.dart';
 
 part 'tickerstats_state.dart';
 

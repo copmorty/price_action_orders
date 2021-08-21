@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/stop_limit_form.dart';
+import 'stop_limit_form.dart';
 import 'trade_form_header.dart';
 
 class LimitBoard extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:price_action_orders/presentation/screens/home/market_section/widgets/input_symbol.dart';
 import 'package:price_action_orders/presentation/shared/colors.dart';
+import 'input_symbol.dart';
 
 class CurrentTicker extends StatefulWidget {
   final String baseAsset;

@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:price_action_orders/domain/entities/exchange_symbol_info.dart';
+import 'exchange_symbol_info.dart';
 
 class ExchangeInfo extends Equatable {
   final String timezone;

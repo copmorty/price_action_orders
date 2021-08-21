@@ -1,5 +1,5 @@
-import 'package:equatable/equatable.dart';
 import 'package:decimal/decimal.dart';
+import 'package:equatable/equatable.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 
 class Trade extends Equatable {

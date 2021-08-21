@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:price_action_orders/providers.dart';
 import 'package:price_action_orders/presentation/logic/ticker_state_notifier.dart';
-import 'package:price_action_orders/presentation/screens/home/controls_section/widgets/stop_limit_board.dart';
 import 'package:price_action_orders/presentation/shared/widgets/loading_widget.dart';
 import 'package:price_action_orders/presentation/shared/widgets/tab_selector.dart';
+import 'package:price_action_orders/providers.dart';
 import 'widgets/limit_board.dart';
 import 'widgets/market_board.dart';
+import 'widgets/stop_limit_board.dart';
 
 class TradePanel extends StatefulWidget {
   @override
