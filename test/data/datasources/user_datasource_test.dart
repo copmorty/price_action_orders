@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'package:decimal/decimal.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
@@ -11,9 +14,11 @@ import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
+import 'package:price_action_orders/data/models/api_access_model.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
+import 'package:price_action_orders/domain/entities/api_access.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/ticker.dart';
@@ -33,12 +38,13 @@ class _FakeWebSocket extends Fake implements WebSocket {
   StreamSubscription<dynamic> listen(void onData(dynamic event)?, {Function? onError, void onDone()?, bool? cancelOnError}) => _streamSubscription;
 }
 
-@GenerateMocks([SharedPreferences, DataSourceUtils], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
+@GenerateMocks([SharedPreferences, DataSourceUtils, FlutterSecureStorage], customMocks: [MockSpec<http.Client>(as: #MockHttpClient)])
 void main() {
   late MockSharedPreferences mockSharedPreferences;
   late UserDataSourceImpl dataSource;
   late MockHttpClient mockHttpClient;
   late MockDataSourceUtils mockDataSourceUtils;
+  late MockFlutterSecureStorage mockFlutterSecureStorage;
 
   final AppMode tmode = AppMode.TEST;
   final String tkey = 'HFKJGFbjhasfbka87b210dfgnskdgmhaskKJABhjabsf72anmbASDJFMNb4hg4L1';
@@ -48,7 +54,13 @@ void main() {
     mockSharedPreferences = MockSharedPreferences();
     mockHttpClient = MockHttpClient();
     mockDataSourceUtils = MockDataSourceUtils();
-    dataSource = UserDataSourceImpl(sharedPreferences: mockSharedPreferences, httpClient: mockHttpClient, dataSourceUtils: mockDataSourceUtils);
+    mockFlutterSecureStorage = MockFlutterSecureStorage();
+    dataSource = UserDataSourceImpl(
+      sharedPreferences: mockSharedPreferences,
+      httpClient: mockHttpClient,
+      dataSourceUtils: mockDataSourceUtils,
+      secureStorage: mockFlutterSecureStorage,
+    );
 
     setGlobalModeVariables(tmode, tkey, tsecret);
   });
@@ -355,6 +367,100 @@ void main() {
         setUpMockHttpClientFailure404('post');
         //assert
         expect(() => dataSource.checkAccountStatus(tmode, tkey, tsecret), throwsA(isInstanceOf<ServerException>()));
+      },
+    );
+  });
+
+  group('storeApiAccess', () {
+    final tMode = AppMode.TEST;
+    final tApiAccess = ApiAccess(key: 'qwerty', secret: 'asdfgh');
+    final tApiAccessModel = ApiAccessModel.fromApiAccess(tApiAccess);
+    final tApiAccessJsonString = jsonEncode(tApiAccessModel.toJson());
+
+    test(
+      'should return null when the operation is successful',
+      () async {
+        //act
+        final result = await dataSource.storeApiAccess(tMode, tApiAccess);
+        //assert
+        verify(mockFlutterSecureStorage.write(key: tMode.toShortString(), value: tApiAccessJsonString));
+        verifyNoMoreInteractions(mockFlutterSecureStorage);
+        expect(result, null);
+      },
+    );
+
+    test(
+      'should throw an exception when something goes wrong',
+      () async {
+        //arrange
+        when(mockFlutterSecureStorage.write(key: tMode.toShortString(), value: tApiAccessJsonString)).thenThrow(PlatformException(code: 'code'));
+        //assert
+        expect(() => dataSource.storeApiAccess(tMode, tApiAccess), throwsA(isInstanceOf<Exception>()));
+      },
+    );
+  });
+
+  group('getApiAccess', () {
+    final tMode = AppMode.PRODUCTION;
+    final tApiAccess = ApiAccess(key: 'qwerty', secret: 'asdfgh');
+    final tApiAccessModel = ApiAccessModel.fromApiAccess(tApiAccess);
+    final tApiAccessJsonString = jsonEncode(tApiAccessModel.toJson());
+
+    test(
+      'should return ApiAccess when the there is one stored',
+      () async {
+        //arrange
+        when(mockFlutterSecureStorage.read(key: tMode.toShortString())).thenAnswer((_) async => tApiAccessJsonString);
+        //act
+        final result = await dataSource.getApiAccess(tMode);
+        //assert
+        expect(result, tApiAccessModel);
+      },
+    );
+
+    test(
+      'should throw a cache exception when there is no stored value',
+      () async {
+        //arrange
+        when(mockFlutterSecureStorage.read(key: tMode.toShortString())).thenAnswer((_) async => null);
+        //assert
+        expect(() => dataSource.getApiAccess(tMode), throwsA(CacheException()));
+      },
+    );
+
+    test(
+      'should throw an exception when something goes wrong',
+      () async {
+        //arrange
+        when(mockFlutterSecureStorage.read(key: tMode.toShortString())).thenThrow(PlatformException(code: 'code'));
+        //assert
+        expect(() => dataSource.getApiAccess(tMode), throwsA(isInstanceOf<Exception>()));
+      },
+    );
+  });
+
+  group('clearApiAccess', () {
+    final tMode = AppMode.PRODUCTION;
+
+    test(
+      'should return null when the operation is successful',
+      () async {
+        //act
+        final result = await dataSource.clearApiAccess(tMode);
+        //assert
+        verify(mockFlutterSecureStorage.delete(key: tMode.toShortString()));
+        verifyNoMoreInteractions(mockFlutterSecureStorage);
+        expect(result, null);
+      },
+    );
+
+    test(
+      'should throw an exception when something goes wrong',
+      () async {
+        //arrange
+        when(mockFlutterSecureStorage.delete(key: tMode.toShortString())).thenThrow(PlatformException(code: 'code'));
+        //assert
+        expect(() => dataSource.clearApiAccess(tMode), throwsA(isInstanceOf<Exception>()));
       },
     );
   });
