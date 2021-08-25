@@ -2,13 +2,14 @@
 // in price_action_orders/test/data/repositories/user_repository_impl_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:price_action_orders/core/globals/enums.dart' as _i7;
+import 'package:price_action_orders/core/globals/enums.dart' as _i8;
 import 'package:price_action_orders/data/datasources/user_datasource.dart'
-    as _i4;
-import 'package:price_action_orders/domain/entities/order.dart' as _i6;
+    as _i5;
+import 'package:price_action_orders/domain/entities/api_access.dart' as _i4;
+import 'package:price_action_orders/domain/entities/order.dart' as _i7;
 import 'package:price_action_orders/domain/entities/ticker.dart' as _i3;
 import 'package:price_action_orders/domain/entities/userdata.dart' as _i2;
 
@@ -22,44 +23,60 @@ class _FakeUserData extends _i1.Fake implements _i2.UserData {}
 
 class _FakeTicker extends _i1.Fake implements _i3.Ticker {}
 
+class _FakeApiAccess extends _i1.Fake implements _i4.ApiAccess {}
+
 /// A class which mocks [UserDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserDataSource extends _i1.Mock implements _i4.UserDataSource {
+class MockUserDataSource extends _i1.Mock implements _i5.UserDataSource {
   MockUserDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.UserData> getAccountInfo() =>
+  _i6.Future<_i2.UserData> getAccountInfo() =>
       (super.noSuchMethod(Invocation.method(#getAccountInfo, []),
               returnValue: Future<_i2.UserData>.value(_FakeUserData()))
-          as _i5.Future<_i2.UserData>);
+          as _i6.Future<_i2.UserData>);
   @override
-  _i5.Future<List<_i6.Order>> getOpenOrders() =>
+  _i6.Future<List<_i7.Order>> getOpenOrders() =>
       (super.noSuchMethod(Invocation.method(#getOpenOrders, []),
-              returnValue: Future<List<_i6.Order>>.value(<_i6.Order>[]))
-          as _i5.Future<List<_i6.Order>>);
+              returnValue: Future<List<_i7.Order>>.value(<_i7.Order>[]))
+          as _i6.Future<List<_i7.Order>>);
   @override
-  _i5.Future<_i5.Stream<dynamic>> getUserDataStream() =>
+  _i6.Future<_i6.Stream<dynamic>> getUserDataStream() =>
       (super.noSuchMethod(Invocation.method(#getUserDataStream, []),
               returnValue:
-                  Future<_i5.Stream<dynamic>>.value(Stream<dynamic>.empty()))
-          as _i5.Future<_i5.Stream<dynamic>>);
+                  Future<_i6.Stream<dynamic>>.value(Stream<dynamic>.empty()))
+          as _i6.Future<_i6.Stream<dynamic>>);
   @override
-  _i5.Future<void> cacheLastTicker(_i3.Ticker? ticker) =>
+  _i6.Future<void> cacheLastTicker(_i3.Ticker? ticker) =>
       (super.noSuchMethod(Invocation.method(#cacheLastTicker, [ticker]),
           returnValue: Future<void>.value(),
-          returnValueForMissingStub: Future.value()) as _i5.Future<void>);
+          returnValueForMissingStub: Future.value()) as _i6.Future<void>);
   @override
-  _i5.Future<_i3.Ticker> getLastTicker() =>
+  _i6.Future<_i3.Ticker> getLastTicker() =>
       (super.noSuchMethod(Invocation.method(#getLastTicker, []),
               returnValue: Future<_i3.Ticker>.value(_FakeTicker()))
-          as _i5.Future<_i3.Ticker>);
+          as _i6.Future<_i3.Ticker>);
   @override
-  _i5.Future<Null?> checkAccountStatus(
-          _i7.AppMode? mode, String? key, String? secret) =>
+  _i6.Future<Null?> checkAccountStatus(
+          _i8.AppMode? mode, String? key, String? secret) =>
       (super.noSuchMethod(
           Invocation.method(#checkAccountStatus, [mode, key, secret]),
-          returnValue: Future<Null?>.value()) as _i5.Future<Null?>);
+          returnValue: Future<Null?>.value()) as _i6.Future<Null?>);
+  @override
+  _i6.Future<Null?> storeApiAccess(
+          _i8.AppMode? mode, _i4.ApiAccess? apiAccess) =>
+      (super.noSuchMethod(Invocation.method(#storeApiAccess, [mode, apiAccess]),
+          returnValue: Future<Null?>.value()) as _i6.Future<Null?>);
+  @override
+  _i6.Future<_i4.ApiAccess> getApiAccess(_i8.AppMode? mode) =>
+      (super.noSuchMethod(Invocation.method(#getApiAccess, [mode]),
+              returnValue: Future<_i4.ApiAccess>.value(_FakeApiAccess()))
+          as _i6.Future<_i4.ApiAccess>);
+  @override
+  _i6.Future<Null?> clearApiAccess(_i8.AppMode? mode) =>
+      (super.noSuchMethod(Invocation.method(#clearApiAccess, [mode]),
+          returnValue: Future<Null?>.value()) as _i6.Future<Null?>);
 }

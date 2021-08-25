@@ -2,18 +2,21 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io' show WebSocket;
 import 'package:decimal/decimal.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:price_action_orders/core/error/exceptions.dart';
 import 'package:price_action_orders/core/globals/constants.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/core/globals/variables.dart';
 import 'package:price_action_orders/core/utils/datasource_utils.dart';
+import 'package:price_action_orders/data/models/api_access_model.dart';
 import 'package:price_action_orders/data/models/order_model.dart';
 import 'package:price_action_orders/data/models/order_request_market_model.dart';
 import 'package:price_action_orders/data/models/ticker_model.dart';
 import 'package:price_action_orders/data/models/userdata_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_accountupdate_model.dart';
 import 'package:price_action_orders/data/models/userdata_payload_orderupdate_model.dart';
+import 'package:price_action_orders/domain/entities/api_access.dart';
 import 'package:price_action_orders/domain/entities/order.dart';
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
@@ -26,12 +29,16 @@ abstract class UserDataSource {
   Future<void> cacheLastTicker(Ticker ticker);
   Future<Ticker> getLastTicker();
   Future<Null> checkAccountStatus(AppMode mode, String key, String secret);
+  Future<Null> storeApiAccess(AppMode mode, ApiAccess apiAccess);
+  Future<ApiAccess> getApiAccess(AppMode mode);
+  Future<Null> clearApiAccess(AppMode mode);
 }
 
 class UserDataSourceImpl implements UserDataSource {
   final SharedPreferences sharedPreferences;
   final http.Client httpClient;
   final DataSourceUtils dataSourceUtils;
+  final FlutterSecureStorage secureStorage;
   WebSocket? _webSocket;
   StreamController<dynamic>? _streamController;
   Timer? _timer;
@@ -40,6 +47,7 @@ class UserDataSourceImpl implements UserDataSource {
     required this.sharedPreferences,
     required this.httpClient,
     required this.dataSourceUtils,
+    required this.secureStorage,
   });
 
   _extendListenKeyValidity(String listenKey) async {
@@ -244,5 +252,30 @@ class UserDataSourceImpl implements UserDataSource {
       // print(jsonData);
       throw BinanceException.fromJson(jsonData);
     }
+  }
+
+  @override
+  Future<Null> storeApiAccess(AppMode mode, ApiAccess apiAccess) async {
+    final apiAccessModel = ApiAccessModel.fromApiAccess(apiAccess);
+    await secureStorage.write(
+      key: mode.toShortString(),
+      value: jsonEncode(apiAccessModel.toJson()),
+    );
+  }
+
+  @override
+  Future<ApiAccess> getApiAccess(AppMode mode) async {
+    final jsonString = await secureStorage.read(key: mode.toShortString());
+
+    if (jsonString == null) {
+      throw CacheException();
+    } else {
+      return ApiAccessModel.fromJson(jsonDecode(jsonString));
+    }
+  }
+
+  @override
+  Future<Null> clearApiAccess(AppMode mode) async {
+    await secureStorage.delete(key: mode.toShortString());
   }
 }

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
+import 'package:price_action_orders/domain/entities/api_access.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/ticker.dart';
 import 'package:price_action_orders/domain/entities/userdata.dart';
@@ -69,6 +70,36 @@ class UserRepositoryImpl implements UserRepository {
       return Right(null);
     } catch (e) {
       return Left(ServerFailure.fromException(e));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Null>> storeApiAccess(AppMode mode, ApiAccess apiAccess) async {
+    try {
+      await dataSource.storeApiAccess(mode, apiAccess);
+      return Right(null);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ApiAccess>> getApiAccess(AppMode mode) async {
+    try {
+      final apiAccess = await dataSource.getApiAccess(mode);
+      return Right(apiAccess);
+    } catch (e) {
+      return Left(CacheFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, Null>> clearApiAccess(AppMode mode) async {
+    try {
+      await dataSource.clearApiAccess(mode);
+      return Right(null);
+    } catch (e) {
+      return Left(CacheFailure());
     }
   }
 }

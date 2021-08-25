@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'core/utils/datasource_utils.dart';
@@ -17,13 +18,16 @@ import 'domain/usecases/market_get_tickerstats_stream_uc.dart';
 import 'domain/usecases/trade_cancel_order_uc.dart';
 import 'domain/usecases/trade_post_order_uc.dart';
 import 'domain/usecases/user_check_account_status_uc.dart';
+import 'domain/usecases/user_clear_api_access_uc.dart';
 import 'domain/usecases/user_get_accountinfo_uc.dart';
+import 'domain/usecases/user_get_api_access_uc.dart';
 import 'domain/usecases/user_get_last_ticker_uc.dart';
 import 'domain/usecases/user_get_open_orders_uc.dart';
 import 'domain/usecases/user_get_userdata_stream_uc.dart';
 import 'domain/usecases/user_set_last_ticker_uc.dart';
+import 'domain/usecases/user_store_api_access_uc.dart';
 import 'presentation/logic/accountinfo_state_notifier.dart';
-import 'presentation/logic/auth_handler.dart';
+import 'presentation/logic/auth_state_notifier.dart';
 import 'presentation/logic/bookticker_state_notifier.dart';
 import 'presentation/logic/exchangeinfo_state_notifier.dart';
 import 'presentation/logic/orders_state_notifier.dart';
@@ -91,7 +95,14 @@ final stateHandlerProvider = Provider<StateHandler>(
     tickerStatsNotifier: ref.watch(tickerStatsNotifierProvider.notifier),
   ),
 );
-final authHandlerProvider = Provider<AuthHandler>((ref) => AuthHandler(checkAccountStatus: ref.watch(checkAccountStatus)));
+final authNotifierProvider = StateNotifierProvider<AuthNotifier, AuthState>(
+  (ref) => AuthNotifier(
+    checkAccountStatus: ref.watch(checkAccountStatus),
+    getApiAccess: ref.watch(getApiAccess),
+    storeApiAccess: ref.watch(storeApiAccess),
+    clearApiAccess: ref.watch(clearApiAccess),
+  ),
+);
 
 // Use Cases
 final getBookTickerStream = Provider<GetBookTickerStream>((ref) => GetBookTickerStream(ref.watch(marketRepositoryProvider)));
@@ -102,6 +113,9 @@ final getOpenOrders = Provider<GetOpenOrders>((ref) => GetOpenOrders(ref.watch(u
 final getUserDataStream = Provider<GetUserDataStream>((ref) => GetUserDataStream(ref.watch(userRepositoryProvider)));
 final getTickerStatsStream = Provider<GetTickerStatsStream>((ref) => GetTickerStatsStream(ref.watch(marketRepositoryProvider)));
 final getExchangeInfo = Provider<GetExchangeInfo>((ref) => GetExchangeInfo(ref.watch(marketRepositoryProvider)));
+final getApiAccess = Provider<GetApiAccess>((ref) => GetApiAccess(ref.watch(userRepositoryProvider)));
+final storeApiAccess = Provider<StoreApiAccess>((ref) => StoreApiAccess(ref.watch(userRepositoryProvider)));
+final clearApiAccess = Provider<ClearApiAccess>((ref) => ClearApiAccess(ref.watch(userRepositoryProvider)));
 final checkAccountStatus = Provider<CheckAccountStatus>((ref) => CheckAccountStatus(ref.watch(userRepositoryProvider)));
 final postOrder = Provider<PostOrder>((ref) => PostOrder(ref.watch(tradeRepositoryProvider)));
 final cancelOrder = Provider<CancelOrder>((ref) => CancelOrder(ref.watch(tradeRepositoryProvider)));
@@ -124,6 +138,7 @@ final userDataSourceProvider = Provider<UserDataSource>(
     sharedPreferences: ref.watch(sharedPreferencesProvider),
     httpClient: ref.watch(httpClientProvider),
     dataSourceUtils: ref.watch(dataSourceUtilsProvider),
+    secureStorage: ref.watch(secureStorageProvider),
   ),
 );
 
@@ -133,3 +148,4 @@ final dataSourceUtilsProvider = Provider<DataSourceUtils>((ref) => DataSourceUti
 // External
 final httpClientProvider = Provider<http.Client>((ref) => http.Client());
 final sharedPreferencesProvider = Provider<SharedPreferences>((ref) => sharedPreferencesInstance);
+final secureStorageProvider = Provider<FlutterSecureStorage>((ref) => new FlutterSecureStorage());

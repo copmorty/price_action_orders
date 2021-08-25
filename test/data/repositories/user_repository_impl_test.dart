@@ -8,6 +8,7 @@ import 'package:price_action_orders/core/error/failures.dart';
 import 'package:price_action_orders/core/globals/enums.dart';
 import 'package:price_action_orders/data/datasources/user_datasource.dart';
 import 'package:price_action_orders/data/repositories/user_repository_impl.dart';
+import 'package:price_action_orders/domain/entities/api_access.dart';
 import 'package:price_action_orders/domain/entities/balance.dart';
 import 'package:price_action_orders/domain/entities/order.dart' as entity;
 import 'package:price_action_orders/domain/entities/ticker.dart';
@@ -286,6 +287,98 @@ void main() {
         final result = await repository.checkAccountStatus(tmode, tkey, tsecret);
         //assert
         expect(result, Left(ServerFailure()));
+      },
+    );
+  });
+
+  group('storeApiAccess', () {
+    final tMode = AppMode.TEST;
+    final tApiAccess = ApiAccess(key: 'qwerty', secret: 'asdfgh');
+
+    test(
+      'should return null when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataSource.storeApiAccess(tMode, tApiAccess)).thenAnswer((_) async => null);
+        //act
+        final result = await repository.storeApiAccess(tMode, tApiAccess);
+        //assert
+        verify(mockUserDataSource.storeApiAccess(tMode, tApiAccess));
+        verifyNoMoreInteractions(mockUserDataSource);
+        expect(result, Right(null));
+      },
+    );
+
+    test(
+      'should return cache failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataSource.storeApiAccess(tMode, tApiAccess)).thenThrow(Exception());
+        //act
+        final result = await repository.storeApiAccess(tMode, tApiAccess);
+        //assert
+        expect(result, Left(CacheFailure()));
+      },
+    );
+  });
+
+  group('getApiAccess', () {
+    final tMode = AppMode.TEST;
+    final tApiAccess = ApiAccess(key: 'qwerty', secret: 'asdfgh');
+
+    test(
+      'should return ApiAccess when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataSource.getApiAccess(tMode)).thenAnswer((_) async => tApiAccess);
+        //act
+        final result = await repository.getApiAccess(tMode);
+        //assert
+        verify(mockUserDataSource.getApiAccess(tMode));
+        verifyNoMoreInteractions(mockUserDataSource);
+        expect(result, Right(tApiAccess));
+      },
+    );
+
+    test(
+      'should return cache failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataSource.getApiAccess(tMode)).thenThrow(Exception());
+        //act
+        final result = await repository.getApiAccess(tMode);
+        //assert
+        expect(result, Left(CacheFailure()));
+      },
+    );
+  });
+
+  group('clearApiAccess', () {
+    final tMode = AppMode.TEST;
+
+    test(
+      'should return null when the call to data source is successful',
+      () async {
+        //arrange
+        when(mockUserDataSource.clearApiAccess(tMode)).thenAnswer((_) async => null);
+        //act
+        final result = await repository.clearApiAccess(tMode);
+        //assert
+        verify(mockUserDataSource.clearApiAccess(tMode));
+        verifyNoMoreInteractions(mockUserDataSource);
+        expect(result, Right(null));
+      },
+    );
+
+    test(
+      'should return cache failure when the call to data source is unsuccessful',
+      () async {
+        //arrange
+        when(mockUserDataSource.clearApiAccess(tMode)).thenThrow(Exception());
+        //act
+        final result = await repository.clearApiAccess(tMode);
+        //assert
+        expect(result, Left(CacheFailure()));
       },
     );
   });
