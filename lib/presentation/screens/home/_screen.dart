@@ -36,7 +36,7 @@ class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
             child: Text(
-              appMode.toShortString(),
+              appMode == AppMode.TEST ? 'TEST' : 'REAL',
               style: TextStyle(
                 fontWeight: FontWeight.w600,
                 color: appMode == AppMode.PRODUCTION ? badgeProductionTextColor : badgeTestTextColor,
