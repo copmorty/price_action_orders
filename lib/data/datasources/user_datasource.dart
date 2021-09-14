@@ -168,7 +168,7 @@ class UserDataSourceImpl implements UserDataSource {
         _webSocket!.listen(
           (data) {
             final Map<String, dynamic> jsonData = jsonDecode(data);
-            dynamic? finalData;
+            dynamic finalData;
 
             if (jsonData['e'] == 'outboundAccountPosition') {
               finalData = UserDataPayloadAccountUpdateModel.fromJson(jsonData);
