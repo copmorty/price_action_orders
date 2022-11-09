@@ -46,3 +46,6 @@ app.*.map.json
 /android/app/release
 
 /assets/*.json
+
+# FVM
+.fvm/flutter_sdk
