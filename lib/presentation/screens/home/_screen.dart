@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _HomeAppBar extends StatelessWidget with PreferredSizeWidget {
+class _HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
   const _HomeAppBar({Key? key}) : super(key: key);
 
   @override
