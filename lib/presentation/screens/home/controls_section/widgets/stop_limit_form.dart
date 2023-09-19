@@ -190,7 +190,7 @@ class _StopLimitFormState extends State<StopLimitForm> {
                   return ElevatedButton(
                     onPressed: () {},
                     child: LoadingWidget(height: 20, width: 20, color: whiteColorOp70),
-                    style: ElevatedButton.styleFrom(primary: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
                   );
                 }
 
@@ -200,7 +200,7 @@ class _StopLimitFormState extends State<StopLimitForm> {
                     '${widget.binanceOrderSide == BinanceOrderSide.BUY ? 'Buy' : 'Sell'}  ${widget.baseAsset}',
                     style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),
                   ),
-                  style: ElevatedButton.styleFrom(primary: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: widget.binanceOrderSide == BinanceOrderSide.BUY ? buyColor : sellColor),
                 );
               },
             ),

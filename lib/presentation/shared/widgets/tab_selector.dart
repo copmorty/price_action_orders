@@ -20,7 +20,7 @@ class TabSelector extends StatelessWidget {
       child: TextButton(
         onPressed: onTapped,
         style: TextButton.styleFrom(
-            primary: selected ? whiteColor : greyWhiteColor,
+            foregroundColor: selected ? whiteColor : greyWhiteColor,
             padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
             textStyle: TextStyle(fontWeight: FontWeight.w600)),
         child: Text(label),
