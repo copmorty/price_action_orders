@@ -1,0 +1,12 @@
+{
+  "title": "Price Action Orders",
+  "icon": "./pao.icns",
+  "icon-size": 130,
+  "window": {
+    "size": { "width": 640, "height": 360 }
+  },
+  "contents": [
+    { "x": 450, "y": 180, "type": "link", "path": "/Applications" },
+    { "x": 190, "y": 180, "type": "file", "path": "../../../build/macos/Build/Products/Release/Price Action Orders.app" }
+  ]
+}
