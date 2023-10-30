@@ -9,13 +9,14 @@ A Flutter desktop application for cryptocurrency trading on the Binance exchange
 
 ## Getting Started
 
-### Demo Build
+### Demo Builds
 - [Price Action Orders windows-build](https://500c.short.gy/paodw)
+- [Price Action Orders macos-build](https://500c.short.gy/paodmos)
 
 ### Running the app
 The app has two independent modes, Test (test network with fake assets) and Real (production network with your real assets).\
 Steps to run the app:
-- You can download and use the demo build or you can compile the project with Flutter 2+.
+- You can download and use any of the demo builds or you can compile the project with Flutter 3+.
 - In order to run it in Test mode you will need an API key and secret from [Binance testnet](https://testnet.binance.vision/).
 - In order to run it in Real mode you will need an API key and secret from [Binance](https://www.binancezh.top/en/support/faq/360002502072).
 - Once you have one or both combinations of API key-secret, start the app, you will be prompted to enter them when launching the application. From there, you will be able to choose which mode you want to run.
