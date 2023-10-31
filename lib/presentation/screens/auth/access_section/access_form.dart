@@ -232,7 +232,7 @@ class _AccessFormState extends State<AccessForm> {
               child: _loadingOperation
                   ? LoadingWidget(color: whiteColor, height: 14, width: 14)
                   : Text('Run ' + _formTitle + ' mode', style: TextStyle(fontSize: 14)),
-              style: ElevatedButton.styleFrom(primary: mainColorDark, minimumSize: Size(double.infinity, 40)),
+              style: ElevatedButton.styleFrom(backgroundColor: mainColorDark, minimumSize: Size(double.infinity, 40)),
             )
           ],
         ),

@@ -74,7 +74,7 @@ class __WallDataState extends State<_WallData> {
   Widget build(BuildContext context) {
     return Scrollbar(
       controller: _scrollController,
-      isAlwaysShown: true,
+      thumbVisibility: true,
       child: ListView.builder(
         controller: _scrollController,
         itemCount: widget.tradeHistory.length,

@@ -73,7 +73,7 @@ class _CurrentTickerState extends State<CurrentTicker> {
         overlayKey = parentOverlayKey;
         if (isDropdownOpened == false) {
           floatingDropdown = _createFloatingDropdown();
-          Overlay.of(context)!.insert(floatingDropdown!);
+          Overlay.of(context).insert(floatingDropdown!);
           isDropdownOpened = true;
         }
       },

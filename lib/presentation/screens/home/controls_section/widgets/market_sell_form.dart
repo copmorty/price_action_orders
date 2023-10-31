@@ -124,7 +124,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
                   return ElevatedButton(
                     onPressed: () {},
                     child: LoadingWidget(height: 20, width: 20, color: whiteColorOp70),
-                    style: ElevatedButton.styleFrom(primary: sellColor),
+                    style: ElevatedButton.styleFrom(backgroundColor: sellColor),
                   );
                 }
 
@@ -134,7 +134,7 @@ class _MarketSellFormState extends State<MarketSellForm> {
                     'Sell ${widget.baseAsset}',
                     style: TextStyle(color: whiteColor, fontWeight: FontWeight.w600),
                   ),
-                  style: ElevatedButton.styleFrom(primary: sellColor),
+                  style: ElevatedButton.styleFrom(backgroundColor: sellColor),
                 );
               },
             ),
